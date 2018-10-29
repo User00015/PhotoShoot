@@ -1,0 +1,27 @@
+﻿li .glyphicon {
+  margin-right: 10px; }
+
+/* Highlighting rules for nav menu items */
+li.link-active a,
+li.link-active a:hover,
+li.link-active a:focus {
+  background-color: dodgerblue;
+  color: white; }
+
+/* Keep the nav menu independent of scrolling and on top of other items */
+@media (min-width: 768px) {
+  .navbar {
+    border-radius: 0px; }
+  /* On small screens, convert the nav menu to a vertical sidebar */
+  .navbar li {
+    font-size: 15px;
+    margin: 6px; }
+  .navbar li a {
+    padding: 10px 16px;
+    border-radius: 4px; }
+  .navbar a {
+    /* If a menu item's text is too long, truncate it */
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; } }
