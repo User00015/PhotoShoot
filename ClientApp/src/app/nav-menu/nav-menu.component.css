@@ -1,12 +1,11 @@
-﻿li .glyphicon {
+﻿fa-icon {
   margin-right: 10px; }
 
 /* Highlighting rules for nav menu items */
 li.link-active a,
 li.link-active a:hover,
 li.link-active a:focus {
-  background-color: dodgerblue;
-  color: white; }
+  background-color: dodgerblue; }
 
 /* Keep the nav menu independent of scrolling and on top of other items */
 @media (min-width: 768px) {
@@ -18,10 +17,5 @@ li.link-active a:focus {
     margin: 6px; }
   .navbar li a {
     padding: 10px 16px;
-    border-radius: 4px; }
-  .navbar a {
-    /* If a menu item's text is too long, truncate it */
-    width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis; } }
+    border-radius: 4px;
+    color: white; } }
