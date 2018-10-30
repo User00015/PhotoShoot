@@ -10,6 +10,9 @@ import { HomeComponent } from './home/home.component';
 import { PhotoComponent } from './photo/photo.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ImageRouletteComponent } from './image-roulette/image-roulette.component';
+import { EventsComponent } from './events/events.component';
+import { ScheduleComponent } from './schedule/schedule.component';
+import { FooterComponent } from './footer/footer.component';
 //import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
@@ -18,7 +21,10 @@ import { ImageRouletteComponent } from './image-roulette/image-roulette.componen
     NavMenuComponent,
     HomeComponent,
     PhotoComponent,
-    ImageRouletteComponent
+    ImageRouletteComponent,
+    EventsComponent,
+    ScheduleComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -27,7 +33,10 @@ import { ImageRouletteComponent } from './image-roulette/image-roulette.componen
     FontAwesomeModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'home', component: HomeComponent },
       { path: 'photos', component: PhotoComponent },
+      { path: 'events', component: EventsComponent },
+      { path: 'schedule', component: ScheduleComponent }
     ])
   ],
   providers: [],
