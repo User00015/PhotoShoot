@@ -1,0 +1,6 @@
+<div class="img-roulette-container border border-dark border-top-0" *ngIf="router.url == '/'">
+  <!--<img [ngClass]="fadeIn" [src]="imageRotation$ | async"/>-->
+  <div id="crossfade">
+    <img *ngFor="let image of imgUrls" [src]="image.url" />
+  </div>
+</div>
