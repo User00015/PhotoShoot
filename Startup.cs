@@ -10,6 +10,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using PhotoGallery.Controllers;
+using PhotoGallery.Extensions;
+using PhotoGallery.Services;
 using WebApi.Helpers;
 using WebApi.Services;
 
@@ -17,6 +20,7 @@ namespace PhotoGallery
 {
     public class Startup
     {
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -82,8 +86,9 @@ namespace PhotoGallery
                 };
             });
 
-            // configure DI for application services
-            services.AddScoped<IUserService, UserService>();
+            services.Inject(Configuration);
+
+            // configure DependencyInjector for application services
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -128,3 +133,5 @@ namespace PhotoGallery
         }
     }
 }
+
+

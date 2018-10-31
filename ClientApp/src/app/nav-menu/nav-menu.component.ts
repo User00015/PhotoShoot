@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { faHome, faImage } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faImage, faCalendarAlt, faDirections } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-nav-menu',
@@ -9,6 +9,8 @@ import { faHome, faImage } from '@fortawesome/free-solid-svg-icons';
 export class NavMenuComponent {
   faHome = faHome;
   faImage = faImage;
+  faCalendarAlt = faCalendarAlt;
+  faDirections = faDirections;
   isExpanded = false;
 
   collapse() {

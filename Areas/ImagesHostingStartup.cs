@@ -1,26 +1,24 @@
-using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PhotoGallery.Areas.Identity.Data;
 
-[assembly: HostingStartup(typeof(PhotoGallery.Areas.Identity.IdentityHostingStartup))]
-namespace PhotoGallery.Areas.Identity
+[assembly: HostingStartup(typeof(PhotoGallery.Areas.ImagesHostingStartup))]
+namespace PhotoGallery.Areas
 {
-    public class IdentityHostingStartup : IHostingStartup
+    public class ImagesHostingStartup : IHostingStartup
     {
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
-                services.AddDbContext<PhotoGalleryIdentityDbContext>(options =>
+                services.AddDbContext<ImagesContext>(options =>
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("PhotoGalleryDbContextConnection")));
 
-                services.AddDefaultIdentity<IdentityUser>()
-                    .AddEntityFrameworkStores<PhotoGalleryIdentityDbContext>();
+                //services.AddDefaultIdentity<IdentityUser>()
+                //    .AddEntityFrameworkStores<PhotoGalleryIdentityDbContext>();
             });
         }
     }

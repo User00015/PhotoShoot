@@ -35,10 +35,10 @@ namespace WebApi.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("foo")]
+        [HttpGet("test")]
         public IActionResult Foo()
         {
-            return Ok("Foo");
+            return Ok("Success");
         }
 
         [AllowAnonymous]
