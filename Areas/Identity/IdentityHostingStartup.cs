@@ -17,7 +17,7 @@ namespace PhotoGallery.Areas.Identity
             builder.ConfigureServices((context, services) => {
                 services.AddDbContext<PhotoGalleryIdentityDbContext>(options =>
                     options.UseSqlServer(
-                        context.Configuration.GetConnectionString("PhotoGalleryDbContextConnection")));
+                        context.Configuration.GetConnectionString("PhotoGalleryIdentityDbContextConnection")));
 
                 services.AddDefaultIdentity<IdentityUser>()
                     .AddEntityFrameworkStores<PhotoGalleryIdentityDbContext>();

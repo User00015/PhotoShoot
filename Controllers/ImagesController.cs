@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Internal;
+using Newtonsoft.Json;
 using PhotoGallery.Services.Interfaces;
+using File = PhotoGallery.Entities.File;
 
 namespace PhotoGallery.Controllers
 {
@@ -27,19 +30,18 @@ namespace PhotoGallery.Controllers
         [HttpGet("home")]
         public IActionResult GetRoulette()
         {
-            return Ok("image - get");
+            var images = _imageService.getRouletteImages();
+
+            return Ok(images);
 
         }
 
         [HttpPost("uploadRoulette")]
-        public async Task<IActionResult> UploadRoulette(IList<IFormFile> images)
+        public IActionResult UploadRoulette()
         {
-            if (images == null) return BadRequest("Null File");
-            if (images.Count == 0) return BadRequest("Empty File");
-            if (ACCEPTED_FILE_TYPES.All(s => s != Path.GetExtension(images.Select(p => p.FileName).ToString()).ToLower())) return BadRequest("Invalid file type.");
-            await _imageService.uploadedRouletteImages(images);
-           
-            return Ok("image - post");
+            var files = Request.Form.Files;
+            _imageService.uploadedRouletteImages(files);
+            return Ok();
         }
 
     }
