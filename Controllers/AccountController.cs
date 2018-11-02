@@ -93,6 +93,7 @@ namespace WebApi.Controllers
             }
         }
 
+        [AllowAnonymous] //DELETE ME DELETE ME DELETE ME TODO TODO
         [HttpGet]
         public IActionResult GetAll()
         {

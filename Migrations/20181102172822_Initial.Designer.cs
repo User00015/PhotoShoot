@@ -10,8 +10,8 @@ using PhotoGallery.Areas.Identity.Data;
 namespace PhotoGallery.Migrations
 {
     [DbContext(typeof(PhotoGalleryIdentityDbContext))]
-    [Migration("20181102164303_Intial")]
-    partial class Intial
+    [Migration("20181102172822_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -177,7 +177,7 @@ namespace PhotoGallery.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256);
 
-                    b.Property<string>("PasswordHash");
+                    b.Property<byte[]>("PasswordHash");
 
                     b.Property<byte[]>("PasswordSalt");
 
