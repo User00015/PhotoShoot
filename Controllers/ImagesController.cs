@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Internal;
 using Newtonsoft.Json;
 using PhotoGallery.Services.Interfaces;
-using File = PhotoGallery.Entities.File;
 
 namespace PhotoGallery.Controllers
 {
@@ -30,9 +29,9 @@ namespace PhotoGallery.Controllers
         [HttpGet("home")]
         public IActionResult GetRoulette()
         {
-            var images = _imageService.getRouletteImages();
+            var numberOfImages = _imageService.getRouletteImages();
 
-            return Ok(images);
+            return Ok(numberOfImages);
 
         }
 

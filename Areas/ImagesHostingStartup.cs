@@ -5,21 +5,21 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PhotoGallery.Areas.Identity.Data;
 
-[assembly: HostingStartup(typeof(PhotoGallery.Areas.ImagesHostingStartup))]
+//[assembly: HostingStartup(typeof(PhotoGallery.Areas.ImagesHostingStartup))]
 namespace PhotoGallery.Areas
 {
-    public class ImagesHostingStartup : IHostingStartup
-    {
-        public void Configure(IWebHostBuilder builder)
-        {
-            builder.ConfigureServices((context, services) => {
-                services.AddDbContext<ImagesContext>(options =>
-                    options.UseSqlServer(
-                        context.Configuration.GetConnectionString("PhotoGalleryDbContextConnection")));
+    //public class ImagesHostingStartup : IHostingStartup
+    //{
+    //    public void Configure(IWebHostBuilder builder)
+    //    {
+    //        builder.ConfigureServices((context, services) => {
+    //            services.AddDbContext<ImagesContext>(options =>
+    //                options.UseSqlite(
+    //                    context.Configuration.GetConnectionString("PhotoGalleryDbContextConnection")));
 
-                //services.AddDefaultIdentity<IdentityUser>()
-                //    .AddEntityFrameworkStores<PhotoGalleryIdentityDbContext>();
-            });
-        }
-    }
+    //            //services.AddDefaultIdentity<IdentityUser>()
+    //            //    .AddEntityFrameworkStores<PhotoGalleryIdentityDbContext>();
+    //        });
+    //    }
+    //}
 }

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PhotoGallery.Areas.Identity.Data;
+using WebApi.Entities;
 
 [assembly: HostingStartup(typeof(PhotoGallery.Areas.Identity.IdentityHostingStartup))]
 namespace PhotoGallery.Areas.Identity
@@ -17,9 +18,9 @@ namespace PhotoGallery.Areas.Identity
             builder.ConfigureServices((context, services) => {
                 services.AddDbContext<PhotoGalleryIdentityDbContext>(options =>
                     options.UseSqlServer(
-                        context.Configuration.GetConnectionString("PhotoGalleryIdentityDbContextConnection")));
+                        context.Configuration.GetConnectionString("PhotoGalleryDbContextConnection")));
 
-                services.AddDefaultIdentity<IdentityUser>()
+                services.AddDefaultIdentity<User>()
                     .AddEntityFrameworkStores<PhotoGalleryIdentityDbContext>();
             });
         }

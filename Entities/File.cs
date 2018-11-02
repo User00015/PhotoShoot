@@ -1,12 +1,15 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace PhotoGallery.Entities
 {
-    public class File
+    public class Image
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [Required]
         [StringLength(255)]
         public string FileName { get; set; }
+        [Required]
+        public byte[] Data { get; set; }
     }
 }

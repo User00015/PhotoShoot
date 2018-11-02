@@ -68,9 +68,7 @@ namespace WebApi.Controllers
             return Ok(new
             {
                 user.Id,
-                user.Username,
-                user.FirstName,
-                user.LastName,
+                user.UserName,
                 Token = tokenString
             });
         }
@@ -116,7 +114,7 @@ namespace WebApi.Controllers
         {
             // map dto to entity and set id
             var user = _mapper.Map<User>(userDto);
-            user.Id = id;
+            user.Id = id.ToString();
 
             try
             {
