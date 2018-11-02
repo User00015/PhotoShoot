@@ -13,6 +13,7 @@ namespace WebApi.Services
         User Authenticate(string UserName, string password);
         IEnumerable<User> GetAll();
         User GetById(int id);
+        User GetByUsername(string userName);
         User Create(User user, string password);
         void Update(User user, string password = null);
         void Delete(int id);
@@ -20,7 +21,7 @@ namespace WebApi.Services
 
     public class UserService : IUserService
     {
-        private PhotoGalleryIdentityDbContext _context;
+        private readonly PhotoGalleryIdentityDbContext _context;
 
         public UserService(PhotoGalleryIdentityDbContext context)
         {
@@ -54,6 +55,11 @@ namespace WebApi.Services
         public User GetById(int id)
         {
             return _context.Users.Find(id);
+        }
+
+        public User GetByUsername(string userName)
+        {
+            return _context.Users.FirstOrDefault(x => x.UserName == userName);
         }
 
         public User Create(User user, string password)

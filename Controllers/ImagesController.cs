@@ -26,12 +26,12 @@ namespace PhotoGallery.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
-        [HttpGet("home")]
-        public IActionResult GetRoulette()
+        [HttpGet("roulette")]
+        public IEnumerable<FileContentResult> GetRoulette()
         {
             var numberOfImages = _imageService.getRouletteImages();
 
-            return Ok(numberOfImages);
+            return numberOfImages;
 
         }
 

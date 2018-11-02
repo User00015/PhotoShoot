@@ -4,9 +4,12 @@ using PhotoGallery.Areas.Identity.Data;
 using PhotoGallery.Entities;
 using PhotoGallery.Services.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace PhotoGallery.Services
@@ -21,28 +24,6 @@ namespace PhotoGallery.Services
             _hostingEnvironment = hostingEnvironment;
             _context = context;
         }
-        //public async Task uploadedRouletteImages(IFormFileCollection images)
-        //{
-
-        //    string uploadFilesPath = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
-        //    if (!Directory.Exists(uploadFilesPath))
-        //    {
-        //        Directory.CreateDirectory(uploadFilesPath);
-        //    }
-
-        //    foreach (var img in images)
-        //    {
-        //        string fileName = Guid.NewGuid() + Path.GetExtension(img.FileName);
-        //        string filePath = Path.Combine(uploadFilesPath, fileName);
-        //        using (FileStream stream = new FileStream(filePath, FileMode.Create))
-        //        {
-        //            img.CopyTo(stream);
-        //        }
-        //        var photo = new Images { FileName = fileName };
-        //        _context.Images.Add(photo);
-        //    }
-        //    await _context.SaveChangesAsync();
-        //}
 
         public async Task uploadedRouletteImages(IFormFileCollection images)
         {
@@ -67,9 +48,14 @@ namespace PhotoGallery.Services
             await _context.SaveChangesAsync();
         }
 
-        public int getRouletteImages()
+        public IEnumerable<FileContentResult> getRouletteImages()
         {
-            return _context.Images.Count();
+            var imageData = _context.Images.ToArray().Select(p => p.Data);
+            foreach(var image in imageData)
+            {
+                yield return new FileContentResult(image, "image/jpeg");
+
+            }
         }
     }
 }

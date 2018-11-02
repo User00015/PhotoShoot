@@ -102,6 +102,14 @@ namespace WebApi.Controllers
             return Ok(userDtos);
         }
 
+        [HttpGet("{username}")]
+        public IActionResult GetByUsername(string userName)
+        {
+            var user = _userService.GetByUsername(userName);
+            var userDto = _mapper.Map<UserDto>(user);
+            return Ok(userDto);
+        }
+
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
