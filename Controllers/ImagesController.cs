@@ -27,11 +27,12 @@ namespace PhotoGallery.Controllers
         }
 
         [HttpGet("roulette")]
-        public IEnumerable<FileContentResult> GetRoulette()
+        public FileContentResult GetRoulette()
         {
-            var numberOfImages = _imageService.getRouletteImages();
+            //var numberOfImages = _imageService.getRouletteImages();
+            return _imageService.getRouletteImage();
 
-            return numberOfImages;
+            //return numberOfImages;
 
         }
 

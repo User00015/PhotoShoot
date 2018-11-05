@@ -11,5 +11,6 @@ namespace PhotoGallery.Services.Interfaces
     {
         Task uploadedRouletteImages(IFormFileCollection images);
         IEnumerable<FileContentResult> getRouletteImages();
+        FileContentResult getRouletteImage();
     }
 }

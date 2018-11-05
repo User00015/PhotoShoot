@@ -50,12 +50,18 @@ namespace PhotoGallery.Services
 
         public IEnumerable<FileContentResult> getRouletteImages()
         {
-            var imageData = _context.Images.ToArray().Select(p => p.Data);
+            var imageData = _context.Images.OrderByDescending(p => p.Id).Take(4).Select(p => p.Data);
             foreach(var image in imageData)
             {
                 yield return new FileContentResult(image, "image/jpeg");
 
             }
+        }
+
+        public FileContentResult getRouletteImage()
+        {
+            var image = _context.Images.FirstOrDefault()?.Data;
+            return new FileContentResult(image, "image/jpeg");
         }
     }
 }
