@@ -13,6 +13,8 @@ import { ImageRouletteComponent } from './image-roulette/image-roulette.componen
 import { EventsComponent } from './events/events.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { FooterComponent } from './footer/footer.component';
+
+import { RouletteService } from "./services/roulette.service";
 //import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
@@ -39,7 +41,7 @@ import { FooterComponent } from './footer/footer.component';
       { path: 'schedule', component: ScheduleComponent }
     ])
   ],
-  providers: [],
+  providers: [RouletteService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

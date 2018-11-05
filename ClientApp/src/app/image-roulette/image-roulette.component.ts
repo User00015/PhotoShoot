@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { RouletteService } from "../services/roulette.service";
 
 @Component({
   selector: 'app-image-roulette',
@@ -26,7 +27,8 @@ export class ImageRouletteComponent implements OnInit {
       }
     ];
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private rouletteService: RouletteService) {
+    rouletteService.getRouletteImages().subscribe(data => console.log(data));
   }
 
   ngOnInit() {
