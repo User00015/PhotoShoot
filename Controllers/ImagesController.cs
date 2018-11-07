@@ -26,14 +26,17 @@ namespace PhotoGallery.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
-        [HttpGet("roulette")]
-        public FileContentResult GetRoulette()
+        [HttpGet("single")]
+        public FileContentResult GetSingleImage()
         {
-            //var numberOfImages = _imageService.getRouletteImages();
             return _imageService.getRouletteImage();
+        }
 
-            //return numberOfImages;
 
+        [HttpGet("roulette")]
+        public IEnumerable<string> GetRoulette()
+        {
+            return _imageService.getRouletteImages();
         }
 
         [HttpPost("uploadRoulette")]

@@ -15,6 +15,7 @@ import { ScheduleComponent } from './schedule/schedule.component';
 import { FooterComponent } from './footer/footer.component';
 
 import { RouletteService } from "./services/roulette.service";
+import { AboutComponent } from './about/about.component';
 //import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
@@ -26,7 +27,8 @@ import { RouletteService } from "./services/roulette.service";
     ImageRouletteComponent,
     EventsComponent,
     ScheduleComponent,
-    FooterComponent
+    FooterComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -38,7 +40,8 @@ import { RouletteService } from "./services/roulette.service";
       { path: 'home', component: HomeComponent },
       { path: 'photos', component: PhotoComponent },
       { path: 'events', component: EventsComponent },
-      { path: 'schedule', component: ScheduleComponent }
+      { path: 'schedule', component: ScheduleComponent },
+      { path: 'about', component: AboutComponent}
     ])
   ],
   providers: [RouletteService],

@@ -27,6 +27,11 @@
             <fa-icon [icon]="faCalendarAlt"></fa-icon> Schedule
           </a>
         </li>
+        <li [routerLinkActive]='["link-active"]'>
+          <a [routerLink]='["/about"]' (click)='collapse()'>
+            <fa-icon [icon]="faCalendarAlt"></fa-icon> About
+          </a>
+        </li>
     </ul>
   </div>
 </nav>

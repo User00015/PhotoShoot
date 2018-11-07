@@ -48,13 +48,11 @@ namespace PhotoGallery.Services
             await _context.SaveChangesAsync();
         }
 
-        public IEnumerable<FileContentResult> getRouletteImages()
+        public IEnumerable<string> getRouletteImages()
         {
-            var imageData = _context.Images.OrderByDescending(p => p.Id).Take(4).Select(p => p.Data);
-            foreach(var image in imageData)
+            foreach(var image in _context.Images.OrderByDescending(p => p.Id).Take(4).Select(p => p.Data))
             {
-                yield return new FileContentResult(image, "image/jpeg");
-
+                yield return $"data:image/jpg;base64,{Convert.ToBase64String(image)}";
             }
         }
 
