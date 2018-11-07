@@ -26,10 +26,17 @@ namespace PhotoGallery.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
-        [HttpGet("single")]
-        public FileContentResult GetSingleImage()
+        //[HttpGet("single")]
+        //public FileContentResult GetSingleImage()
+        //{
+        //    return _imageService.getRouletteImage();
+        //}
+
+        [HttpPost("gallery")]
+        public IActionResult UploadToGallery()
         {
-            return _imageService.getRouletteImage();
+            var files = Request.Form.Files;
+            return Ok(files);
         }
 
 

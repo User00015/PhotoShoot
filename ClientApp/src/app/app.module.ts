@@ -15,7 +15,8 @@ import { FooterComponent } from './footer/footer.component';
 
 import { RouletteService } from "./services/roulette.service";
 import { AboutComponent } from './about/about.component';
-//import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UploadComponent } from './upload/upload.component';
+import { UploadService} from './services/upload.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { AboutComponent } from './about/about.component';
     ImageRouletteComponent,
     EventsComponent,
     FooterComponent,
-    AboutComponent
+    AboutComponent,
+    UploadComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -41,7 +43,7 @@ import { AboutComponent } from './about/about.component';
       { path: 'about', component: AboutComponent}
     ])
   ],
-  providers: [RouletteService],
+  providers: [RouletteService, UploadService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -102,6 +102,7 @@ namespace PhotoGallery
                 app.UseHsts();
             }
 
+
             app.UseCors(builder =>
                 builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
