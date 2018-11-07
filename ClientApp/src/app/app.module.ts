@@ -11,7 +11,6 @@ import { PhotoComponent } from './photo/photo.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ImageRouletteComponent } from './image-roulette/image-roulette.component';
 import { EventsComponent } from './events/events.component';
-import { ScheduleComponent } from './schedule/schedule.component';
 import { FooterComponent } from './footer/footer.component';
 
 import { RouletteService } from "./services/roulette.service";
@@ -26,7 +25,6 @@ import { AboutComponent } from './about/about.component';
     PhotoComponent,
     ImageRouletteComponent,
     EventsComponent,
-    ScheduleComponent,
     FooterComponent,
     AboutComponent
   ],
@@ -40,7 +38,6 @@ import { AboutComponent } from './about/about.component';
       { path: 'home', component: HomeComponent },
       { path: 'photos', component: PhotoComponent },
       { path: 'events', component: EventsComponent },
-      { path: 'schedule', component: ScheduleComponent },
       { path: 'about', component: AboutComponent}
     ])
   ],
