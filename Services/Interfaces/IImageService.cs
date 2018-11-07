@@ -10,7 +10,7 @@ namespace PhotoGallery.Services.Interfaces
     public interface IImageService
     {
         Task uploadedRouletteImages(IFormFileCollection images);
-        IEnumerable<FileContentResult> getRouletteImages();
+        IEnumerable<string> getRouletteImages();
         FileContentResult getRouletteImage();
     }
 }
