@@ -9,7 +9,7 @@ export class RouletteService {
   constructor(private http: HttpClient) { }
 
   getRouletteImages() {
-    return this.http.get(this.url, {responseType: 'blob'});
+    return this.http.get(this.url);
   }
 
 }
