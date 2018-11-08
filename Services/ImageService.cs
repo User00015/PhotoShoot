@@ -14,7 +14,7 @@ namespace PhotoGallery.Services
     {
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly PhotoGalleryIdentityDbContext _context;
-        private readonly int SIZE_OF_PAGE_VIEW = 24;
+        private readonly int SIZE_OF_PAGE_VIEW = 48;
 
         public ImageService(IHostingEnvironment hostingEnvironment, PhotoGalleryIdentityDbContext context)
         {

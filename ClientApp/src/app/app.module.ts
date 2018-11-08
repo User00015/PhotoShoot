@@ -13,11 +13,13 @@ import { PhotoComponent } from './photo/photo.component';
 import { ImageRouletteComponent } from './image-roulette/image-roulette.component';
 import { EventsComponent } from './events/events.component';
 import { FooterComponent } from './footer/footer.component';
-
-import { PhotoService } from "./services/photo.service";
 import { AboutComponent } from './about/about.component';
 import { UploadComponent } from './upload/upload.component';
+import { AdminComponent } from './admin/admin.component';
+
+import { PhotoService } from "./services/photo.service";
 import { UploadService } from './services/upload.service';
+import { AuthGuardService } from "./services/auth-guard.service";
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { UploadService } from './services/upload.service';
     EventsComponent,
     FooterComponent,
     AboutComponent,
-    UploadComponent
+    UploadComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -42,10 +45,11 @@ import { UploadService } from './services/upload.service';
       { path: 'home', component: HomeComponent },
       { path: 'photos', component: PhotoComponent },
       { path: 'events', component: EventsComponent },
-      { path: 'about', component: AboutComponent }
+      { path: 'about', component: AboutComponent },
+      { path: 'admin', component: AdminComponent, canActivate: [AuthGuardService] }
     ])
   ],
-  providers: [PhotoService, UploadService],
+  providers: [PhotoService, UploadService, AuthGuardService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
