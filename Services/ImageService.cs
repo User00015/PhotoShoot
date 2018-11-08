@@ -14,6 +14,7 @@ namespace PhotoGallery.Services
     {
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly PhotoGalleryIdentityDbContext _context;
+        private readonly int SIZE_OF_PAGE_VIEW = 24;
 
         public ImageService(IHostingEnvironment hostingEnvironment, PhotoGalleryIdentityDbContext context)
         {
@@ -71,7 +72,7 @@ namespace PhotoGallery.Services
 
         public IEnumerable<string> GetGalleryImages(int size)
         {
-            foreach (var image in _context.GalleryImages.Skip(size).Take(1).Select(p => p.Data))
+            foreach (var image in _context.GalleryImages.Skip(size * SIZE_OF_PAGE_VIEW ).Take(SIZE_OF_PAGE_VIEW).Select(p => p.Data))
             {
                 yield return $"data:image/jpg;base64,{Convert.ToBase64String(image)}";
             }
