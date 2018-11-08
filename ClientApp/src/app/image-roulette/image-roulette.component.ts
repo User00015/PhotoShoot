@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { RouletteService } from "../services/roulette.service";
+import { PhotoService } from "../services/photo.service";
 import { IFileModel } from "../Models/file-model";
 
 @Component({
@@ -30,8 +30,8 @@ export class ImageRouletteComponent implements OnInit {
     }
   ];
 
-  constructor(private router: Router, private rouletteService: RouletteService) {
-    rouletteService.getRouletteImages().subscribe((data): any => {
+  constructor(private router: Router, private photoService: PhotoService) {
+    photoService.getRouletteImages().subscribe((data): any => {
       this.imgRotation = data;
     });
   }

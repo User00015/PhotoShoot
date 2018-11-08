@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Internal;
 using Newtonsoft.Json;
+using PhotoGallery.Entities;
 using PhotoGallery.Services.Interfaces;
 
 namespace PhotoGallery.Controllers
@@ -26,31 +27,37 @@ namespace PhotoGallery.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
-        //[HttpGet("single")]
-        //public FileContentResult GetSingleImage()
-        //{
-        //    return _imageService.getRouletteImage();
-        //}
+        [HttpGet("test")]
+        public DateTime Test()
+        {
+            return DateTime.Now;
+        }
 
-        [HttpPost("gallery")]
+        [HttpPost("uploadGallery")]
         public IActionResult UploadToGallery()
         {
             var files = Request.Form.Files;
-            return Ok(files);
+            _imageService.UploadImages(files, ImageStrategy.Gallery);
+            return Ok();
         }
 
+        [HttpGet("Gallery")]
+        public IEnumerable<string> GetGallery(int size)
+        {
+            return _imageService.GetGalleryImages(size);
+        }
 
         [HttpGet("roulette")]
         public IEnumerable<string> GetRoulette()
         {
-            return _imageService.getRouletteImages();
+            return _imageService.GetRouletteImages();
         }
 
         [HttpPost("uploadRoulette")]
         public IActionResult UploadRoulette()
         {
             var files = Request.Form.Files;
-            _imageService.uploadedRouletteImages(files);
+            _imageService.UploadImages(files, ImageStrategy.Roulette);
             return Ok();
         }
 

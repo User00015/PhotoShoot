@@ -133,7 +133,7 @@ namespace PhotoGallery.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("PhotoGallery.Entities.Image", b =>
+            modelBuilder.Entity("PhotoGallery.Entities.GalleryImage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -145,9 +145,34 @@ namespace PhotoGallery.Migrations
                         .IsRequired()
                         .HasMaxLength(255);
 
+                    b.Property<string>("TableSchema");
+
+                    b.Property<DateTime>("TimeStamp");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Images");
+                    b.ToTable("GalleryImages");
+                });
+
+            modelBuilder.Entity("PhotoGallery.Entities.RouletteImage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<byte[]>("Data")
+                        .IsRequired();
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("TableSchema");
+
+                    b.Property<DateTime>("TimeStamp");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RouletteImages");
                 });
 
             modelBuilder.Entity("WebApi.Entities.User", b =>

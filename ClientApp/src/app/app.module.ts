@@ -13,7 +13,7 @@ import { ImageRouletteComponent } from './image-roulette/image-roulette.componen
 import { EventsComponent } from './events/events.component';
 import { FooterComponent } from './footer/footer.component';
 
-import { RouletteService } from "./services/roulette.service";
+import { PhotoService } from "./services/photo.service";
 import { AboutComponent } from './about/about.component';
 import { UploadComponent } from './upload/upload.component';
 import { UploadService} from './services/upload.service';
@@ -43,7 +43,7 @@ import { UploadService} from './services/upload.service';
       { path: 'about', component: AboutComponent}
     ])
   ],
-  providers: [RouletteService, UploadService],
+  providers: [PhotoService, UploadService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

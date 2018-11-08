@@ -1,4 +1,6 @@
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using PhotoGallery.Entities;
 using WebApi.Dtos;
 using WebApi.Entities;
 

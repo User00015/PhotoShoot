@@ -49,16 +49,33 @@ namespace PhotoGallery.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Images",
+                name: "GalleryImages",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     FileName = table.Column<string>(maxLength: 255, nullable: false),
-                    Data = table.Column<byte[]>(nullable: false)
+                    Data = table.Column<byte[]>(nullable: false),
+                    TimeStamp = table.Column<DateTime>(nullable: false),
+                    TableSchema = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Images", x => x.Id);
+                    table.PrimaryKey("PK_GalleryImages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RouletteImages",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    FileName = table.Column<string>(maxLength: 255, nullable: false),
+                    Data = table.Column<byte[]>(nullable: false),
+                    TimeStamp = table.Column<DateTime>(nullable: false),
+                    TableSchema = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RouletteImages", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -225,7 +242,10 @@ namespace PhotoGallery.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Images");
+                name: "GalleryImages");
+
+            migrationBuilder.DropTable(
+                name: "RouletteImages");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

@@ -7,17 +7,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Mime;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace PhotoGallery.Services
 {
     public class ImageService : IImageService
     {
         private readonly IHostingEnvironment _hostingEnvironment;
-        private PhotoGalleryIdentityDbContext _context;
+        private readonly PhotoGalleryIdentityDbContext _context;
 
         public ImageService(IHostingEnvironment hostingEnvironment, PhotoGalleryIdentityDbContext context)
         {
@@ -25,9 +21,25 @@ namespace PhotoGallery.Services
             _context = context;
         }
 
-        public async Task uploadedRouletteImages(IFormFileCollection images)
+        public void UploadImages(IFormFileCollection images, ImageStrategy strategy)
         {
-            using (IDbContextTransaction db = _context.Database.BeginTransaction())
+            switch (strategy)
+            {
+                case ImageStrategy.Gallery:
+                    UploadGalleryImages(images);
+                    break;
+                case ImageStrategy.Roulette:
+                    UploadRouletteImages(images);
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+
+        }
+
+        private void UploadRouletteImages(IFormFileCollection images)
+        {
+            using (_context.Database.BeginTransaction())
             {
                 foreach (IFormFile image in images)
                 {
@@ -35,31 +47,59 @@ namespace PhotoGallery.Services
                     using (MemoryStream ms = new MemoryStream())
                     {
                         image.CopyTo(ms);
-                        _context.Images.Add(new Image
+                        _context.RouletteImages.Add(new RouletteImage
                         {
                             FileName = image.FileName,
                             Id = Guid.NewGuid(),
-                            Data = ms.ToArray()
+                            Data = ms.ToArray(),
+                            TimeStamp = DateTime.Now
                         });
                     }
                 }
-                db.Commit();
+                _context.SaveChanges();
+                _context.Database.CommitTransaction();
             }
-            await _context.SaveChangesAsync();
         }
 
-        public IEnumerable<string> getRouletteImages()
+        public IEnumerable<string> GetRouletteImages()
         {
-            foreach(var image in _context.Images.OrderByDescending(p => p.Id).Take(4).Select(p => p.Data))
+            foreach (var image in _context.RouletteImages.OrderByDescending(p => p.TimeStamp).Take(4).Select(p => p.Data))
             {
                 yield return $"data:image/jpg;base64,{Convert.ToBase64String(image)}";
             }
         }
 
-        public FileContentResult getRouletteImage()
+        public IEnumerable<string> GetGalleryImages(int size)
         {
-            var image = _context.Images.FirstOrDefault()?.Data;
-            return new FileContentResult(image, "image/jpeg");
+            foreach (var image in _context.GalleryImages.Skip(size).Take(1).Select(p => p.Data))
+            {
+                yield return $"data:image/jpg;base64,{Convert.ToBase64String(image)}";
+            }
+        }
+
+
+        private void UploadGalleryImages(IFormFileCollection images)
+        {
+            using (_context.Database.BeginTransaction())
+            {
+                foreach (IFormFile image in images)
+                {
+
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        image.CopyTo(ms);
+                        _context.GalleryImages.Add(new GalleryImage()
+                        {
+                            FileName = image.FileName,
+                            Id = Guid.NewGuid(),
+                            Data = ms.ToArray(),
+                            TimeStamp = DateTime.Now
+                        });
+                    }
+                }
+                _context.SaveChanges();
+                _context.Database.CommitTransaction();
+            }
         }
     }
 }

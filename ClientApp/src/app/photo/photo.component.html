@@ -1,3 +1,12 @@
-<p>
-  photo works!
-</p>
+<button type="button" (click)="clicked()" class="btn btn-default">Hi I'm a button</button>
+<div class="row text-center text-lg-left">
+  <div class="col-lg-3 col-md-4 col-xs-6" *ngFor="let img of images"  >
+    <a href="#" class="d-block mb-4 h-100">
+      <img [src]="img" class="img-thumbnail img-fluid" />
+    </a>
+  </div>
+</div>
+
+
+
+
