@@ -16,10 +16,12 @@ import { FooterComponent } from './footer/footer.component';
 import { AboutComponent } from './about/about.component';
 import { UploadComponent } from './upload/upload.component';
 import { AdminComponent } from './admin/admin.component';
+import { LoginComponent } from './login/login.component';
 
 import { PhotoService } from "./services/photo.service";
 import { UploadService } from './services/upload.service';
 import { AuthGuardService } from "./services/auth-guard.service";
+import { AuthService } from "./services/auth.service";
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import { AuthGuardService } from "./services/auth-guard.service";
     FooterComponent,
     AboutComponent,
     UploadComponent,
-    AdminComponent
+    AdminComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -46,10 +49,12 @@ import { AuthGuardService } from "./services/auth-guard.service";
       { path: 'photos', component: PhotoComponent },
       { path: 'events', component: EventsComponent },
       { path: 'about', component: AboutComponent },
-      { path: 'admin', component: AdminComponent, canActivate: [AuthGuardService] }
+      { path: 'admin', component: AdminComponent, canActivate: [AuthGuardService] },
+      { path: 'login', component: LoginComponent },
+
     ])
   ],
-  providers: [PhotoService, UploadService, AuthGuardService ],
+  providers: [PhotoService, UploadService, AuthGuardService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

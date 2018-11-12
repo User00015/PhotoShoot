@@ -32,6 +32,11 @@
             <fa-icon [icon]="faCalendarAlt"></fa-icon> Admin
           </a>
         </li>
+        <li [routerLinkActive]='["link-active"]'>
+          <a [routerLink]='["/login"]' (click)='collapse()'>
+            <fa-icon [icon]="faCalendarAlt"></fa-icon> Login
+          </a>
+        </li>
     </ul>
   </div>
 </nav>
