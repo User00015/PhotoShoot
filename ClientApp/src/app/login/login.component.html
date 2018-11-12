@@ -1,14 +1,19 @@
 <div class="container">
 
-  <form class="mt-5">
+  <form class="mt-5" #loginForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="alert alert-danger" role="alert" *ngIf="error">
+      <strong>Invalid Login!</strong> {{error.message}}
+    </div>
     <div class="form-group">
       <label for="username">Username</label>
-      <input type="text" class="form-control" id="username" placeholder="Username" />
+      <input type="text" class="form-control" id="username" placeholder="Username" [(ngModel)]="login" name="login" />
     </div>
     <div class="form-group">
       <label for="password">Password</label>
-      <input type="password" class="form-control" id="password" placeholder="******" />
+      <input type="password" class="form-control" id="password" placeholder="******"  [(ngModel)]="password" name="password"/>
     </div>
+    <button type="submit" class="btn btn-success float-right"  >Login</button>
+
   </form>
 
 </div>

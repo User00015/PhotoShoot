@@ -1,10 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -22,6 +23,8 @@ import { PhotoService } from "./services/photo.service";
 import { UploadService } from './services/upload.service';
 import { AuthGuardService } from "./services/auth-guard.service";
 import { AuthService } from "./services/auth.service";
+
+import { JwtInterceptor } from "./Interceptor/jwt.interceptor";
 
 @NgModule({
   declarations: [
@@ -54,7 +57,7 @@ import { AuthService } from "./services/auth.service";
 
     ])
   ],
-  providers: [PhotoService, UploadService, AuthGuardService, AuthService],
+  providers: [PhotoService, UploadService, AuthGuardService, AuthService, {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

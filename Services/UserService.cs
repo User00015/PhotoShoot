@@ -12,7 +12,7 @@ namespace WebApi.Services
     {
         User Authenticate(string UserName, string password);
         IEnumerable<User> GetAll();
-        User GetById(int id);
+        User GetByGuId(string guid);
         User GetByUsername(string userName);
         User Create(User user, string password);
         void Update(User user, string password = null);
@@ -52,9 +52,9 @@ namespace WebApi.Services
             return _context.Users;
         }
 
-        public User GetById(int id)
+        public User GetByGuId(string guid)
         {
-            return _context.Users.Find(id);
+            return _context.Users.Find(guid);
         }
 
         public User GetByUsername(string userName)

@@ -32,7 +32,12 @@
             <fa-icon [icon]="faCalendarAlt"></fa-icon> Admin
           </a>
         </li>
-        <li [routerLinkActive]='["link-active"]'>
+        <li [routerLinkActive]='["link-active"]' *ngIf="isLoggedIn | async">
+          <a [routerLink]='["/logout"]' (click)='collapse()'>
+            <fa-icon [icon]="faCalendarAlt"></fa-icon> Logout
+          </a>
+        </li>
+        <li [routerLinkActive]='["link-active"]' *ngIf="!isLoggedIn | async">
           <a [routerLink]='["/login"]' (click)='collapse()'>
             <fa-icon [icon]="faCalendarAlt"></fa-icon> Login
           </a>

@@ -63,8 +63,7 @@ namespace PhotoGallery
                     OnTokenValidated = context =>
                     {
                         var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
-                        var userId = int.Parse(context.Principal.Identity.Name);
-                        var user = userService.GetById(userId);
+                        var user = userService.GetByGuId(context.Principal.Identity.Name);
                         if (user == null)
                         {
                             // return unauthorized if user no longer exists
