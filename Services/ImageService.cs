@@ -64,18 +64,14 @@ namespace PhotoGallery.Services
 
         public IEnumerable<string> GetRouletteImages()
         {
-            foreach (var image in _context.RouletteImages.OrderByDescending(p => p.TimeStamp).Take(4).Select(p => p.Data))
-            {
-                yield return $"data:image/jpg;base64,{Convert.ToBase64String(image)}";
-            }
+            IQueryable<RouletteImage> images = _context.RouletteImages.AsQueryable();
+            return images.OrderByDescending(p => p.TimeStamp).Take(4).Select(p => $"data:image/jpg;base64, {Convert.ToBase64String(p.Data)}");
         }
 
-        public IEnumerable<string> GetGalleryImages(int size)
+        public IEnumerable<string> GetGalleryImages(int page)
         {
-            foreach (var image in _context.GalleryImages.Skip(size * SIZE_OF_PAGE_VIEW ).Take(SIZE_OF_PAGE_VIEW).Select(p => p.Data))
-            {
-                yield return $"data:image/jpg;base64,{Convert.ToBase64String(image)}";
-            }
+            IQueryable<GalleryImage> images = _context.GalleryImages.AsQueryable();
+            return images.OrderByDescending(p => p.TimeStamp).Skip(page * SIZE_OF_PAGE_VIEW).Take(SIZE_OF_PAGE_VIEW).Select(p => $"data:image/jpg;base64, {Convert.ToBase64String(p.Data)}");
         }
 
 

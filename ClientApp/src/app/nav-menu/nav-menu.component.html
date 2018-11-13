@@ -1,47 +1,49 @@
 <nav class="navbar navbar-expand-md border-dark  border-bottom">
-    <a class='navbar-brand' [routerLink]='["/"]'>PhotoGallery</a>
+  <a class='navbar-brand' [routerLink]='["/"]'>PhotoGallery</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto">
-        <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-          <a [routerLink]='["/"]' (click)='collapse()'>
-            <fa-icon [icon]="faHome"></fa-icon>Home
+      <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+        <a [routerLink]='["/"]' (click)='collapse()'>
+          <fa-icon [icon]="faHome"></fa-icon>Home
 
-          </a>
-        </li>
-        <li [routerLinkActive]='["link-active"]'>
-          <a [routerLink]='["/photos"]' (click)='collapse()'>
-            <fa-icon [icon]="faImage"></fa-icon> Photo Gallery
-          </a>
-        </li>
-        <li [routerLinkActive]='["link-active"]'>
-          <a [routerLink]='["/events"]' (click)='collapse()'>
-            <fa-icon [icon]="faDirections"></fa-icon> Events
-          </a>
-        </li>
-        <li [routerLinkActive]='["link-active"]'>
-          <a [routerLink]='["/about"]' (click)='collapse()'>
-            <fa-icon [icon]="faCalendarAlt"></fa-icon> About
-          </a>
-        </li>
-        <li [routerLinkActive]='["link-active"]'>
-          <a [routerLink]='["/admin"]' (click)='collapse()'>
-            <fa-icon [icon]="faCalendarAlt"></fa-icon> Admin
-          </a>
-        </li>
-        <li [routerLinkActive]='["link-active"]' *ngIf="isLoggedIn | async">
-          <a [routerLink]='["/logout"]' (click)='collapse()'>
-            <fa-icon [icon]="faCalendarAlt"></fa-icon> Logout
-          </a>
-        </li>
-        <li [routerLinkActive]='["link-active"]' *ngIf="!isLoggedIn | async">
-          <a [routerLink]='["/login"]' (click)='collapse()'>
-            <fa-icon [icon]="faCalendarAlt"></fa-icon> Login
-          </a>
-        </li>
+        </a>
+      </li>
+      <li [routerLinkActive]='["link-active"]'>
+        <a [routerLink]='["/photos"]' (click)='collapse()'>
+          <fa-icon [icon]="faImage"></fa-icon> Photo Gallery
+        </a>
+      </li>
+      <li [routerLinkActive]='["link-active"]'>
+        <a [routerLink]='["/events"]' (click)='collapse()'>
+          <fa-icon [icon]="faDirections"></fa-icon> Events
+        </a>
+      </li>
+      <li [routerLinkActive]='["link-active"]'>
+        <a [routerLink]='["/about"]' (click)='collapse()'>
+          <fa-icon [icon]="faCalendarAlt"></fa-icon> About
+        </a>
+      </li>
+      <li [routerLinkActive]='["link-active"]' *ngIf="(isLoggedIn | async)">
+        <a [routerLink]='["/admin"]' (click)='collapse()'>
+          <fa-icon [icon]="faCalendarAlt"></fa-icon> Admin
+        </a>
+      </li>
+    </ul>
+    <ul class="navbar-nav">
+      <li  [routerLinkActive]='["link-active"]' *ngIf="!(isLoggedIn | async)">
+        <a [routerLink]='["/login"]' (click)='collapse()'>
+          <fa-icon [icon]="faCalendarAlt"></fa-icon> Login
+        </a>
+      </li>
+      <li  *ngIf="isLoggedIn | async">
+        <a href="javascript:void(0);" (click)='logout()'>
+          <fa-icon [icon]="faCalendarAlt"></fa-icon> Logout
+        </a>
+      </li>
     </ul>
   </div>
 </nav>

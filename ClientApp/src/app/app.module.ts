@@ -26,6 +26,7 @@ import { AuthService } from "./services/auth.service";
 
 import { JwtInterceptor } from "./Interceptor/jwt.interceptor";
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,6 +55,7 @@ import { JwtInterceptor } from "./Interceptor/jwt.interceptor";
       { path: 'about', component: AboutComponent },
       { path: 'admin', component: AdminComponent, canActivate: [AuthGuardService] },
       { path: 'login', component: LoginComponent },
+      {path: '**', component: HomeComponent}
 
     ])
   ],

@@ -10,7 +10,7 @@ namespace PhotoGallery.Services.Interfaces
     public interface IImageService
     {
         IEnumerable<string> GetRouletteImages();
-        IEnumerable<string> GetGalleryImages(int size);
+        IEnumerable<string> GetGalleryImages(int page);
         void UploadImages(IFormFileCollection files, ImageStrategy strategy);
     }
 }

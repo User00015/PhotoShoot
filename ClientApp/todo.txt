@@ -1,0 +1,10 @@
+Gallery:
+  - Cake smash
+  - Grow with me
+  - Maternity
+  - Children
+  - Family
+  - Seniors
+  - Weddings
+  - Front Page/Banner
+

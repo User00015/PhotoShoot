@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from '@angular/router';
 import {AuthService} from '../services/auth.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class LoginComponent implements OnInit {
 
   error;
 
-  constructor(private authService: AuthService ) { }
+  constructor(private authService: AuthService, private router: Router ) { }
 
   onSubmit() {
     this.error = null;
@@ -20,9 +21,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.authService.isLoggedIn().subscribe(
-        credentials => console.log(credentials),
-        err => { this.error = err.error});
+    this.authService.loggedIn.subscribe((loggedIn) => {
+      if (loggedIn) this.router.navigate(['/admin']);
+    });
   }
 
 }

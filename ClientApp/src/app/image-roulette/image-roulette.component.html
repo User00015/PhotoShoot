@@ -1,4 +1,4 @@
-<div class="img-roulette-container border border-dark border-top-0" *ngIf="router.url == '/'">
+<div class="img-roulette-container border border-dark border-top-0" *ngIf="showRoulette()">
   <div id="crossfade">
     <img *ngFor="let img of imgRotation" [src]="img" />
   </div>

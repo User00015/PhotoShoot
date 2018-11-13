@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
+import {DomSanitizer} from "@angular/platform-browser"
 
 @Injectable()
 export class PhotoService {
@@ -8,7 +9,7 @@ export class PhotoService {
   private rouletteUrl: string = "https://localhost:5001/api/Images/roulette";
   private galleryUrl: string = "https://localhost:5001/api/Images/gallery";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private sanitizer: DomSanitizer) { }
 
   
   private httpOptions = {

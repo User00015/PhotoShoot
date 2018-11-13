@@ -1,14 +1,14 @@
-import { Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import {Observable, Subject} from "rxjs";
-import {ILoginCredentials} from "../Models/login-credentials"
+import { Observable, BehaviorSubject } from "rxjs";
+import { ILoginCredentials } from "../Models/login-credentials"
 
 @Injectable()
 export class AuthService {
 
-  private url:string = "https://localhost:5001/api/Account/Authenticate";
+  private url: string = "https://localhost:5001/api/Account/Authenticate";
 
-  loggedIn:Subject<boolean> = new Subject<boolean>();
+  public loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   login(params: ILoginCredentials) {
     let result = this.http.post(this.url, params);
@@ -21,9 +21,9 @@ export class AuthService {
     });
   }
 
-  isLoggedIn() {
-    return this.loggedIn;
-
+  logOut() {
+    localStorage.removeItem("auth-token");
+    this.loggedIn.next(false);
   }
 
   constructor(private http: HttpClient) {
