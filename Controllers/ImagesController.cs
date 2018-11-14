@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,7 @@ namespace PhotoGallery.Controllers
             return DateTime.Now;
         }
 
+        [Authorize]
         [HttpPost("uploadGallery")]
         public IActionResult UploadToGallery()
         {
@@ -53,6 +55,7 @@ namespace PhotoGallery.Controllers
             return _imageService.GetRouletteImages();
         }
 
+        [Authorize]
         [HttpPost("uploadRoulette")]
         public IActionResult UploadRoulette()
         {

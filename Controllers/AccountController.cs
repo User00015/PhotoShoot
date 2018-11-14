@@ -92,15 +92,6 @@ namespace WebApi.Controllers
             }
         }
 
-        [AllowAnonymous] //DELETE ME DELETE ME DELETE ME TODO TODO
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            var users = _userService.GetAll();
-            var userDtos = _mapper.Map<IList<UserDto>>(users);
-            return Ok(userDtos);
-        }
-
         [HttpGet("{username}")]
         public IActionResult GetByUsername(string userName)
         {
