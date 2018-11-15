@@ -25,6 +25,7 @@ import { AuthGuardService } from "./services/auth-guard.service";
 import { AuthService } from "./services/auth.service";
 
 import { JwtInterceptor } from "./Interceptor/jwt.interceptor";
+import { FileDropDirective } from './Directives/file-drop.directive';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { JwtInterceptor } from "./Interceptor/jwt.interceptor";
     AboutComponent,
     UploadComponent,
     AdminComponent,
-    LoginComponent
+    LoginComponent,
+    FileDropDirective
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

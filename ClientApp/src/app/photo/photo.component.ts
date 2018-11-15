@@ -10,7 +10,7 @@ import {DomSanitizer} from "@angular/platform-browser"
 })
 export class PhotoComponent implements OnInit {
 
-  private images$: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
+  public images$: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
 
   currentPage: number = 0;
 

@@ -16,7 +16,7 @@ export class AboutComponent implements OnInit {
 
   constructor() { }
 
-  private aboutImage = "assets/images/about.jpg";
+  public aboutImage = "assets/images/about.jpg";
 
   ngOnInit() {
   }

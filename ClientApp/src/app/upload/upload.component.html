@@ -1,37 +1,27 @@
-<input type="file" class="form-control-file" (change)="onFileSelected($event)" (click)="onBrowseFiles()" multiple />
-<div class="border p-2 upload-section row">
-  <!--  <img [src]="imagesPreview" *ngFor="let imagesPreview of imagesUrl"/>-->
-  <div class="col-md-12">
-    <img [src]="testUrl" class="img-fluid mb-1" />
-    <img [src]="testUrl" class="img-fluid mb-1" />
-    <img [src]="testUrl" class="img-fluid mb-1" />
-    <img [src]="testUrl" class="img-fluid mb-1" />
-    <img [src]="testUrl" class="img-fluid mb-1" />
-    <img [src]="testUrl" class="img-fluid mb-1" />
-    <img [src]="testUrl" class="img-fluid mb-1" />
-    <img [src]="testUrl" class="img-fluid mb-1" />
-    <img [src]="testUrl" class="img-fluid mb-1" />
+<h2 class="text-center">Drop File</h2>
+<div class="dropzone"
+     fileDrop
+     (filesDropped)="handleDrop($event)"
+     (filesHovered)="dropzoneState($event)"
+     [ngClass]="{'active': dropzoneActive}">
+  <div class="d-flex flex-row justify-content-center align-content-center">
+      <fa-icon [icon]="faFileUpload" size="5x" ></fa-icon>
+    <!--<fa-layers>
+      <fa-icon [icon]="faFileUpload" size="5x" transform="down-15 left-30"></fa-icon>
+      <fa-layers-text title="Title" [content]="'Drag & Drop'" style="color:black" transform="down-140 left-120" [styles]="{width: '7em'}"></fa-layers-text>
+      <fa-icon [icon]="faFileUpload" size="5x" transform="down-15 right-21"></fa-icon>
+    </fa-layers>-->
   </div>
-  <div class="col-md-12">
-    <img [src]="testUrl" class="img-fluid mb-1" />
-    <img [src]="testUrl" class="img-fluid mb-1" />
-    <img [src]="testUrl" class="img-fluid mb-1" />
-    <img [src]="testUrl" class="img-fluid mb-1" />
-    <img [src]="testUrl" class="img-fluid mb-1" />
-    <img [src]="testUrl" class="img-fluid mb-1" />
-    <img [src]="testUrl" class="img-fluid mb-1" />
-    <img [src]="testUrl" class="img-fluid mb-1" />
-    <img [src]="testUrl" class="img-fluid mb-1" />
-  </div>
-  <div class="col-md-12">
-    <img [src]="testUrl" class="img-fluid mb-1" />
-    <img [src]="testUrl" class="img-fluid mb-1" />
-    <img [src]="testUrl" class="img-fluid mb-1" />
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-offset-10 col-md-2">
-    <button type="button" class="btn btn-primary">Upload</button>
+  <!--<input type="file" class="form-control-file" (change)="handleDrop($event.target.files)" multiple />-->
 
+</div>
+
+<h3 class="text-center">Upload Preview</h3>
+<div class="mb-5">
+  <div class="border p-2 upload-section border border-dark d-flex justify-content-start flex-wrap">
+    <img [src]="imagesPreview" *ngFor="let imagesPreview of imagesUrl" class="p-1" />
+    <button type="button" class="btn btn-primary btn-block" *ngIf="imagesUrl.length > 0">Upload</button>
   </div>
 </div>
+
+
