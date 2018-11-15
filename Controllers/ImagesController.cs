@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Internal;
-using Newtonsoft.Json;
 using PhotoGallery.Entities;
 using PhotoGallery.Services.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using Microsoft.Extensions.Primitives;
 
 namespace PhotoGallery.Controllers
 {
@@ -28,17 +25,19 @@ namespace PhotoGallery.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
-        [HttpGet("test")]
-        public DateTime Test()
+        [HttpPost("test")]
+        public int Test()
         {
-            return DateTime.Now;
+            IFormFileCollection files = Request.Form.Files;
+
+            return files.Count;
         }
 
         [Authorize]
         [HttpPost("uploadGallery")]
         public IActionResult UploadToGallery()
         {
-            var files = Request.Form.Files;
+            IFormFileCollection files = Request.Form.Files;
             _imageService.UploadImages(files, ImageStrategy.Gallery);
             return Ok();
         }
@@ -59,9 +58,18 @@ namespace PhotoGallery.Controllers
         [HttpPost("uploadRoulette")]
         public IActionResult UploadRoulette()
         {
-            var files = Request.Form.Files;
+            IFormFileCollection files = Request.Form.Files;
             _imageService.UploadImages(files, ImageStrategy.Roulette);
             return Ok();
+        }
+
+        [Authorize]
+        [HttpDelete("deleteGallery")]
+        public IActionResult DeleteEntireGallery()
+        {
+            _imageService.DeleteEntireGallery();
+            return Ok("Deleted all gallery images");
+
         }
 
     }

@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import {HttpEvent} from '@angular/common/http';
 import { UploadService } from '../services/upload.service';
-import { Upload } from '../Models/file-model'
-import { Observable, BehaviorSubject } from "rxjs";
 import * as _ from 'lodash';
-import { faFileUpload, faCircle  } from "@fortawesome/free-solid-svg-icons";
+import { faFileUpload, faFolderOpen } from "@fortawesome/free-solid-svg-icons";
 
 
 @Component({
@@ -13,10 +12,10 @@ import { faFileUpload, faCircle  } from "@fortawesome/free-solid-svg-icons";
 })
 export class UploadComponent implements OnInit {
 
-  faFileUpload   = faFileUpload;
-  faCircle = faCircle;
-  currentUpload: Upload;
+  faFileUpload = faFileUpload;
+  faFolderOpen = faFolderOpen;
   dropzoneActive: boolean = false;
+  formData: FormData = new FormData();
 
   public imagesUrl: string[] = [];
   dropzoneState($event: boolean) {
@@ -25,11 +24,6 @@ export class UploadComponent implements OnInit {
   }
 
   handleDrop(fileList: FileList) {
-    let filesIndex = _.range(fileList.length);
-    //_.each(filesIndex, (idx) => {
-    //    this.currentUpload = new Upload(fileList[idx]);
-    //    console.log("here's where I upload the file to the service", this.currentUpload);
-    //  }
     _.map(fileList, file => {
 
       var reader = new FileReader();
@@ -38,38 +32,20 @@ export class UploadComponent implements OnInit {
       reader.onload = (event: any) => {
         this.imagesUrl = _.concat(this.imagesUrl, event.target.result);
       }
+
+      this.formData.append('files', file, file.name);
     });
   }
 
-  //public testUrl = "../assets/images/test.jpg";
+  upload() {
+    this.uploadService.uploadGalleryImages(this.formData);
+  }
 
-  //onBrowseFiles() {
-  //  this.imagesUrl = [];
-  //}
-
-  //  upload() {
-  //    //this.uploadService.uploadGalleryImages(event.target.files).subscribe(p => console.log(p));
-  //  }
-
-  //onFileSelected(event) {
-
-  //  _.map(event.target.files, file => {
-
-  //    var reader = new FileReader();
-  //    reader.readAsDataURL(file);
-
-  //    reader.onload = (event: any) => {
-  //      this.imagesUrl = _.concat(this.imagesUrl, event.target.result);
-  //    }
-  //  });
-
-  //};
 
 
   constructor(private uploadService: UploadService) { }
 
   ngOnInit() {
-    //this.imagesToUpload.subscribe(p => console.log(p));
   }
 
 }

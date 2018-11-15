@@ -1,16 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpEvent } from "@angular/common/http";
 
 @Injectable()
 export class UploadService {
-
-  private url: string = "https://localhost:5001/api/Images/gallery";
-  private httpOptions = {
-
-    headers: new HttpHeaders({
-      //'Accept': "multipart/form-data"
-    })
-  };
+  private url: string = "https://localhost:5001/api/Images/uploadGallery";
 
   constructor(private http: HttpClient) { }
 
@@ -18,12 +11,20 @@ export class UploadService {
     return this.http.get(this.url);
   }
 
-  uploadGalleryImages(images: FileList) {
-    let formData: FormData = new FormData();
-    for (let i = 0; i < images.length; i++) {
-      formData.append('file', images[i], images[i].name);
-    };
-    return this.http.post(this.url, formData, this.httpOptions);
+  uploadGalleryImages(images: FormData) {
+    return this.http.post(this.url, images, { reportProgress: true, observe: 'events' }).subscribe((event:
+      HttpEvent<any>) => {
+      switch (event.type) {
+        case 1:
+          {
+            console.log(event['loaded'] / event['total'] * 100);
+          }
+          break;
+      }
+
+    });
   }
+
+
 }
 

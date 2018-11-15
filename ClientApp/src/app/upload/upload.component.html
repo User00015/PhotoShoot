@@ -1,27 +1,31 @@
-<h2 class="text-center">Drop File</h2>
+<div class="mb-5"></div>
+<h3 class="text-center">Upload Preview</h3>
+<div class="mb-3">
+  <div class="border p-2 upload-section border border-dark d-flex justify-content-start flex-wrap preview">
+    <img [src]="imagesPreview" *ngFor="let imagesPreview of imagesUrl" class="p-1" />
+  </div>
+</div>
+<div class="d-flex flex-row justify-content-center mb-3">
+  <button type="button" class="btn btn-primary fat-button" (click)="upload()" [disabled]="imagesUrl.length <= 0">Upload</button>
+</div>
+
 <div class="dropzone"
      fileDrop
      (filesDropped)="handleDrop($event)"
      (filesHovered)="dropzoneState($event)"
      [ngClass]="{'active': dropzoneActive}">
-  <div class="d-flex flex-row justify-content-center align-content-center">
-      <fa-icon [icon]="faFileUpload" size="5x" ></fa-icon>
-    <!--<fa-layers>
+  <div class="d-flex justify-content-center">
+    <fa-layers>
       <fa-icon [icon]="faFileUpload" size="5x" transform="down-15 left-30"></fa-icon>
-      <fa-layers-text title="Title" [content]="'Drag & Drop'" style="color:black" transform="down-140 left-120" [styles]="{width: '7em'}"></fa-layers-text>
-      <fa-icon [icon]="faFileUpload" size="5x" transform="down-15 right-21"></fa-icon>
-    </fa-layers>-->
+      <fa-layers-text title="Title" [content]="'Drag & Drop'" style="color:black" transform="down-140 left-120" [styles]="{width: '7em', 'padding-top': '0em', top: '0em'}"></fa-layers-text>
+      <fa-icon [icon]="faFolderOpen" size="5x" transform="down-15 right-18" (click)="file.click()"></fa-icon>
+      <fa-layers-text title="Title" [content]="'Select Files'" style="color:black" transform="down-140 right-120" [styles]="{width: '7em', 'padding-top': '6em', top: '-3em', 'cursor':'pointer'}" (click)="file.click()"></fa-layers-text>
+    </fa-layers>
   </div>
-  <!--<input type="file" class="form-control-file" (change)="handleDrop($event.target.files)" multiple />-->
+  <input #file type="file" class="invisible form-control-file" (change)="handleDrop($event.target.files)" multiple />
 
 </div>
+<span class="justify-content-center d-flex text-muted">Click the folder to select files</span>
 
-<h3 class="text-center">Upload Preview</h3>
-<div class="mb-5">
-  <div class="border p-2 upload-section border border-dark d-flex justify-content-start flex-wrap">
-    <img [src]="imagesPreview" *ngFor="let imagesPreview of imagesUrl" class="p-1" />
-    <button type="button" class="btn btn-primary btn-block" *ngIf="imagesUrl.length > 0">Upload</button>
-  </div>
-</div>
 
 

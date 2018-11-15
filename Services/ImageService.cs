@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations.Design;
 
 namespace PhotoGallery.Services
 {
@@ -36,6 +38,20 @@ namespace PhotoGallery.Services
                     throw new NotImplementedException();
             }
 
+        }
+
+        public void DeleteEntireGallery()
+        {
+            using (_context.Database.BeginTransaction())
+            {
+                foreach (var img in _context.GalleryImages)
+                {
+                    _context.Entry(img).State = EntityState.Deleted;
+
+                }
+                _context.SaveChanges();
+                _context.Database.CommitTransaction();
+            }
         }
 
         private void UploadRouletteImages(IFormFileCollection images)

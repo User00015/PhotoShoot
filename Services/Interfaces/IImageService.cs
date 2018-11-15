@@ -12,5 +12,6 @@ namespace PhotoGallery.Services.Interfaces
         IEnumerable<string> GetRouletteImages();
         IEnumerable<string> GetGalleryImages(int page);
         void UploadImages(IFormFileCollection files, ImageStrategy strategy);
+        void DeleteEntireGallery();
     }
 }

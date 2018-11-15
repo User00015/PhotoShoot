@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PhotoService } from "../services/photo.service";
-import { IFileModel } from "../Models/file-model";
 import {DomSanitizer} from "@angular/platform-browser"
 
 @Component({
