@@ -5,7 +5,7 @@ using PhotoGallery.Areas.Identity.Data;
 
 namespace PhotoGallery.Entities
 {
-    public abstract class Image : IImage
+    public class Image : IImage
     {
         public Guid Id { get; set; }
         [Required]
@@ -15,6 +15,7 @@ namespace PhotoGallery.Entities
         public byte[] Data { get; set; }
 
         public DateTime TimeStamp { get; set; }
+        public ImageType Type { get; set; }
     }
 
     public interface IImage
@@ -23,15 +24,7 @@ namespace PhotoGallery.Entities
         string FileName { get; set; }
         byte[] Data { get; set; }
         DateTime TimeStamp { get; set; }
-    }
 
-    public class RouletteImage : Image
-    {
-    }
-
-
-
-    public class GalleryImage : Image
-    {
+        ImageType Type { get; set; }
     }
 }

@@ -1,31 +1,51 @@
-<div class="mb-5"></div>
-<h3 class="text-center">Upload Preview</h3>
-<div class="mb-3">
-  <div class="border p-2 upload-section border border-dark d-flex justify-content-start flex-wrap preview">
-    <img [src]="imagesPreview" *ngFor="let imagesPreview of imagesUrl" class="p-1" />
-  </div>
-</div>
-<div class="d-flex flex-row justify-content-center mb-3">
-  <button type="button" class="btn btn-primary fat-button" (click)="upload()" [disabled]="imagesUrl.length <= 0">Upload</button>
-</div>
-
+<h3 class="text-center mt-3">Gallery Upload</h3>
 <div class="dropzone"
      fileDrop
      (filesDropped)="handleDrop($event)"
      (filesHovered)="dropzoneState($event)"
-     [ngClass]="{'active': dropzoneActive}">
+     [ngClass]="{'active': dropzoneActive}"
+     (click)="file.click()">
   <div class="d-flex justify-content-center">
     <fa-layers>
       <fa-icon [icon]="faFileUpload" size="5x" transform="down-15 left-30"></fa-icon>
       <fa-layers-text title="Title" [content]="'Drag & Drop'" style="color:black" transform="down-140 left-120" [styles]="{width: '7em', 'padding-top': '0em', top: '0em'}"></fa-layers-text>
-      <fa-icon [icon]="faFolderOpen" size="5x" transform="down-15 right-18" (click)="file.click()"></fa-icon>
-      <fa-layers-text title="Title" [content]="'Select Files'" style="color:black" transform="down-140 right-120" [styles]="{width: '7em', 'padding-top': '6em', top: '-3em', 'cursor':'pointer'}" (click)="file.click()"></fa-layers-text>
+      <fa-icon [icon]="faFolderOpen" size="5x" transform="down-15 right-18"></fa-icon>
+      <fa-layers-text title="Title" [content]="'Select Files'" style="color:black" transform="down-140 right-120" [styles]="{width: '7em', 'padding-top': '6em', top: '-3em'}"></fa-layers-text>
     </fa-layers>
   </div>
   <input #file type="file" class="invisible form-control-file" (change)="handleDrop($event.target.files)" multiple />
 
 </div>
-<span class="justify-content-center d-flex text-muted">Click the folder to select files</span>
+<span class="justify-content-center d-flex text-muted">Click the upload area to select files</span>
+
+
+<div class="w-25" *ngIf="imagesUrl.length > 0">
+  <select class="custom-select browser-default" (change)="onSelection($event.target.value)">
+    <option value="0">Select Section</option>
+    <option *ngFor="let section of uploadSections">{{section}}</option>
+  </select>
+</div>
+
+
+
+<div class="mt-5" *ngIf="imagesUrl.length > 0">
+
+  <h3 class="text-center">Preview Images</h3>
+  <div class="mb-3">
+    <div class="border upload-section border border-dark d-flex justify-content-start flex-wrap preview">
+      <img [src]="imagesPreview" *ngFor="let imagesPreview of imagesUrl" class="p-1" />
+    </div>
+  </div>
+  <div class="progress mb-3">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" [ngStyle]="{'width': progress + '%'}"></div>
+  </div>
+  <span class="d-flex flex-row justify-content-center" *ngIf="progress >= 100">Upload Complete!</span>
+  <div class="d-flex flex-row justify-content-center mb-3">
+    <button type="button" class="btn btn-primary fat-button" (click)="upload($event)" [disabled]="imagesUrl.length <= 0 || selectedSection === '0'">Upload</button>
+  </div>
+
+</div>
+
 
 
 

@@ -3,28 +3,22 @@ import { HttpClient, HttpHeaders, HttpEvent } from "@angular/common/http";
 
 @Injectable()
 export class UploadService {
-  private url: string = "https://localhost:5001/api/Images/uploadGallery";
+  private galleryUrl: string = "https://localhost:5001/api/Images/uploadGallery";
+  private imageTypesUrl: string = "https://localhost:5001/api/Data/imageTypes";
 
   constructor(private http: HttpClient) { }
 
   getGalleryImages() {
-    return this.http.get(this.url);
+    return this.http.get(this.galleryUrl);
   }
 
-  uploadGalleryImages(images: FormData) {
-    return this.http.post(this.url, images, { reportProgress: true, observe: 'events' }).subscribe((event:
-      HttpEvent<any>) => {
-      switch (event.type) {
-        case 1:
-          {
-            console.log(event['loaded'] / event['total'] * 100);
-          }
-          break;
-      }
-
-    });
+  uploadGalleryImages(images: FormData, imageType: string) {
+    return this.http.post(`${this.galleryUrl}?type=${imageType.trim()}`, images, { reportProgress: true, observe: 'events' });
   }
 
 
+  getImageTypes() {
+    return this.http.get(this.imageTypesUrl);
+  }
 }
 

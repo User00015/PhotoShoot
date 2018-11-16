@@ -57,11 +57,11 @@ import { FileDropDirective } from './Directives/file-drop.directive';
       { path: 'about', component: AboutComponent },
       { path: 'admin', component: AdminComponent, canActivate: [AuthGuardService] },
       { path: 'login', component: LoginComponent },
-      {path: '**', component: HomeComponent}
+      { path: '**', component: HomeComponent }
 
     ])
   ],
-  providers: [PhotoService, UploadService, AuthGuardService, AuthService, {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}],
+  providers: [PhotoService, UploadService, AuthGuardService, AuthService, { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

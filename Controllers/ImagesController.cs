@@ -6,8 +6,7 @@ using PhotoGallery.Entities;
 using PhotoGallery.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using Microsoft.Extensions.Primitives;
+using PhotoGallery.Extensions;
 
 namespace PhotoGallery.Controllers
 {
@@ -26,19 +25,19 @@ namespace PhotoGallery.Controllers
         }
 
         [HttpPost("test")]
-        public int Test()
+        public IActionResult Test(string foo)
         {
-            IFormFileCollection files = Request.Form.Files;
 
-            return files.Count;
+            return Ok(foo);
         }
 
         [Authorize]
         [HttpPost("uploadGallery")]
-        public IActionResult UploadToGallery()
+        public IActionResult UploadToGallery(string type)
         {
+            ImageType imageType = Enum.Parse<ImageType>(type.RemoveWhiteSpace(), ignoreCase: true);
             IFormFileCollection files = Request.Form.Files;
-            _imageService.UploadImages(files, ImageStrategy.Gallery);
+            _imageService.UploadImages(files, imageType); //TODO - Fix me
             return Ok();
         }
 
@@ -59,7 +58,7 @@ namespace PhotoGallery.Controllers
         public IActionResult UploadRoulette()
         {
             IFormFileCollection files = Request.Form.Files;
-            _imageService.UploadImages(files, ImageStrategy.Roulette);
+            _imageService.UploadImages(files, ImageType.Banner);
             return Ok();
         }
 

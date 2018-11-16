@@ -24,27 +24,11 @@ namespace PhotoGallery.Services
             _context = context;
         }
 
-        public void UploadImages(IFormFileCollection images, ImageStrategy strategy)
-        {
-            switch (strategy)
-            {
-                case ImageStrategy.Gallery:
-                    UploadGalleryImages(images);
-                    break;
-                case ImageStrategy.Roulette:
-                    UploadRouletteImages(images);
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
-
-        }
-
         public void DeleteEntireGallery()
         {
             using (_context.Database.BeginTransaction())
             {
-                foreach (var img in _context.GalleryImages)
+                foreach (var img in _context.Images)
                 {
                     _context.Entry(img).State = EntityState.Deleted;
 
@@ -54,44 +38,20 @@ namespace PhotoGallery.Services
             }
         }
 
-        private void UploadRouletteImages(IFormFileCollection images)
-        {
-            using (_context.Database.BeginTransaction())
-            {
-                foreach (IFormFile image in images)
-                {
-
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        image.CopyTo(ms);
-                        _context.RouletteImages.Add(new RouletteImage
-                        {
-                            FileName = image.FileName,
-                            Id = Guid.NewGuid(),
-                            Data = ms.ToArray(),
-                            TimeStamp = DateTime.Now
-                        });
-                    }
-                }
-                _context.SaveChanges();
-                _context.Database.CommitTransaction();
-            }
-        }
-
         public IEnumerable<string> GetRouletteImages()
         {
-            IQueryable<RouletteImage> images = _context.RouletteImages.AsQueryable();
-            return images.OrderByDescending(p => p.TimeStamp).Take(4).Select(p => $"data:image/jpg;base64, {Convert.ToBase64String(p.Data)}");
+            IQueryable<Image> images = _context.Images.AsQueryable();
+            return images.OrderByDescending(p => p.TimeStamp).Where(p => p.Type == ImageType.Banner).Take(4).Select(p => $"data:image/jpg;base64, {Convert.ToBase64String(p.Data)}");
         }
 
         public IEnumerable<string> GetGalleryImages(int page)
         {
-            IQueryable<GalleryImage> images = _context.GalleryImages.AsQueryable();
+            IQueryable<Image> images = _context.Images.AsQueryable();
             return images.OrderByDescending(p => p.TimeStamp).Skip(page * SIZE_OF_PAGE_VIEW).Take(SIZE_OF_PAGE_VIEW).Select(p => $"data:image/jpg;base64, {Convert.ToBase64String(p.Data)}");
         }
 
 
-        private void UploadGalleryImages(IFormFileCollection images)
+        public void UploadImages(IFormFileCollection images, ImageType type)
         {
             using (_context.Database.BeginTransaction())
             {
@@ -101,12 +61,14 @@ namespace PhotoGallery.Services
                     using (MemoryStream ms = new MemoryStream())
                     {
                         image.CopyTo(ms);
-                        _context.GalleryImages.Add(new GalleryImage()
+                        _context.Images.Add(new Image()
                         {
                             FileName = image.FileName,
                             Id = Guid.NewGuid(),
                             Data = ms.ToArray(),
-                            TimeStamp = DateTime.Now
+                            TimeStamp = DateTime.Now,
+                            Type = type
+
                         });
                     }
                 }

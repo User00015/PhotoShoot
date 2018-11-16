@@ -4255,6 +4255,10 @@ next-tick@1:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
 
+ngx-bootstrap@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-3.1.1.tgz#36ef4f6928352ee7fd186831d97731cfa571d137"
+
 ngx-infinite-scroll@0.8.3:
   version "0.8.3"
   resolved "https://registry.yarnpkg.com/ngx-infinite-scroll/-/ngx-infinite-scroll-0.8.3.tgz#387000fc5e34ee5ee5164db6cb0a959c77bd3819"
