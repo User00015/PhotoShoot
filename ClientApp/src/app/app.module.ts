@@ -19,8 +19,7 @@ import { UploadComponent } from './upload/upload.component';
 import { AdminComponent } from './admin/admin.component';
 import { LoginComponent } from './login/login.component';
 
-import { PhotoService } from "./services/photo.service";
-import { UploadService } from './services/upload.service';
+import { ImageService } from "./services/image.service";
 import { AuthGuardService } from "./services/auth-guard.service";
 import { AuthService } from "./services/auth.service";
 
@@ -83,7 +82,7 @@ import { WeddingImagesComponent } from './gallery/wedding-images/wedding-images.
 
     ])
   ],
-  providers: [PhotoService, UploadService, AuthGuardService, AuthService, { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
+  providers: [ImageService, AuthGuardService, AuthService, { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PhotoService } from "../services/photo.service";
+import { ImageService  } from "../services/image.service";
 import {DomSanitizer} from "@angular/platform-browser"
 
 @Component({
@@ -17,8 +17,8 @@ export class ImageBannerComponent implements OnInit {
   private imgRotation: any;
 
 
-  constructor(private router: Router, private photoService: PhotoService, private sanitizer: DomSanitizer) {
-    photoService.getBannerImages().subscribe((data: any) => {
+  constructor(private router: Router, private imageService: ImageService, private sanitizer: DomSanitizer) {
+    imageService.getBannerImages().subscribe((data: any) => {
       this.imgRotation = data.map(url => this.sanitizer.bypassSecurityTrustUrl(url));
     });
   }

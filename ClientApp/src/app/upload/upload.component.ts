@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpEvent } from '@angular/common/http';
-import { UploadService } from '../services/upload.service';
+import { ImageService } from '../services/image.service';
 import * as _ from 'lodash';
 import { faFileUpload, faFolderOpen } from "@fortawesome/free-solid-svg-icons";
 
@@ -42,7 +42,7 @@ export class UploadComponent implements OnInit {
   }
 
   upload(event) {
-    this.uploadService.uploadImages(this.formData, this.selectedSection).subscribe((event:
+    this.imageService.uploadImages(this.formData, this.selectedSection).subscribe((event:
       HttpEvent<any>) => {
       switch (event.type) {
         case 1:
@@ -65,10 +65,10 @@ export class UploadComponent implements OnInit {
   }
 
 
-  constructor(private uploadService: UploadService) { }
+  constructor(private imageService: ImageService) { }
 
   ngOnInit() {
-    this.uploadService.getImageTypes().subscribe((types: string[]) => {
+    this.imageService.getImageTypes().subscribe((types: string[]) => {
       this.uploadSections = types;
     });
   }

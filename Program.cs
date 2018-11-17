@@ -22,6 +22,7 @@ namespace PhotoGallery
             WebHost.CreateDefaultBuilder(args)
                 .UseKestrel(options =>
                 {
+                    options.Limits.MaxRequestBodySize = null;
                     options.Listen(IPAddress.Loopback, 5000);
                     options.Listen(IPAddress.Loopback, 5001, listenOptions =>
                         {

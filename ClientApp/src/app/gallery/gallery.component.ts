@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { PhotoService } from "../services/photo.service";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
-import {DomSanitizer} from "@angular/platform-browser"
+import { ImageService } from "../services/image.service";
+import { BehaviorSubject, Subject } from "rxjs";
+import { DomSanitizer } from "@angular/platform-browser"
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-gallery',
@@ -13,31 +14,40 @@ export class GalleryComponent implements OnInit {
   public images$: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
 
   currentPage: number = 0;
+  sections: string[];
+  currentSelection$: Subject<string> = new Subject<string>();
+  currentSelection: string;
 
-
-  constructor(private photoService: PhotoService, private sanitizer: DomSanitizer) {
+  constructor(private imageService: ImageService, private sanitizer: DomSanitizer) {
   }
 
   onScroll() {
-    this.photoService.getGalleryImages(this.currentPage++).subscribe((data: any) => {
+    this.imageService.getGalleryImages(this.currentPage++, this.currentSelection).subscribe((data: any) => {
       let sanitized = data.map(p => this.sanitizer.bypassSecurityTrustUrl(p));
       this.images$.next([...this.images$.getValue(), ...sanitized]);
     });
 
   }
 
-  getGalleryPhotos() {
-    return this.photoService.getGalleryImages(this.currentPage).subscribe((data: any) => {
-      let sanitized = data.map(p => this.sanitizer.bypassSecurityTrustUrl(p));
-      this.images$.next(sanitized);
-    });
+  onSelection(event) {
+    this.currentSelection$.next(event);
   }
 
+
   ngOnInit() {
-    this.getGalleryPhotos();
-    this.uploadService.getImageTypes().subscribe((types: string[]) => {
-      this.uploadSections = types;
+    this.imageService.getImageTypes().subscribe((types: string[]) => {
+      this.sections = types;
     });
+
+    this.currentSelection$.subscribe(selection => {
+      this.imageService.getGalleryImages(this.currentPage, selection).subscribe((data: any) => {
+        let sanitized = data.map(p => this.sanitizer.bypassSecurityTrustUrl(p));
+        this.currentSelection = selection;
+        this.images$.next(sanitized);
+      });
+
+    })
+
   }
 
 }

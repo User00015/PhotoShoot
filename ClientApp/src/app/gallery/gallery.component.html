@@ -7,7 +7,7 @@
 <div class="w-25">
   <select class="custom-select browser-default" (change)="onSelection($event.target.value)">
     <option value="0">Select Section</option>
-    <!--<option *ngFor="let section of uploadSections">{{section}}</option>-->
+    <option *ngFor="let section of sections">{{section}}</option>
   </select>
 </div>
 
