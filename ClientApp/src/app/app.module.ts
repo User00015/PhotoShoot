@@ -25,14 +25,7 @@ import { AuthService } from "./services/auth.service";
 
 import { JwtInterceptor } from "./Interceptor/jwt.interceptor";
 import { FileDropDirective } from './Directives/file-drop.directive';
-import { BannerImagesComponent } from "./gallery/banner-images/banner-images.component";
-import { CakeSmashImagesComponent } from './gallery/cake-smash-images/cake-smash-images.component';
-import { GrowWithMeImagesComponent } from './gallery/grow-with-me-images/grow-with-me-images.component';
-import { MaternityImagesComponent } from './gallery/maternity-images/maternity-images.component';
-import { ChildrenImagesComponent } from './gallery/children-images/children-images.component';
-import { FamilyImagesComponent } from './gallery/family-images/family-images.component';
-import { SeniorImagesComponent } from './gallery/senior-images/senior-images.component';
-import { WeddingImagesComponent } from './gallery/wedding-images/wedding-images.component';
+
 
 
 
@@ -49,15 +42,8 @@ import { WeddingImagesComponent } from './gallery/wedding-images/wedding-images.
     UploadComponent,
     AdminComponent,
     LoginComponent,
-    BannerImagesComponent,
-    FileDropDirective,
-    CakeSmashImagesComponent,
-    GrowWithMeImagesComponent,
-    MaternityImagesComponent,
-    ChildrenImagesComponent,
-    FamilyImagesComponent,
-    SeniorImagesComponent,
-    WeddingImagesComponent
+    FileDropDirective
+    
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -68,12 +54,7 @@ import { WeddingImagesComponent } from './gallery/wedding-images/wedding-images.
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
-      {
-        path: 'gallery', component: GalleryComponent,
-        children: [
-          {path: 'banner', component: BannerImagesComponent}
-        ]
-      },
+      { path: 'gallery', component: GalleryComponent },
       { path: 'events', component: EventsComponent },
       { path: 'about', component: AboutComponent },
       { path: 'admin', component: AdminComponent, canActivate: [AuthGuardService] },
