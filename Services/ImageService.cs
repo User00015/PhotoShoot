@@ -38,16 +38,16 @@ namespace PhotoGallery.Services
             }
         }
 
-        public IEnumerable<string> GetRouletteImages()
+        public IEnumerable<string> GetBannerImages()
         {
             IQueryable<Image> images = _context.Images.AsQueryable();
             return images.OrderByDescending(p => p.TimeStamp).Where(p => p.Type == ImageType.Banner).Take(4).Select(p => $"data:image/jpg;base64, {Convert.ToBase64String(p.Data)}");
         }
 
-        public IEnumerable<string> GetGalleryImages(int page)
+        public IEnumerable<string> GetImages(int page, ImageType type)
         {
             IQueryable<Image> images = _context.Images.AsQueryable();
-            return images.OrderByDescending(p => p.TimeStamp).Skip(page * SIZE_OF_PAGE_VIEW).Take(SIZE_OF_PAGE_VIEW).Select(p => $"data:image/jpg;base64, {Convert.ToBase64String(p.Data)}");
+            return images.OrderByDescending(p => p.TimeStamp).Where(p => p.Type == type).Skip(page * SIZE_OF_PAGE_VIEW).Take(SIZE_OF_PAGE_VIEW).Select(p => $"data:image/jpg;base64, {Convert.ToBase64String(p.Data)}");
         }
 
 

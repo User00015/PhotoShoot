@@ -26,6 +26,10 @@
   </select>
 </div>
 
+<div class="progress mb-3 mt-5" *ngIf="progress > 0">
+  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" [ngStyle]="{'width': progress + '%'}"></div>
+</div>
+<span class="d-flex flex-row justify-content-center" *ngIf="progress >= 100">Upload Complete!</span>
 
 
 <div class="mt-5" *ngIf="imagesUrl.length > 0">
@@ -36,16 +40,10 @@
       <img [src]="imagesPreview" *ngFor="let imagesPreview of imagesUrl" class="p-1" />
     </div>
   </div>
-  <div class="progress mb-3">
-    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" [ngStyle]="{'width': progress + '%'}"></div>
-  </div>
-  <span class="d-flex flex-row justify-content-center" *ngIf="progress >= 100">Upload Complete!</span>
   <div class="d-flex flex-row justify-content-center mb-3">
     <button type="button" class="btn btn-primary fat-button" (click)="upload($event)" [disabled]="imagesUrl.length <= 0 || selectedSection === '0'">Upload</button>
   </div>
 
 </div>
-
-
 
 

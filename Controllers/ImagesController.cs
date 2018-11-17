@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PhotoGallery.Entities;
+using PhotoGallery.Extensions;
 using PhotoGallery.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using PhotoGallery.Extensions;
 
 namespace PhotoGallery.Controllers
 {
@@ -32,34 +32,27 @@ namespace PhotoGallery.Controllers
         }
 
         [Authorize]
-        [HttpPost("uploadGallery")]
+        [HttpPost("uploadImages")]
         public IActionResult UploadToGallery(string type)
         {
             ImageType imageType = Enum.Parse<ImageType>(type.RemoveWhiteSpace(), ignoreCase: true);
             IFormFileCollection files = Request.Form.Files;
-            _imageService.UploadImages(files, imageType); //TODO - Fix me
+            _imageService.UploadImages(files, imageType);
             return Ok();
         }
 
-        [HttpGet("Gallery")]
-        public IEnumerable<string> GetGallery(int size)
+        [HttpGet("getImages")]
+        public IEnumerable<string> GetImages(int size, string type)
         {
-            return _imageService.GetGalleryImages(size);
+            ImageType imageType = Enum.Parse<ImageType>(type.RemoveWhiteSpace(), ignoreCase: true);
+            return _imageService.GetImages(size, imageType);
         }
 
-        [HttpGet("roulette")]
-        public IEnumerable<string> GetRoulette()
-        {
-            return _imageService.GetRouletteImages();
-        }
 
-        [Authorize]
-        [HttpPost("uploadRoulette")]
-        public IActionResult UploadRoulette()
+        [HttpGet("banner")]
+        public IEnumerable<string> GetBanner()
         {
-            IFormFileCollection files = Request.Form.Files;
-            _imageService.UploadImages(files, ImageType.Banner);
-            return Ok();
+            return _imageService.GetBannerImages();
         }
 
         [Authorize]

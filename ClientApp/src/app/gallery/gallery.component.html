@@ -1,4 +1,17 @@
 <div class="img-container">
+  <!--<nav>
+    <a [routerLink]="['banner']">Banner</a>
+  </nav>
+  <router-outlet></router-outlet>-->
+
+<div class="w-25">
+  <select class="custom-select browser-default" (change)="onSelection($event.target.value)">
+    <option value="0">Select Section</option>
+    <!--<option *ngFor="let section of uploadSections">{{section}}</option>-->
+  </select>
+</div>
+
+
   <div class="row ">
     <div class="col-lg-2 col-md-3 col-xs-6 mt-2" *ngFor="let img of images$ | async">
       <img [src]="img" class="img-fluid rounded" />

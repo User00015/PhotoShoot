@@ -27,6 +27,7 @@ export class UploadComponent implements OnInit {
   }
 
   handleDrop(fileList: FileList) {
+    this.progress = 0;
     _.map(fileList, file => {
 
       var reader = new FileReader();
@@ -41,7 +42,7 @@ export class UploadComponent implements OnInit {
   }
 
   upload(event) {
-    this.uploadService.uploadGalleryImages(this.formData, this.selectedSection).subscribe((event:
+    this.uploadService.uploadImages(this.formData, this.selectedSection).subscribe((event:
       HttpEvent<any>) => {
       switch (event.type) {
         case 1:
@@ -50,7 +51,12 @@ export class UploadComponent implements OnInit {
           }
           break;
       }
-    });
+    },
+      error => { console.log(error) },
+      () => {
+        this.imagesUrl = [];
+        this.selectedSection = null;
+      });
   }
 
   onSelection(selection) {

@@ -6,22 +6,22 @@ import {DomSanitizer} from "@angular/platform-browser"
 @Injectable()
 export class PhotoService {
 
-  private rouletteUrl: string = "https://localhost:5001/api/Images/roulette";
-  private galleryUrl: string = "https://localhost:5001/api/Images/gallery";
+  private bannerUrl: string = "https://localhost:5001/api/Images/banner";
+  private galleryUrl: string = "https://localhost:5001/api/Images/getImages";
 
-  constructor(private http: HttpClient, private sanitizer: DomSanitizer) { }
+  constructor(private http: HttpClient) { }
 
   
   private httpOptions = {
     params: {}
   };
 
-  getRouletteImages() {
-    return this.http.get(this.rouletteUrl);
+  getBannerImages(): Observable<string> {
+    return this.http.get<string>(this.bannerUrl);
   }
 
   getGalleryImages(size: number): Observable<string> {
-    this.httpOptions.params = { "size": size };
+    this.httpOptions.params = { "size": size, "type": "Banner" };
     return this.http.get<string>(this.galleryUrl, this.httpOptions);
   }
 

@@ -4,12 +4,12 @@ import { PhotoService } from "../services/photo.service";
 import {DomSanitizer} from "@angular/platform-browser"
 
 @Component({
-  selector: 'app-image-roulette',
-  templateUrl: './image-roulette.component.html',
-  styleUrls: ['./image-roulette.component.scss']
+  selector: 'app-image-banner',
+  templateUrl: './image-banner.component.html',
+  styleUrls: ['./image-banner.component.scss']
 })
 
-export class ImageRouletteComponent implements OnInit {
+export class ImageBannerComponent implements OnInit {
 
   public fadeIn = 'fade-in';
   
@@ -18,7 +18,7 @@ export class ImageRouletteComponent implements OnInit {
 
 
   constructor(private router: Router, private photoService: PhotoService, private sanitizer: DomSanitizer) {
-    photoService.getRouletteImages().subscribe((data: any) => {
+    photoService.getBannerImages().subscribe((data: any) => {
       this.imgRotation = data.map(url => this.sanitizer.bypassSecurityTrustUrl(url));
     });
   }
@@ -26,7 +26,7 @@ export class ImageRouletteComponent implements OnInit {
   ngOnInit() {
   }
 
-  showRoulette() {
+  showBanner() {
     return this.router.url == '/' || this.router.url == '/home';
   }
 

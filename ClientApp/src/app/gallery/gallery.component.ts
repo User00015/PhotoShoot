@@ -4,11 +4,11 @@ import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import {DomSanitizer} from "@angular/platform-browser"
 
 @Component({
-  selector: 'app-photo',
-  templateUrl: './photo.component.html',
-  styleUrls: ['./photo.component.scss']
+  selector: 'app-gallery',
+  templateUrl: './gallery.component.html',
+  styleUrls: ['./gallery.component.scss']
 })
-export class PhotoComponent implements OnInit {
+export class GalleryComponent implements OnInit {
 
   public images$: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
 
@@ -35,6 +35,9 @@ export class PhotoComponent implements OnInit {
 
   ngOnInit() {
     this.getGalleryPhotos();
+    this.uploadService.getImageTypes().subscribe((types: string[]) => {
+      this.uploadSections = types;
+    });
   }
 
 }

@@ -39,6 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\src\app\banner-images\" />
     <Folder Include="Controllers\NewFolder\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
