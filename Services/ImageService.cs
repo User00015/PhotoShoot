@@ -52,28 +52,45 @@ namespace PhotoGallery.Services
             return images.OrderByDescending(p => p.TimeStamp).Where(p => p.Type == ImageType.Banner).Take(4).Select(p => $"data:image/jpg;base64, {Convert.ToBase64String(p.Data)}");
         }
 
-        public IEnumerable<string> GetImages(int page, ImageType type)
+        public async Task<List<string>> GetImages(int page, ImageType type)
         {
-            IQueryable<Image> images = _context.Images.AsQueryable();
-
-            foreach (var img in images.OrderByDescending(p => p.TimeStamp).Where(p => p.Type == type).Skip(page * SIZE_OF_PAGE_VIEW).Take(SIZE_OF_PAGE_VIEW))
+            var images = await _context.Images.OrderByDescending(p => p.TimeStamp).Where(p => p.Type == type).Skip(page * SIZE_OF_PAGE_VIEW).Take(SIZE_OF_PAGE_VIEW).ToListAsync();
+            var strImages = images.ConvertAll(image =>
             {
-
-                var bufferedImage = _cache.Get(img.FileName);
+                var bufferedImage = _cache.GetString(image.FileName);
                 if (bufferedImage != null)
                 {
-                    var cachedImage = SixLabors.ImageSharp.Image.Load(bufferedImage);
-                    yield return cachedImage.ToBase64String(ImageFormats.Jpeg);
-                }
+                    return bufferedImage;
+                } 
 
-                var image = SixLabors.ImageSharp.Image.Load(img.Data);
-                image.Mutate(x => x.Resize(290, 160));
-                var memoryStream = new MemoryStream();
-                image.SaveAsJpeg(memoryStream);
-                _cache.Set(img.FileName, memoryStream.ToArray());
-                yield return image.ToBase64String(ImageFormats.Jpeg);
+                var img = SixLabors.ImageSharp.Image.Load(image.Data);
+                img.Mutate(x => x.Resize(290, 160));
+                var imgString = img.ToBase64String(ImageFormats.Jpeg);
+                _cache.SetString(image.FileName, imgString);
+                return imgString;
 
-            }
+            });
+
+            return  strImages;
+
+            //foreach (var img in images)
+            //{
+
+            //    var bufferedImage = _cache.Get(img.FileName);
+            //    if (bufferedImage != null)
+            //    {
+            //        var cachedImage = SixLabors.ImageSharp.Image.Load(bufferedImage);
+            //        return cachedImage.ToBase64String(ImageFormats.Jpeg);
+            //    }
+
+            //    var image = SixLabors.ImageSharp.Image.Load(img.Data);
+            //    image.Mutate(x => x.Resize(290, 160));
+            //    var memoryStream = new MemoryStream();
+            //    image.SaveAsJpeg(memoryStream);
+            //    _cache.Set(img.FileName, memoryStream.ToArray());
+            //    yield return image.ToBase64String(ImageFormats.Jpeg);
+
+            //}
         }
 
 

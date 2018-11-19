@@ -3,6 +3,7 @@ import { ImageService } from "../services/image.service";
 import { BehaviorSubject, Subject } from "rxjs";
 import { DomSanitizer } from "@angular/platform-browser"
 import { Observable } from 'rxjs';
+import {faAngleDown} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-gallery',
@@ -12,6 +13,8 @@ import { Observable } from 'rxjs';
 export class GalleryComponent implements OnInit {
 
   public images$: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
+
+  faAngleDown = faAngleDown;
 
   currentPage: number = 0;
   sections: string[];

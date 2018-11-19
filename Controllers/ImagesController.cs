@@ -43,10 +43,10 @@ namespace PhotoGallery.Controllers
         }
 
         [HttpGet("getImages")]
-        public IEnumerable<string> GetImages(int size, string type)
+        public async Task<List<string>> GetImages(int size, string type)
         {
             ImageType imageType = Enum.Parse<ImageType>(type.RemoveWhiteSpace(), ignoreCase: true);
-            return _imageService.GetImages(size, imageType);
+            return await _imageService.GetImages(size, imageType);
         }
 
 

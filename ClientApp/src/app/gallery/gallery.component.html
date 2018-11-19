@@ -1,11 +1,25 @@
 <div class="img-container">
 
-<div class="w-25">
-  <select class="custom-select browser-default" (change)="onSelection($event.target.value)">
-    <option value="0">Select Section</option>
-    <option *ngFor="let section of sections">{{section}}</option>
-  </select>
-</div>
+  <div class="w-25 mt-3 mb-3">
+    <select class="custom-select browser-default" (change)="onSelection($event.target.value)">
+      <option value="0" [selected]="true" [disabled]="true">Select Section</option>
+      <option *ngFor="let section of sections">{{section}}</option>
+    </select>
+  </div>
+
+  <div class="border border-top-0 border-right-0 border-left-0 d-flex justify-content-around">
+    <fa-icon [icon]="faAngleDown"></fa-icon>
+    <div *ngIf="currentSelection; then selected else pleaseSelect"></div>
+    <fa-icon [icon]="faAngleDown"></fa-icon>
+  </div>
+
+  <ng-template #selected>
+    <h4 class="mb-0 ">{{currentSelection}}</h4>
+  </ng-template>
+
+  <ng-template #pleaseSelect>
+    <h4 class="mb-0 ">No Category Selected</h4>
+  </ng-template>
 
 
   <div class="row ">

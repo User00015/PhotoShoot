@@ -12,6 +12,6 @@ namespace PhotoGallery.Services.Interfaces
         void UploadImages(IFormFileCollection files, ImageType type);
         void DeleteEntireGallery();
         IEnumerable<string> GetBannerImages();
-        IEnumerable<string> GetImages(int size, ImageType imageType);
+        Task<List<string>> GetImages(int size, ImageType imageType);
     }
 }
