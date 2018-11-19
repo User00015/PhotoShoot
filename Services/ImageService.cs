@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Design;
 using Microsoft.Extensions.Caching.Distributed;
@@ -54,10 +55,22 @@ namespace PhotoGallery.Services
         public IEnumerable<string> GetImages(int page, ImageType type)
         {
             IQueryable<Image> images = _context.Images.AsQueryable();
+
             foreach (var img in images.OrderByDescending(p => p.TimeStamp).Where(p => p.Type == type).Skip(page * SIZE_OF_PAGE_VIEW).Take(SIZE_OF_PAGE_VIEW))
             {
+
+                var bufferedImage = _cache.Get(img.FileName);
+                if (bufferedImage != null)
+                {
+                    var cachedImage = SixLabors.ImageSharp.Image.Load(bufferedImage);
+                    yield return cachedImage.ToBase64String(ImageFormats.Jpeg);
+                }
+
                 var image = SixLabors.ImageSharp.Image.Load(img.Data);
                 image.Mutate(x => x.Resize(290, 160));
+                var memoryStream = new MemoryStream();
+                image.SaveAsJpeg(memoryStream);
+                _cache.Set(img.FileName, memoryStream.ToArray());
                 yield return image.ToBase64String(ImageFormats.Jpeg);
 
             }

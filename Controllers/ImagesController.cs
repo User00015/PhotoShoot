@@ -7,6 +7,7 @@ using PhotoGallery.Extensions;
 using PhotoGallery.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PhotoGallery.Controllers
 {
