@@ -57,7 +57,7 @@ namespace PhotoGallery.Services
             var images = await _context.Images.OrderByDescending(p => p.TimeStamp).Where(p => p.Type == type).Skip(page * SIZE_OF_PAGE_VIEW).Take(SIZE_OF_PAGE_VIEW).ToListAsync();
             var strImages = images.ConvertAll(image =>
             {
-                var bufferedImage = _cache.GetString(image.FileName);
+                var bufferedImage = _cache.GetString(image.Id.ToString());
                 if (bufferedImage != null)
                 {
                     return bufferedImage;
@@ -66,31 +66,13 @@ namespace PhotoGallery.Services
                 var img = SixLabors.ImageSharp.Image.Load(image.Data);
                 img.Mutate(x => x.Resize(290, 160));
                 var imgString = img.ToBase64String(ImageFormats.Jpeg);
-                _cache.SetString(image.FileName, imgString);
+                _cache.SetString(image.Id.ToString(), imgString);
                 return imgString;
 
             });
 
             return  strImages;
 
-            //foreach (var img in images)
-            //{
-
-            //    var bufferedImage = _cache.Get(img.FileName);
-            //    if (bufferedImage != null)
-            //    {
-            //        var cachedImage = SixLabors.ImageSharp.Image.Load(bufferedImage);
-            //        return cachedImage.ToBase64String(ImageFormats.Jpeg);
-            //    }
-
-            //    var image = SixLabors.ImageSharp.Image.Load(img.Data);
-            //    image.Mutate(x => x.Resize(290, 160));
-            //    var memoryStream = new MemoryStream();
-            //    image.SaveAsJpeg(memoryStream);
-            //    _cache.Set(img.FileName, memoryStream.ToArray());
-            //    yield return image.ToBase64String(ImageFormats.Jpeg);
-
-            //}
         }
 
 

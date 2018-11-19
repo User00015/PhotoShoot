@@ -21,12 +21,12 @@
 
 <div class="w-25" *ngIf="imagesUrl.length > 0">
   <select class="custom-select browser-default" (change)="onSelection($event.target.value)">
-    <option value="0">Select Section</option>
+    <option [selected]="true" [disabled]="true">Select Section</option>
     <option *ngFor="let section of uploadSections">{{section}}</option>
   </select>
 </div>
 
-<div class="progress mb-3 mt-5" *ngIf="progress > 0">
+<div class="progress mb-3 mt-5" [hidden]="progress === 0">
   <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" [ngStyle]="{'width': progress + '%'}"></div>
 </div>
 <span class="d-flex flex-row justify-content-center" *ngIf="progress >= 100">Upload Complete!</span>
@@ -41,7 +41,7 @@
     </div>
   </div>
   <div class="d-flex flex-row justify-content-center mb-3">
-    <button type="button" class="btn btn-primary fat-button" (click)="upload($event)" [disabled]="imagesUrl.length <= 0 || selectedSection === '0'">Upload</button>
+    <button type="button" class="btn btn-primary fat-button" (click)="upload($event)" [disabled]="imagesUrl.length <= 0 || selectedSection === undefined">Upload</button>
   </div>
 
 </div>

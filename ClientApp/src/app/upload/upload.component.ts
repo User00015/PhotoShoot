@@ -16,9 +16,10 @@ export class UploadComponent implements OnInit {
   faFolderOpen = faFolderOpen;
   dropzoneActive: boolean = false;
   formData: FormData = new FormData();
-  progress: number;
+  progress: number = 0;
   public uploadSections: string[];
-  public selectedSection: string = '0';
+  public selectedSection: string;
+  public fileList;
 
   public imagesUrl: string[] = [];
   dropzoneState($event: boolean) {
@@ -55,12 +56,12 @@ export class UploadComponent implements OnInit {
       error => { console.log(error) },
       () => {
         this.imagesUrl = [];
-        this.selectedSection = null;
+        this.selectedSection = undefined;
+        this.formData = new FormData();
       });
   }
 
   onSelection(selection) {
-    console.log(selection !== '0');
     this.selectedSection = selection;
   }
 

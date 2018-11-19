@@ -33,6 +33,7 @@ export class GalleryComponent implements OnInit {
   }
 
   onSelection(event) {
+    this.currentPage = 0;
     this.currentSelection$.next(event);
   }
 
@@ -49,7 +50,7 @@ export class GalleryComponent implements OnInit {
         this.images$.next(sanitized);
       });
 
-    })
+    });
 
   }
 
