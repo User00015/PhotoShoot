@@ -12,12 +12,12 @@ export class EventsComponent implements OnInit {
   constructor(private modalService: NgbModal) { }
   openCreateModal() {
     const modalRef = this.modalService.open(CreateEventComponent);
-  
-    modalRef.result.then((result) => {
-      console.log(result);
-    }).catch((error) => {
-      console.log(error);
+    modalRef.componentInstance.name = "World";
+
+    modalRef.result.then((result) => console.log("result", result)).catch((error) => {
+      console.log("error", error);
     });
+
   }
   ngOnInit() {
   }
