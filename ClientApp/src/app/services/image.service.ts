@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {DomSanitizer} from "@angular/platform-browser"
+import {Image} from "../Models/image-model";
 
 @Injectable()
 export class ImageService {
@@ -11,6 +12,8 @@ export class ImageService {
 
   private imagesUrl: string = "https://localhost:5001/api/Images/uploadImages";
   private imageTypesUrl: string = "https://localhost:5001/api/Data/imageTypes";
+
+  private galleryDeleteUrl: string = "https://localhost:5001/api/Images/deleteImage"
 
   constructor(private http: HttpClient) { }
   
@@ -22,9 +25,9 @@ export class ImageService {
     return this.http.get<string>(this.bannerUrl);
   }
 
-  getGalleryImages(size: number, type: string): Observable<string> {
+  getGalleryImages(size: number, type: string): Observable<Image> {
     this.httpOptions.params = { "size": size, "type": type };
-    return this.http.get<string>(this.galleryUrl, this.httpOptions);
+    return this.http.get<Image>(this.galleryUrl, this.httpOptions);
   }
 
   uploadImages(images: FormData, imageType: string) {
@@ -33,5 +36,10 @@ export class ImageService {
 
   getImageTypes() {
     return this.http.get(this.imageTypesUrl);
+  }
+
+  deleteImage(id: string) {
+    return this.http.delete(this.galleryDeleteUrl, { params: { "id": id } });
+
   }
 }

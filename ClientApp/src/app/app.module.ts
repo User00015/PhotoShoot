@@ -25,6 +25,7 @@ import { AuthService } from "./services/auth.service";
 
 import { JwtInterceptor } from "./Interceptor/jwt.interceptor";
 import { FileDropDirective } from './Directives/file-drop.directive';
+import { ImageComponent } from './gallery/image/image.component';
 
 
 
@@ -42,7 +43,8 @@ import { FileDropDirective } from './Directives/file-drop.directive';
     UploadComponent,
     AdminComponent,
     LoginComponent,
-    FileDropDirective
+    FileDropDirective,
+    ImageComponent
     
   ],
   imports: [

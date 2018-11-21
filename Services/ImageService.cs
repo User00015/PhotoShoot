@@ -52,7 +52,7 @@ namespace PhotoGallery.Services
             return images.OrderByDescending(p => p.TimeStamp).Where(p => p.Type == ImageType.Banner).Take(4).Select(p => $"data:image/jpg;base64, {Convert.ToBase64String(p.Data)}");
         }
 
-        public async Task<List<string>> GetImages(int page, ImageType type)
+        public async Task<List<ImageViewModel>> GetImages(int page, ImageType type)
         {
             var images = await _context.Images.OrderByDescending(p => p.TimeStamp).Where(p => p.Type == type).Skip(page * SIZE_OF_PAGE_VIEW).Take(SIZE_OF_PAGE_VIEW).ToListAsync();
             var strImages = images.ConvertAll(image =>
@@ -60,19 +60,41 @@ namespace PhotoGallery.Services
                 var bufferedImage = _cache.GetString(image.Id.ToString());
                 if (bufferedImage != null)
                 {
-                    return bufferedImage;
+                    return new ImageViewModel()
+                    {
+                       ImageBase64 = bufferedImage,
+                        Id = image.Id.ToString()
+                    };
                 } 
 
                 var img = SixLabors.ImageSharp.Image.Load(image.Data);
                 img.Mutate(x => x.Resize(290, 160));
                 var imgString = img.ToBase64String(ImageFormats.Jpeg);
                 _cache.SetString(image.Id.ToString(), imgString);
-                return imgString;
+                return new ImageViewModel()
+                {
+                    ImageBase64 = imgString,
+                    Id = image.Id.ToString()
+                };
 
             });
 
             return  strImages;
 
+        }
+
+        public async Task DeleteImage(string id)
+        {
+            using (_context.Database.BeginTransaction())
+            {
+                var image = await _context.Images.FindAsync(new Guid(id));
+                if (image != null)
+                {
+                    _context.Entry(image).State = EntityState.Deleted;
+                }
+                _context.SaveChanges();
+                _context.Database.CommitTransaction();
+            }
         }
 
 

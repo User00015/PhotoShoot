@@ -29,13 +29,14 @@ export class GalleryComponent implements OnInit {
   onScroll() {
     this.loading = true;
     this.imageService.getGalleryImages(this.currentPage++, this.currentSelection).subscribe((data: any) => {
-      let sanitized = data.map(p => this.sanitizer.bypassSecurityTrustUrl(p));
-      this.images$.next([...this.images$.getValue(), ...sanitized]);
+      this.images$.next([...this.images$.getValue(), ...data]);
       this.loading = false;
     });
 
   }
-
+  //handleHovered(event) {
+  //  console.log(event);
+  //}
   onSelection(event) {
     this.currentPage = 0;
     this.currentSelection$.next(event);
@@ -50,10 +51,9 @@ export class GalleryComponent implements OnInit {
     this.currentSelection$.subscribe(selection => {
       this.loading = true;
       this.imageService.getGalleryImages(this.currentPage, selection).subscribe((data: any) => {
-        let sanitized = data.map(p => this.sanitizer.bypassSecurityTrustUrl(p));
         this.currentSelection = selection;
-        this.images$.next(sanitized);
-        this.loading = true;
+        this.images$.next(data);
+        this.loading = false;
       });
 
     });

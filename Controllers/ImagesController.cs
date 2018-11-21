@@ -8,6 +8,7 @@ using PhotoGallery.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using PhotoGallery.Services;
 
 namespace PhotoGallery.Controllers
 {
@@ -43,7 +44,7 @@ namespace PhotoGallery.Controllers
         }
 
         [HttpGet("getImages")]
-        public async Task<List<string>> GetImages(int size, string type)
+        public async Task<List<ImageViewModel>> GetImages(int size, string type)
         {
             ImageType imageType = Enum.Parse<ImageType>(type.RemoveWhiteSpace(), ignoreCase: true);
             return await _imageService.GetImages(size, imageType);
@@ -57,6 +58,15 @@ namespace PhotoGallery.Controllers
         }
 
         [Authorize]
+        [HttpDelete("deleteImage")]
+        public async Task<IActionResult> DeleteImage(string id)
+        {
+            await _imageService.DeleteImage(id);
+            return Ok();
+
+        }
+        [Authorize]
+
         [HttpDelete("deleteGallery")]
         public IActionResult DeleteEntireGallery()
         {
