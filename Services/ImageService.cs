@@ -1,19 +1,17 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using PhotoGallery.Areas.Identity.Data;
 using PhotoGallery.Entities;
 using PhotoGallery.Services.Interfaces;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations.Design;
-using Microsoft.Extensions.Caching.Distributed;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 using Image = PhotoGallery.Entities.Image;
 
 namespace PhotoGallery.Services
@@ -52,35 +50,36 @@ namespace PhotoGallery.Services
             return images.OrderByDescending(p => p.TimeStamp).Where(p => p.Type == ImageType.Banner).Take(4).Select(p => $"data:image/jpg;base64, {Convert.ToBase64String(p.Data)}");
         }
 
-        public async Task<List<ImageViewModel>> GetImages(int page, ImageType type)
+        public async Task<IEnumerable<ImageViewModel>> GetImagesAsync(int page, ImageType type)
         {
-            var images = await _context.Images.OrderByDescending(p => p.TimeStamp).Where(p => p.Type == type).Skip(page * SIZE_OF_PAGE_VIEW).Take(SIZE_OF_PAGE_VIEW).ToListAsync();
-            var strImages = images.ConvertAll(image =>
-            {
-                var bufferedImage = _cache.GetString(image.Id.ToString());
-                if (bufferedImage != null)
-                {
-                    return new ImageViewModel()
-                    {
-                       ImageBase64 = bufferedImage,
-                        Id = image.Id.ToString()
-                    };
-                } 
+            var images = _context.Images.OrderByDescending(p => p.TimeStamp).Where(p => p.Type == type)
+                .Skip(page * SIZE_OF_PAGE_VIEW).Take(SIZE_OF_PAGE_VIEW).ToList();
+            var imageMapping = images.Select(image => Task.Run(() => MapImage(image))).ToList();
 
-                var img = SixLabors.ImageSharp.Image.Load(image.Data);
-                img.Mutate(x => x.Resize(290, 160));
-                var imgString = img.ToBase64String(ImageFormats.Jpeg);
-                _cache.SetString(image.Id.ToString(), imgString);
+            await Task.WhenAll(imageMapping);
+            return imageMapping.Select(i => i.Result);
+        }
+
+        private ImageViewModel MapImage(Image image)
+        {
+            var bufferedImage = _cache.GetString(image.Id.ToString());
+
+            if (bufferedImage != null)
+            {
                 return new ImageViewModel()
                 {
-                    ImageBase64 = imgString,
+                    ImageBase64 = bufferedImage,
                     Id = image.Id.ToString()
                 };
+            }
 
-            });
-
-            return  strImages;
-
+            var sharpImage = SixLabors.ImageSharp.Image.Load(image.Data);
+            sharpImage.Mutate(x => x.Resize(290, 160));
+            return new ImageViewModel()
+            {
+                Id = image.Id.ToString(),
+                ImageBase64 = sharpImage.ToBase64String(ImageFormats.Jpeg)
+            };
         }
 
         public async Task DeleteImage(string id)
@@ -108,7 +107,7 @@ namespace PhotoGallery.Services
                     using (MemoryStream ms = new MemoryStream())
                     {
                         image.CopyTo(ms);
-                        _context.Images.Add(new Image()
+                        _context.Images.Add(new Image
                         {
                             FileName = image.FileName,
                             Id = Guid.NewGuid(),
@@ -122,6 +121,14 @@ namespace PhotoGallery.Services
                 _context.SaveChanges();
                 _context.Database.CommitTransaction();
             }
+        }
+
+        private void SetCachedImage(Image img)
+        {
+            var sharpImage = SixLabors.ImageSharp.Image.Load(img.Data);
+            sharpImage.Mutate(x => x.Resize(290, 160));
+            var imgString = sharpImage.ToBase64String(ImageFormats.Jpeg);
+            _cache.SetString(img.Id.ToString(), imgString);
         }
     }
 }

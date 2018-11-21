@@ -48,6 +48,7 @@ export class UploadComponent implements OnInit {
       switch (event.type) {
         case 1:
           {
+            console.log(event['loaded'], event['total']);
             this.progress = Math.round(event['loaded'] / event['total'] * 100);
           }
           break;

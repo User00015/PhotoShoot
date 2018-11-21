@@ -12,7 +12,7 @@ namespace PhotoGallery.Services.Interfaces
         void UploadImages(IFormFileCollection files, ImageType type);
         void DeleteEntireGallery();
         IEnumerable<string> GetBannerImages();
-        Task<List<ImageViewModel>> GetImages(int size, ImageType imageType);
+        Task<IEnumerable<ImageViewModel>> GetImagesAsync(int size, ImageType imageType);
         Task DeleteImage(string id);
     }
 }
