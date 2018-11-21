@@ -11,7 +11,7 @@ import { faFileUpload, faFolderOpen } from "@fortawesome/free-solid-svg-icons";
   styleUrls: ['./upload.component.scss']
 })
 export class UploadComponent implements OnInit {
-
+  displayComplete: boolean = false;
   faFileUpload = faFileUpload;
   faFolderOpen = faFolderOpen;
   dropzoneActive: boolean = false;
@@ -29,6 +29,7 @@ export class UploadComponent implements OnInit {
 
   handleDrop(fileList: FileList) {
     this.progress = 0;
+    this.displayComplete = false;
     _.map(fileList, file => {
 
       var reader = new FileReader();
@@ -48,7 +49,6 @@ export class UploadComponent implements OnInit {
       switch (event.type) {
         case 1:
           {
-            console.log(event['loaded'], event['total']);
             this.progress = Math.round(event['loaded'] / event['total'] * 100);
           }
           break;
@@ -59,6 +59,7 @@ export class UploadComponent implements OnInit {
         this.imagesUrl = [];
         this.selectedSection = undefined;
         this.formData = new FormData();
+        this.displayComplete = true;
       });
   }
 

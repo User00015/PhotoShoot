@@ -29,7 +29,7 @@
 <div class="progress mb-3 mt-5" [hidden]="progress === 0">
   <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" [ngStyle]="{'width': progress + '%'}"></div>
 </div>
-<span class="d-flex flex-row justify-content-center" *ngIf="progress >= 100">Upload Complete!</span>
+<span class="d-flex flex-row justify-content-center" *ngIf="progress >= 100 && displayComplete">Upload Complete!</span>
 
 
 <div class="mt-5 upload" *ngIf="imagesUrl.length > 0">

@@ -5,19 +5,23 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { GalleryComponent } from './gallery/gallery.component';
-import { ImageBannerComponent  } from './image-banner/image-banner.component';
+import { ImageBannerComponent } from './image-banner/image-banner.component';
 import { EventsComponent } from './events/events.component';
 import { FooterComponent } from './footer/footer.component';
 import { AboutComponent } from './about/about.component';
 import { UploadComponent } from './upload/upload.component';
 import { AdminComponent } from './admin/admin.component';
 import { LoginComponent } from './login/login.component';
+import { ImageComponent } from './gallery/image/image.component';
+import { EventsListComponent } from './events/events-list/events-list.component';
+import { CreateEventComponent } from './events/create/create-event.component';
 
 import { ImageService } from "./services/image.service";
 import { AuthGuardService } from "./services/auth-guard.service";
@@ -25,9 +29,6 @@ import { AuthService } from "./services/auth.service";
 
 import { JwtInterceptor } from "./Interceptor/jwt.interceptor";
 import { FileDropDirective } from './Directives/file-drop.directive';
-import { ImageComponent } from './gallery/image/image.component';
-
-
 
 
 @NgModule({
@@ -44,8 +45,10 @@ import { ImageComponent } from './gallery/image/image.component';
     AdminComponent,
     LoginComponent,
     FileDropDirective,
-    ImageComponent
-    
+    ImageComponent,
+    EventsListComponent,
+CreateEventComponent
+
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -53,6 +56,7 @@ import { ImageComponent } from './gallery/image/image.component';
     FormsModule,
     FontAwesomeModule,
     InfiniteScrollModule,
+    NgbModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
@@ -66,6 +70,7 @@ import { ImageComponent } from './gallery/image/image.component';
     ])
   ],
   providers: [ImageService, AuthGuardService, AuthService, { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [CreateEventComponent]
 })
 export class AppModule { }

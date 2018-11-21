@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CreateEventComponent } from "./create/create-event.component";
 
 @Component({
   selector: 'app-events',
@@ -7,8 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EventsComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(private modalService: NgbModal) { }
+  openCreateModal() {
+    const modalRef = this.modalService.open(CreateEventComponent);
+  
+    modalRef.result.then((result) => {
+      console.log(result);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
   ngOnInit() {
   }
 
