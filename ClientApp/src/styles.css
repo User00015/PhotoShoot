@@ -4,3 +4,9 @@
 p, a, div {
   font-family: "Open Sans", sans-serif;
 }
+
+
+.pac-container {
+  z-index: 20000 !important;
+}
+

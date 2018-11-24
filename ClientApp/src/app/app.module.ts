@@ -26,9 +26,11 @@ import { CreateEventComponent } from './events/create/create-event.component';
 import { ImageService } from "./services/image.service";
 import { AuthGuardService } from "./services/auth-guard.service";
 import { AuthService } from "./services/auth.service";
+import { EventsService } from "./services/events.service";
 
 import { JwtInterceptor } from "./Interceptor/jwt.interceptor";
 import { FileDropDirective } from './Directives/file-drop.directive';
+import { GooglePlacesDirective} from './directives/google-place.directive';
 
 
 @NgModule({
@@ -47,7 +49,8 @@ import { FileDropDirective } from './Directives/file-drop.directive';
     FileDropDirective,
     ImageComponent,
     EventsListComponent,
-CreateEventComponent
+    CreateEventComponent,
+    GooglePlacesDirective
 
   ],
   imports: [
@@ -69,7 +72,7 @@ CreateEventComponent
 
     ])
   ],
-  providers: [ImageService, AuthGuardService, AuthService, { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
+  providers: [ImageService, AuthGuardService, AuthService, EventsService, { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent],
   entryComponents: [CreateEventComponent]
 })

@@ -1,3 +1,4 @@
+using System.Reflection.Metadata;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PhotoGallery.Entities;
@@ -18,10 +19,12 @@ namespace PhotoGallery.Areas.Identity.Data
         {
             base.OnModelCreating(builder);
             builder.Entity<Image>().ToTable("Images");
+            builder.Entity<Event>().ToTable("Events");
             //builder.Entity<GalleryImage>().ToTable("GalleryImages");
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
     }
+
 }
