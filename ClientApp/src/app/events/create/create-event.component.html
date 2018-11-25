@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+  <h4 class="modal-title" id="modal-basic-title">Create Event</h4>
   <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -8,15 +8,17 @@
   <form #eventForm="ngForm">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-xs-12">
+        <div class="col">
           <div class="form-group">
             <label for="eventPhoto">Event Photo Placeholder</label>
+            <img [src]="imagePreview" class="p-1" />
+            <input #file type="file" class="form-control-file" (change)="handleDrop($event.target.files)" />
           </div>
         </div>
       </div>
 
       <div class="row">
-        <div class="w-100">
+        <div class="col">
           <div class="form-group">
             <label for="eventName">Event Name</label>
             <input type="text" name="eventName" class="form-control" placeholder="Add a short, clear name" [(ngModel)]="model.name" />
@@ -25,7 +27,7 @@
       </div>
 
       <div class="row">
-        <div class="w-100">
+        <div class="col">
           <div class="form-group">
             <label for="location">Location</label>
             <input type="text" name="location" class="form-control" placeholder="Include a place or address" [(ngModel)]="model.address" google-place (onSelect)="setAddress($event)" />
@@ -34,19 +36,21 @@
       </div>
 
       <div class="row">
-        <div class="form-group-sm">
-          <div class="col-xs-6">
+        <div class="col">
+          <div class="form-group">
+
             <label for="dateOfBirth">Date/Time</label>
             <div class="input-group">
               <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker" [(ngModel)]="model.startDate">
               <div class="input-group-append">
-                <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+                <!--<button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>-->
+                <fa-icon class="btn btn-outline-secondary calendar" [icon]="faCalendar" (click)="dp.toggle()"></fa-icon>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="col-xs-6">
+        <div class="col">
           <div class="form-group-sm ml-4">
             <label for="startTime">Start Time</label>
             <ngb-timepicker id="startTime" name="startTime" [(ngModel)]="model.startTime" [minuteStep]="15" [meridian]="true" [spinners]="false" [size]="small"> </ngb-timepicker>
@@ -55,7 +59,7 @@
       </div>
 
       <div class="row">
-        <div class="w-100">
+        <div class="col">
           <label for="description">Description</label>
           <input type="text" name="description" class="form-control" placeholder="Tell people more about the event" [(ngModel)]="model.description" />
         </div>

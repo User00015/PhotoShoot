@@ -16,5 +16,6 @@ export class Event {
   address: string | null;
   description: string | null;
   startTime: Time | null;
+  image: string | null;
 
 }
