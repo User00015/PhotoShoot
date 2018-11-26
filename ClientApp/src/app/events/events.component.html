@@ -1,2 +1,5 @@
-<button type="button" class="btn btn-primary" (click)="openCreateModal()">Create Event +</button>
-<app-events-list></app-events-list>
+<!--<button type="button" class="btn btn-primary" (click)="openCreateModal()">Create Event +</button>-->
+
+        <a [routerLink]='["./create"]'>Create
+        </a>
+<router-outlet></router-outlet>

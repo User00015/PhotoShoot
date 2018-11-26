@@ -1,3 +1,7 @@
 img {
   max-width: 28em;
 }
+
+.container {
+  margin-bottom: 10em;
+}

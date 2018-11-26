@@ -30,7 +30,7 @@ import { EventsService } from "./services/events.service";
 
 import { JwtInterceptor } from "./Interceptor/jwt.interceptor";
 import { FileDropDirective } from './Directives/file-drop.directive';
-import { GooglePlacesDirective} from './directives/google-place.directive';
+import { GooglePlacesDirective } from './directives/google-place.directive';
 
 
 @NgModule({
@@ -64,7 +64,12 @@ import { GooglePlacesDirective} from './directives/google-place.directive';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
       { path: 'gallery', component: GalleryComponent },
-      { path: 'events', component: EventsComponent },
+      {
+        path: 'events', component: EventsComponent, children: [
+          { path: '', component: EventsListComponent },
+          { path: 'create', component: CreateEventComponent }
+        ]
+      },
       { path: 'about', component: AboutComponent },
       { path: 'admin', component: AdminComponent, canActivate: [AuthGuardService] },
       { path: 'login', component: LoginComponent },
@@ -73,7 +78,6 @@ import { GooglePlacesDirective} from './directives/google-place.directive';
     ])
   ],
   providers: [ImageService, AuthGuardService, AuthService, EventsService, { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
-  bootstrap: [AppComponent],
-  entryComponents: [CreateEventComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

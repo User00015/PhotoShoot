@@ -39,7 +39,7 @@ export class CreateEventComponent implements OnInit {
       this.model.address = address;
     });
   }
-  constructor(private activeModal: NgbActiveModal, private zone: NgZone) { }
+  constructor(private zone: NgZone) { }
 
 
 }

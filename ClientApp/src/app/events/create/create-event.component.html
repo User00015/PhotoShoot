@@ -1,12 +1,8 @@
-<div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">Create Event</h4>
-  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-<div class="modal-body">
+<div class="container">
   <form #eventForm="ngForm">
     <div class="container-fluid">
+
+      <!--Image--> 
       <div class="row">
         <div class="col">
           <div class="form-group">
@@ -17,6 +13,7 @@
         </div>
       </div>
 
+      <!--Event Name-->
       <div class="row">
         <div class="col">
           <div class="form-group">
@@ -26,6 +23,7 @@
         </div>
       </div>
 
+      <!--Google Location-->
       <div class="row">
         <div class="col">
           <div class="form-group">
@@ -35,15 +33,15 @@
         </div>
       </div>
 
+      <!--Start date and time-->
       <div class="row">
         <div class="col">
           <div class="form-group">
 
-            <label for="dateOfBirth">Date/Time</label>
+            <label for="dateOfBirth">Start Date/Time</label>
             <div class="input-group">
-              <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker" [(ngModel)]="model.startDate">
+              <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker" [(ngModel)]="model.startDate" (click)="dp.toggle()">
               <div class="input-group-append">
-                <!--<button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>-->
                 <fa-icon class="btn btn-outline-secondary calendar" [icon]="faCalendar" (click)="dp.toggle()"></fa-icon>
               </div>
             </div>
@@ -51,36 +49,66 @@
         </div>
 
         <div class="col">
-          <div class="form-group-sm ml-4">
+          <div class="form-group-sm">
             <label for="startTime">Start Time</label>
-            <ngb-timepicker id="startTime" name="startTime" [(ngModel)]="model.startTime" [minuteStep]="15" [meridian]="true" [spinners]="false" [size]="small"> </ngb-timepicker>
+            <ngb-timepicker id="startTime" name="startTime" [(ngModel)]="model.startTime" [meridian]="true" [spinners]="false" [size]="small"> </ngb-timepicker>
           </div>
         </div>
       </div>
 
+      <!--Time per slot-->
       <div class="row">
         <div class="col">
-          <label for="description">Description</label>
-          <input type="text" name="description" class="form-control" placeholder="Tell people more about the event" [(ngModel)]="model.description" />
+          <div class="form-group">
+            Slot time
+          </div>
+        </div>
+      </div>
+
+      <!--End date and time-->
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+
+            <label for="dateOfBirth">End Date/Time</label>
+            <div class="input-group">
+              <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker" [(ngModel)]="model.endDate" (click)="dp.toggle()">
+              <div class="input-group-append">
+                <fa-icon class="btn btn-outline-secondary calendar" [icon]="faCalendar" (click)="dp.toggle()"></fa-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="form-group-sm">
+            <label for="endTime">End Time</label>
+            <ngb-timepicker id="endTime" name="endTime" [(ngModel)]="model.endTime" [meridian]="true" [spinners]="false" [size]="small"> </ngb-timepicker>
+          </div>
+        </div>
+      </div>
+
+      <!--Description-->
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" name="description" class="form-control" placeholder="Tell people more about the event" [(ngModel)]="model.description" />
+          </div>
+        </div>
+      </div>
+
+      <!--Submit button-->
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <button type="button" class="btn btn-default float-right">Save</button>
+          </div>
         </div>
       </div>
 
     </div>
   </form>
-</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close(model)">Save</button>
+
 </div>
 
-
-
-<!--Event photo
-'Theme'
-Name
-Location
-Date/Time Start
-Date/Time End
-Duration/Size of slot. 15 minute increments?
-Description
-Private -- Password necessary
-Password field if Private set true-->
