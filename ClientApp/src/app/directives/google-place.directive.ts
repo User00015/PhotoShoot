@@ -27,6 +27,7 @@ export class GooglePlacesDirective implements OnInit {
     });
   }
 
+
   ngOnInit() {
   }
 

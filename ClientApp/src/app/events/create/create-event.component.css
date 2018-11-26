@@ -5,3 +5,9 @@ img {
 .container {
   margin-bottom: 10em;
 }
+
+.appointments {
+  background-color: #FFDEF1;
+  border-width: 2px
+  
+}

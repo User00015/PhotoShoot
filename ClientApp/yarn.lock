@@ -1592,6 +1592,10 @@ data-uri-to-buffer@1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/data-uri-to-buffer/-/data-uri-to-buffer-1.2.0.tgz#77163ea9c20d8641b4707e8f18abdf9a78f34835"
 
+date-fns@^1.29.0:
+  version "1.29.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.29.0.tgz#12e609cdcb935127311d04d33334e2960a2a54e6"
+
 date-format@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/date-format/-/date-format-1.2.0.tgz#615e828e233dd1ab9bb9ae0950e0ceccfa6ecad8"
@@ -4260,6 +4264,10 @@ next-tick@1:
 ngx-bootstrap@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-3.1.1.tgz#36ef4f6928352ee7fd186831d97731cfa571d137"
+
+ngx-date-fns@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/ngx-date-fns/-/ngx-date-fns-2.0.2.tgz#5e3c1dced9f03a446daf13af8545d82fbfafa758"
 
 ngx-infinite-scroll@0.8.3:
   version "0.8.3"
