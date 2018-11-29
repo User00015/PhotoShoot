@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PhotoGallery.Areas.Identity.Data;
 
 namespace PhotoGallery.Migrations
 {
     [DbContext(typeof(PhotoGalleryIdentityDbContext))]
-    partial class PhotoGalleryIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181127042631_UpdatedEventModel")]
+    partial class UpdatedEventModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -133,23 +135,6 @@ namespace PhotoGallery.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("PhotoGallery.Entities.Appointment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Display");
-
-                    b.Property<Guid?>("EventId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventId");
-
-                    b.ToTable("Appointment");
-                });
-
             modelBuilder.Entity("PhotoGallery.Entities.Date", b =>
                 {
                     b.Property<int>("Id")
@@ -187,6 +172,8 @@ namespace PhotoGallery.Migrations
                     b.Property<int?>("StartDateId");
 
                     b.Property<int?>("StartTimeId");
+
+                    b.Property<int>("TimePerSlot");
 
                     b.HasKey("Id");
 
@@ -333,13 +320,6 @@ namespace PhotoGallery.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("PhotoGallery.Entities.Appointment", b =>
-                {
-                    b.HasOne("PhotoGallery.Entities.Event")
-                        .WithMany("Appointments")
-                        .HasForeignKey("EventId");
                 });
 
             modelBuilder.Entity("PhotoGallery.Entities.Event", b =>

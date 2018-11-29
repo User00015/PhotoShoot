@@ -27,8 +27,15 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="Controllers\NewFolder\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="Controllers\NewFolder\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Controllers\NewFolder\**" />
+    <None Remove="Controllers\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,7 +48,6 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\src\app\banner-images\" />
-    <Folder Include="Controllers\NewFolder\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

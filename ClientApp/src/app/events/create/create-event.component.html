@@ -1,13 +1,13 @@
 <div class="container">
-  <form #eventForm="ngForm" (ngSubmit)="onSubmit(eventForm)">
+  <form #eventForm="ngForm" (ngSubmit)="onSubmit()">
     <div class="container-fluid">
 
       <!--Image-->
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <label for="eventPhoto">Event Photo Placeholder</label>
-            <img [src]="imagePreview" class="p-1" />
+            <label for="eventPhoto">Event Photo </label>
+            <img [src]="imagePreview" class="p-1" *ngIf="imagePreview" />
             <input #file type="file" class="form-control-file" (change)="handleDrop($event.target.files)" />
           </div>
         </div>
@@ -83,27 +83,32 @@
       </div>
 
       <!--Time per slot-->
-      <!--<div class="row" *ngIf="endDateValidation.valid && startDateValidation.valid && startTime.valid && endTime.valid">-->
-      <div class="row">
+      <div class="row" *ngIf="endDateValidation.valid && startDateValidation.valid && startTime.valid && endTime.valid">
         <div class="col">
           <div class="form-group">
             <label for="slotTimes">Minutes per Appointment Slot</label>
             <div class="input-group">
-              <input name="slotTimes" type="number" [(ngModel)]="timePerSlot" #slotTimes="ngModel" required (ngModelChange)="previewAppointmentSlots();" />
+              <input name="slotTimes" type="number" [(ngModel)]="timePerSlot" #slotTimes="ngModel" required (ngModelChange)="generateAppointmentSlots();" />
             </div>
           </div>
         </div>
         <div class="col">
-          <div class="appointments border mb-2 pt-2 shadow-sm text-center">
-            <div *ngFor="let time of appointmentTimes">
-              <p>Appointment slot at time {{time | dfnsFormat : 'MMMM D, h:mm aa'}}</p>
-            </div>
-          </div>
-
+          <table class="table table-sm mt-4" *ngIf="timePerSlot > 4"> <!-- Don't display appoints when a user starts typing in 1, 2, etc... 5 minutes is aboslute minimum -->
+            <thead class="thead-dark">
+              <tr>
+                <th>#</th>
+                <th>Appointment Times</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let appt of model.appointments; index as i;">
+                <th scope="row">{{i + 1}}</th>
+                <td>{{appt.display | dfnsFormat : 'MMMM D, h:mm aa'}}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-
       </div>
-
       <!--Description-->
       <div class="row">
         <div class="col">
@@ -118,7 +123,7 @@
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <button type="submit" class="btn btn-default float-right">Save</button>
+            <button type="submit" class="btn btn-default float-right" [disabled]="!eventForm.valid">Save</button>
           </div>
         </div>
       </div>

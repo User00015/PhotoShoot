@@ -9,6 +9,11 @@ export class Time {
   minute: number;
 }
 
+export class Appointment {
+  id: number;
+  display: string;
+}
+
 export class Event {
   startDate: Date | null;
   endDate: Date | null;
@@ -16,6 +21,8 @@ export class Event {
   address: string | null;
   description: string | null;
   startTime: Time | null;
+  endTime: Time | null;
   image: string | null;
+  appointments: Appointment[] | null;
 
 }

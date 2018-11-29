@@ -14,6 +14,7 @@ namespace PhotoGallery.Areas.Identity.Data
 
         //public DbSet<RouletteImage> RouletteImages { get; set; }
         public DbSet<Image> Images { get; set; }
+        public DbSet<Event> Events { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
