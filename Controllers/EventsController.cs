@@ -23,8 +23,12 @@ namespace PhotoGallery.Controllers
         [HttpPost("Create")]
         public async Task<IActionResult> CreateEvent([FromBody] Event newEvent)
         {
-            var result = await _eventService.Create(newEvent);
-            return Ok(result);
+            return Ok(await _eventService.Create(newEvent));
+        }
+
+        public async Task<IActionResult> GetEvents()
+        {
+            return Ok(await _eventService.GetEvents());
         }
     }
 }

@@ -10,8 +10,8 @@ using PhotoGallery.Areas.Identity.Data;
 namespace PhotoGallery.Migrations
 {
     [DbContext(typeof(PhotoGalleryIdentityDbContext))]
-    [Migration("20181127050947_MoreEventFixing")]
-    partial class MoreEventFixing
+    [Migration("20181129203859_AppointmentsInEvents")]
+    partial class AppointmentsInEvents
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -137,7 +137,7 @@ namespace PhotoGallery.Migrations
 
             modelBuilder.Entity("PhotoGallery.Entities.Appointment", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("AppointmentId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -145,7 +145,7 @@ namespace PhotoGallery.Migrations
 
                     b.Property<Guid?>("EventId");
 
-                    b.HasKey("Id");
+                    b.HasKey("AppointmentId");
 
                     b.HasIndex("EventId");
 

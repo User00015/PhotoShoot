@@ -1,9 +1,11 @@
-﻿using PhotoGallery.Areas.Identity.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using PhotoGallery.Areas.Identity.Data;
 using PhotoGallery.Entities;
 using PhotoGallery.Services.Interfaces;
-using System;
-using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace PhotoGallery.Services
 {
@@ -18,16 +20,21 @@ namespace PhotoGallery.Services
 
         public async Task<int> Create(Event newEvent)
         {
+            int save;
 
             using (_context.Database.BeginTransaction())
             {
                 await _context.Events.AddAsync(newEvent);
-                
-                var i = _context.SaveChanges();
+                save = _context.SaveChanges();
                 _context.Database.CommitTransaction();
-
-                return i;
             }
+            return save;
         }
+
+        public async Task<List<Event>> GetEvents()
+        {
+                return await _context.Events.Select(p => p).ToListAsync();
+        }
+
     }
 }

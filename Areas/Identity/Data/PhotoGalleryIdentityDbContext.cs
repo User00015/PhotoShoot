@@ -19,6 +19,8 @@ namespace PhotoGallery.Areas.Identity.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            
             builder.Entity<Image>().ToTable("Images");
             builder.Entity<Event>().ToTable("Events");
             //builder.Entity<GalleryImage>().ToTable("GalleryImages");

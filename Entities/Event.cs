@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
@@ -19,30 +20,36 @@ namespace PhotoGallery.Entities
         public Time StartTime { get; set; }
         public Time EndTime { get; set; }
         public string Image { get; set; }
-        public List<Appointment> Appointments { get; set; }
+        public ICollection<Appointment> Appointments { get; set; }
     }
 
     public class Appointment
     {
-        [Key]
-        public int Id { get; set; }
+        public int AppointmentId { get; set; }
         public string Display { get; set; }
     }
 
+    [ComplexType]
     public class Date
     {
-        [Key]
-        public int Id { get; set; }
+        [Column("DateId")]
+        public int DateId { get; set; }
+        [Column("Year")]
         public int Year { get; set; }
+        [Column("Month")]
         public int Month { get; set; }
+        [Column("Day")]
         public int Day { get; set; }
     }
 
+    [ComplexType]
     public class Time
     {
-        [Key]
-        public int Id { get; set; }
+        [Column("TimeId")]
+        public int TimeId { get; set; }
+        [Column("Hour")]
         public int Hour { get; set; }
+        [Column("Minute")]
         public int Minute { get; set; }
     }
 }

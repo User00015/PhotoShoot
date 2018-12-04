@@ -9,5 +9,6 @@ namespace PhotoGallery.Services.Interfaces
     public interface IEventService
     {
         Task<int> Create(Event newEvent);
+        Task<List<Event>> GetEvents();
     }
 }
