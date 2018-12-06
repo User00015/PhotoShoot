@@ -13,7 +13,7 @@ export class ImageService {
   private imagesUrl: string = "https://localhost:5001/api/Images/uploadImages";
   private imageTypesUrl: string = "https://localhost:5001/api/Data/imageTypes";
 
-  private galleryDeleteUrl: string = "https://localhost:5001/api/Images/deleteImage"
+  private galleryDeleteUrl: string = "https://localhost:5001/api/Images/deleteImage";
 
   constructor(private http: HttpClient) { }
   

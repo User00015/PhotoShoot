@@ -32,6 +32,7 @@ import { EventsService } from "./services/events.service";
 import { JwtInterceptor } from "./Interceptor/jwt.interceptor";
 import { FileDropDirective } from './Directives/file-drop.directive';
 import { GooglePlacesDirective } from './directives/google-place.directive';
+import { EventItemComponent } from './events/events-list/event-item/event-item.component';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { GooglePlacesDirective } from './directives/google-place.directive';
     ImageComponent,
     EventsListComponent,
     CreateEventComponent,
-    GooglePlacesDirective
+    GooglePlacesDirective,
+    EventItemComponent
 
   ],
   imports: [

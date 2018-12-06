@@ -10,8 +10,8 @@ using PhotoGallery.Areas.Identity.Data;
 namespace PhotoGallery.Migrations
 {
     [DbContext(typeof(PhotoGalleryIdentityDbContext))]
-    [Migration("20181129212042_ComplexObjectsInEvents")]
-    partial class ComplexObjectsInEvents
+    [Migration("20181206044916_DateTimeFixes")]
+    partial class DateTimeFixes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -154,7 +154,7 @@ namespace PhotoGallery.Migrations
 
             modelBuilder.Entity("PhotoGallery.Entities.Date", b =>
                 {
-                    b.Property<int>("DateId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("DateId")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -168,7 +168,7 @@ namespace PhotoGallery.Migrations
                     b.Property<int>("Year")
                         .HasColumnName("Year");
 
-                    b.HasKey("DateId");
+                    b.HasKey("Id");
 
                     b.ToTable("Date");
                 });
@@ -182,27 +182,27 @@ namespace PhotoGallery.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("EndDateDateId");
+                    b.Property<int?>("EndDateId");
 
-                    b.Property<int?>("EndTimeTimeId");
+                    b.Property<int?>("EndTimeId");
 
                     b.Property<string>("Image");
 
                     b.Property<string>("Name");
 
-                    b.Property<int?>("StartDateDateId");
+                    b.Property<int?>("StartDateId");
 
-                    b.Property<int?>("StartTimeTimeId");
+                    b.Property<int?>("StartTimeId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EndDateDateId");
+                    b.HasIndex("EndDateId");
 
-                    b.HasIndex("EndTimeTimeId");
+                    b.HasIndex("EndTimeId");
 
-                    b.HasIndex("StartDateDateId");
+                    b.HasIndex("StartDateId");
 
-                    b.HasIndex("StartTimeTimeId");
+                    b.HasIndex("StartTimeId");
 
                     b.ToTable("Events");
                 });
@@ -230,7 +230,7 @@ namespace PhotoGallery.Migrations
 
             modelBuilder.Entity("PhotoGallery.Entities.Time", b =>
                 {
-                    b.Property<int>("TimeId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("TimeId")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -241,7 +241,7 @@ namespace PhotoGallery.Migrations
                     b.Property<int>("Minute")
                         .HasColumnName("Minute");
 
-                    b.HasKey("TimeId");
+                    b.HasKey("Id");
 
                     b.ToTable("Time");
                 });
@@ -355,19 +355,19 @@ namespace PhotoGallery.Migrations
                 {
                     b.HasOne("PhotoGallery.Entities.Date", "EndDate")
                         .WithMany()
-                        .HasForeignKey("EndDateDateId");
+                        .HasForeignKey("EndDateId");
 
                     b.HasOne("PhotoGallery.Entities.Time", "EndTime")
                         .WithMany()
-                        .HasForeignKey("EndTimeTimeId");
+                        .HasForeignKey("EndTimeId");
 
                     b.HasOne("PhotoGallery.Entities.Date", "StartDate")
                         .WithMany()
-                        .HasForeignKey("StartDateDateId");
+                        .HasForeignKey("StartDateId");
 
                     b.HasOne("PhotoGallery.Entities.Time", "StartTime")
                         .WithMany()
-                        .HasForeignKey("StartTimeTimeId");
+                        .HasForeignKey("StartTimeId");
                 });
 #pragma warning restore 612, 618
         }

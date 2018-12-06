@@ -3,6 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using NetCore.AutoRegisterDi;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using PhotoGallery.Entities;
 
 namespace PhotoGallery.Extensions
 {

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 
 namespace PhotoGallery.Entities
 {
-    public class Event
+    public class Event : IEvent
     {
         [Key]
         public Guid Id { get; set; }
@@ -33,7 +33,7 @@ namespace PhotoGallery.Entities
     public class Date
     {
         [Column("DateId")]
-        public int DateId { get; set; }
+        public int Id { get; set; }
         [Column("Year")]
         public int Year { get; set; }
         [Column("Month")]
@@ -46,7 +46,7 @@ namespace PhotoGallery.Entities
     public class Time
     {
         [Column("TimeId")]
-        public int TimeId { get; set; }
+        public int Id { get; set; }
         [Column("Hour")]
         public int Hour { get; set; }
         [Column("Minute")]

@@ -15,6 +15,7 @@ export class Appointment {
 }
 
 export class Event {
+  id: string | null;
   startDate: Date | null;
   endDate: Date | null;
   name: string | null;
