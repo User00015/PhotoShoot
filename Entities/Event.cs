@@ -8,10 +8,9 @@ using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 
 namespace PhotoGallery.Entities
 {
-    public class Event : IEvent
+    public class Event :  IEvent
     {
-        [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Address { get; set; }
         public string Description { get; set; }
         public string Name { get; set; }
@@ -20,36 +19,28 @@ namespace PhotoGallery.Entities
         public Time StartTime { get; set; }
         public Time EndTime { get; set; }
         public string Image { get; set; }
-        public ICollection<Appointment> Appointments { get; set; }
+        public virtual List<Appointment> Appointments { get; set; }
     }
 
     public class Appointment
     {
-        public int AppointmentId { get; set; }
+        public int Id { get; set; }
         public string Display { get; set; }
+        public int EventId { get; set; }
     }
 
-    [ComplexType]
     public class Date
     {
-        [Column("DateId")]
-        public int Id { get; set; }
-        [Column("Year")]
+        public int DateId { get; set; }
         public int Year { get; set; }
-        [Column("Month")]
         public int Month { get; set; }
-        [Column("Day")]
         public int Day { get; set; }
     }
 
-    [ComplexType]
     public class Time
     {
-        [Column("TimeId")]
-        public int Id { get; set; }
-        [Column("Hour")]
+        public int TimeId { get; set; }
         public int Hour { get; set; }
-        [Column("Minute")]
         public int Minute { get; set; }
     }
 }

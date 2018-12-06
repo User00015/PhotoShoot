@@ -49,33 +49,48 @@ namespace PhotoGallery.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GalleryImages",
+                name: "Events",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    FileName = table.Column<string>(maxLength: 255, nullable: false),
-                    Data = table.Column<byte[]>(nullable: false),
-                    TimeStamp = table.Column<DateTime>(nullable: false),
-                    TableSchema = table.Column<string>(nullable: true)
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Address = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    StartDate_DateId = table.Column<int>(nullable: false),
+                    StartDate_Year = table.Column<int>(nullable: false),
+                    StartDate_Month = table.Column<int>(nullable: false),
+                    StartDate_Day = table.Column<int>(nullable: false),
+                    EndDate_DateId = table.Column<int>(nullable: false),
+                    EndDate_Year = table.Column<int>(nullable: false),
+                    EndDate_Month = table.Column<int>(nullable: false),
+                    EndDate_Day = table.Column<int>(nullable: false),
+                    StartTime_TimeId = table.Column<int>(nullable: false),
+                    StartTime_Hour = table.Column<int>(nullable: false),
+                    StartTime_Minute = table.Column<int>(nullable: false),
+                    EndTime_TimeId = table.Column<int>(nullable: false),
+                    EndTime_Hour = table.Column<int>(nullable: false),
+                    EndTime_Minute = table.Column<int>(nullable: false),
+                    Image = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GalleryImages", x => x.Id);
+                    table.PrimaryKey("PK_Events", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "RouletteImages",
+                name: "Images",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     FileName = table.Column<string>(maxLength: 255, nullable: false),
                     Data = table.Column<byte[]>(nullable: false),
                     TimeStamp = table.Column<DateTime>(nullable: false),
-                    TableSchema = table.Column<string>(nullable: true)
+                    Type = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RouletteImages", x => x.Id);
+                    table.PrimaryKey("PK_Images", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -184,6 +199,31 @@ namespace PhotoGallery.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Appointment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Display = table.Column<string>(nullable: true),
+                    EventId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Appointment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Appointment_Events_EventId",
+                        column: x => x.EventId,
+                        principalTable: "Events",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointment_EventId",
+                table: "Appointment",
+                column: "EventId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -227,6 +267,9 @@ namespace PhotoGallery.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Appointment");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -242,10 +285,10 @@ namespace PhotoGallery.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "GalleryImages");
+                name: "Images");
 
             migrationBuilder.DropTable(
-                name: "RouletteImages");
+                name: "Events");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

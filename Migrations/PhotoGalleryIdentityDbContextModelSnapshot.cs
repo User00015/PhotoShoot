@@ -135,72 +135,36 @@ namespace PhotoGallery.Migrations
 
             modelBuilder.Entity("PhotoGallery.Entities.Appointment", b =>
                 {
-                    b.Property<int>("AppointmentId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Display");
 
-                    b.Property<Guid?>("EventId");
+                    b.Property<int>("EventId");
 
-                    b.HasKey("AppointmentId");
+                    b.HasKey("Id");
 
                     b.HasIndex("EventId");
 
                     b.ToTable("Appointment");
                 });
 
-            modelBuilder.Entity("PhotoGallery.Entities.Date", b =>
+            modelBuilder.Entity("PhotoGallery.Entities.Event", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("DateId")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Day")
-                        .HasColumnName("Day");
-
-                    b.Property<int>("Month")
-                        .HasColumnName("Month");
-
-                    b.Property<int>("Year")
-                        .HasColumnName("Year");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Date");
-                });
-
-            modelBuilder.Entity("PhotoGallery.Entities.Event", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Address");
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("EndDateId");
-
-                    b.Property<int?>("EndTimeId");
-
                     b.Property<string>("Image");
 
                     b.Property<string>("Name");
 
-                    b.Property<int?>("StartDateId");
-
-                    b.Property<int?>("StartTimeId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("EndDateId");
-
-                    b.HasIndex("EndTimeId");
-
-                    b.HasIndex("StartDateId");
-
-                    b.HasIndex("StartTimeId");
 
                     b.ToTable("Events");
                 });
@@ -224,24 +188,6 @@ namespace PhotoGallery.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Images");
-                });
-
-            modelBuilder.Entity("PhotoGallery.Entities.Time", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("TimeId")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Hour")
-                        .HasColumnName("Hour");
-
-                    b.Property<int>("Minute")
-                        .HasColumnName("Minute");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Time");
                 });
 
             modelBuilder.Entity("WebApi.Entities.User", b =>
@@ -346,26 +292,95 @@ namespace PhotoGallery.Migrations
                 {
                     b.HasOne("PhotoGallery.Entities.Event")
                         .WithMany("Appointments")
-                        .HasForeignKey("EventId");
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("PhotoGallery.Entities.Event", b =>
                 {
-                    b.HasOne("PhotoGallery.Entities.Date", "EndDate")
-                        .WithMany()
-                        .HasForeignKey("EndDateId");
+                    b.OwnsOne("PhotoGallery.Entities.Date", "EndDate", b1 =>
+                        {
+                            b1.Property<int>("EventId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.HasOne("PhotoGallery.Entities.Time", "EndTime")
-                        .WithMany()
-                        .HasForeignKey("EndTimeId");
+                            b1.Property<int>("DateId");
 
-                    b.HasOne("PhotoGallery.Entities.Date", "StartDate")
-                        .WithMany()
-                        .HasForeignKey("StartDateId");
+                            b1.Property<int>("Day");
 
-                    b.HasOne("PhotoGallery.Entities.Time", "StartTime")
-                        .WithMany()
-                        .HasForeignKey("StartTimeId");
+                            b1.Property<int>("Month");
+
+                            b1.Property<int>("Year");
+
+                            b1.ToTable("Events");
+
+                            b1.HasOne("PhotoGallery.Entities.Event")
+                                .WithOne("EndDate")
+                                .HasForeignKey("PhotoGallery.Entities.Date", "EventId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
+
+                    b.OwnsOne("PhotoGallery.Entities.Date", "StartDate", b1 =>
+                        {
+                            b1.Property<int>("EventId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<int>("DateId");
+
+                            b1.Property<int>("Day");
+
+                            b1.Property<int>("Month");
+
+                            b1.Property<int>("Year");
+
+                            b1.ToTable("Events");
+
+                            b1.HasOne("PhotoGallery.Entities.Event")
+                                .WithOne("StartDate")
+                                .HasForeignKey("PhotoGallery.Entities.Date", "EventId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
+
+                    b.OwnsOne("PhotoGallery.Entities.Time", "EndTime", b1 =>
+                        {
+                            b1.Property<int>("EventId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<int>("Hour");
+
+                            b1.Property<int>("Minute");
+
+                            b1.Property<int>("TimeId");
+
+                            b1.ToTable("Events");
+
+                            b1.HasOne("PhotoGallery.Entities.Event")
+                                .WithOne("EndTime")
+                                .HasForeignKey("PhotoGallery.Entities.Time", "EventId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
+
+                    b.OwnsOne("PhotoGallery.Entities.Time", "StartTime", b1 =>
+                        {
+                            b1.Property<int>("EventId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<int>("Hour");
+
+                            b1.Property<int>("Minute");
+
+                            b1.Property<int>("TimeId");
+
+                            b1.ToTable("Events");
+
+                            b1.HasOne("PhotoGallery.Entities.Event")
+                                .WithOne("StartTime")
+                                .HasForeignKey("PhotoGallery.Entities.Time", "EventId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
                 });
 #pragma warning restore 612, 618
         }

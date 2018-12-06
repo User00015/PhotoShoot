@@ -33,7 +33,7 @@ namespace PhotoGallery.Services
 
         public async Task<List<Event>> GetEvents()
         {
-            return await _context.Events.Select(p => p).ToListAsync();
+            return await _context.Events.Select(p => p).Include(p => p.Appointments).ToListAsync();
         }
 
         public async Task<int> DeleteEvent(Guid id)
