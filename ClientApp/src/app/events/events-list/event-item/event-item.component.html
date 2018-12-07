@@ -1,22 +1,8 @@
-<div class="media border p-2 mb-2" *ngIf="exists">
-  <div class="mr-3">
-    <img [src]="event.image" *ngIf="event.image" />
-  </div>
-  <div class="media-body">
-    <div class="row">
-      <h5 class="mt-0 col-2"> {{event.name}}</h5>
-      <div class="float-right">
-        <button type="button" class="btn  btn-danger overlay-img" (click)="onDelete(event)" *ngIf="hovered && (authService.loggedIn | async)">
-          <fa-icon [icon]="faTrash"></fa-icon>
-        </button>
-      </div>
-      <p class="col-4">{{event.description}}</p>
-    </div>
-    <div class="row">
-      <div class="col-2">
-        <p>{{event.startTime}} : {{event.startDate}}</p>
-
-      </div>
-    </div>
-  </div>
+<div>
+  <img [src]="event.image" *ngIf="event.image" />
+  <p>
+  </p>
 </div>
+
+
+

@@ -1,12 +1,12 @@
-export class Date {
-  month: number;
-  day: number;
-  year: number;
+export class Date  {
+  month: number | null;
+  day: number | null;
+  year: number | null;
 }
 
 export class Time {
-  hour: number;
-  minute: number;
+  hour: number | null;
+  minute: number | null;
 }
 
 export class Appointment {
@@ -16,14 +16,11 @@ export class Appointment {
 
 export class Event {
   id: string | null;
-  startDate: Date | null;
-  endDate: Date | null;
   name: string | null;
   address: string | null;
   description: string | null;
-  startTime: Time | null;
-  endTime: Time | null;
   image: string | null;
   appointments: Appointment[] | null;
-
+  startDateTime: string | null;
+  endDateTime: string | null;
 }

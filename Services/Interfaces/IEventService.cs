@@ -10,6 +10,6 @@ namespace PhotoGallery.Services.Interfaces
     {
         Task<int> Create(Event newEvent);
         Task<List<Event>> GetEvents();
-        Task<int> DeleteEvent(Guid id);
+        Task<int> DeleteEvent(int id);
     }
 }

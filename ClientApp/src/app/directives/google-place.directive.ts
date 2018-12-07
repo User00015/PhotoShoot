@@ -1,6 +1,6 @@
 import { Directive, ElementRef, OnInit, Output, EventEmitter, NgZone } from '@angular/core';
 import { } from "googlemaps";
-//declare var google: any;
+declare var google: any;
 
 
 @Directive({

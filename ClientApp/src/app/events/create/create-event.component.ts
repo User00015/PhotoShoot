@@ -1,10 +1,11 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { Event, Appointment } from "../../Models/event-model";
-import {EventsService} from "../../services/events.service";
+import { Event, Appointment, Date as DateModel, Time } from "../../Models/event-model";
+import { EventsService } from "../../services/events.service";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import * as _ from 'lodash';
 const diffInMinutes = require('date-fns/difference_in_minutes');
 const addMinutes = require('date-fns/add_minutes');
+const format = require('date-fns/format');
 
 
 @Component({
@@ -14,20 +15,24 @@ const addMinutes = require('date-fns/add_minutes');
 })
 export class CreateEventComponent implements OnInit {
 
-  ngOnInit(): void {
-    this.model.startTime = { hour: 18, minute: 0 }
-    this.model.endTime = { hour: 20, minute: 0 }
-  }
-
   //TODO - Add private option at some point.
 
   public faCalendar = faCalendar;
 
+
+
   public model: Event = new Event();
-  formData: FormData = new FormData();
-  //public appointmentTimes: Appoin[] = [];
-  public imagePreview: File;
+  public formStartDate: DateModel;
+  public formEndDate: DateModel;
+  public formStartTime: Time;
+  public formEndTime: Time;
+
   public timePerSlot: number;
+
+
+  formData: FormData = new FormData();
+
+  public imagePreview: File;
 
   handleDrop(fileList: FileList) {
 
@@ -43,6 +48,21 @@ export class CreateEventComponent implements OnInit {
 
   }
 
+
+  startDateTime() {
+    if (this.formStartDate && this.formStartTime) {
+      this.model.startDateTime = format(new Date(this.formStartDate.year, this.formStartDate.month, this.formStartDate.day, this.formStartTime.hour, this.formStartTime.minute));
+      this.generateAppointmentSlots();
+    }
+  }
+
+  endDateTime() {
+    if (this.formEndDate && this.formEndTime) {
+      this.model.endDateTime = format(new Date(this.formEndDate.year, this.formEndDate.month, this.formEndDate.day, this.formEndTime.hour, this.formEndTime.minute));
+      this.generateAppointmentSlots();
+    }
+  }
+
   setAddress(address) {
     this.zone.run(() => {
       this.model.address = address;
@@ -51,41 +71,30 @@ export class CreateEventComponent implements OnInit {
   constructor(private zone: NgZone, private eventService: EventsService) { }
 
   generateAppointmentSlots() {
-    this.model.appointments = [];
 
     //Keep track of number of slots to generate, and the time offset
-    let count = 0;
-    let timeCount = this.timePerSlot;
+    let timeCount = 0;
 
-    //Get start and end dates based on model. This is hacky, but it works.
-    let startDate = new Date(this.model.startDate.year,
-      this.model.startDate.month,
-      this.model.startDate.day,
-      this.model.startTime.hour,
-      this.model.startTime.minute);
+    let numberOfAppointments = diffInMinutes(this.model.endDateTime, this.model.startDateTime) / this.timePerSlot;
 
-    let endDate = new Date(this.model.endDate.year,
-      this.model.endDate.month,
-      this.model.endDate.day,
-      this.model.endTime.hour,
-      this.model.endTime.minute);
-
-    
-    let numberOfAppointments = diffInMinutes(endDate, startDate) / this.timePerSlot;
-
-    //Iterate through each appointment, create the appropriate values then add them to the model. This is doing to much work. TODO - FIXME
+    let appts = [];
+    ////Iterate through each appointment, create the appropriate values then add them to the model. This is doing to much work. TODO - FIXME
     _.times(numberOfAppointments, () => {
       let appointment: Appointment = new Appointment();
-      appointment.id = count++;
-      appointment.display = addMinutes(startDate, timeCount);
-      this.model.appointments.push(appointment);
+      appointment.display = addMinutes(this.model.startDateTime, timeCount);
+      appts.push(appointment);
       timeCount += this.timePerSlot;
     });
+
+    this.model.appointments = appts;
+    console.log(this.model);
   }
 
   onSubmit() {
     this.eventService.create(this.model).subscribe(res => console.log(res));
   }
 
+  ngOnInit(): void {
 
+  }
 }

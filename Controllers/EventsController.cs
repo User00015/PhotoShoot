@@ -32,7 +32,7 @@ namespace PhotoGallery.Controllers
         }
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteEvent(Guid id)
+        public async Task<IActionResult> DeleteEvent(int id)
         {
             await _eventService.DeleteEvent(id);
             return Ok(await _eventService.GetEvents());

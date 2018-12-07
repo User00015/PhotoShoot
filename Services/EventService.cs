@@ -36,7 +36,7 @@ namespace PhotoGallery.Services
             return await _context.Events.Select(p => p).Include(p => p.Appointments).ToListAsync();
         }
 
-        public async Task<int> DeleteEvent(Guid id)
+        public async Task<int> DeleteEvent(int id)
         {
             int save;
             using (_context.Database.BeginTransaction())

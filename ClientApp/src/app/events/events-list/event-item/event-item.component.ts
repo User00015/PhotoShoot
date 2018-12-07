@@ -16,13 +16,12 @@ export class EventItemComponent implements OnInit {
   exists: boolean = true;
   hovered: boolean = false;
   @Input() event: Event;
+  @Output() onDelete: EventEmitter<any> = new EventEmitter();
+
   constructor(private authService: AuthService, private eventService: EventsService) { }
 
-  onDelete(e: Event) {
-    console.log("called delte");
-    //this.eventService.delete(e.id).subscribe(() => {
-    //  this.exists = false;
-    //});
+  delete(e: Event) {
+    this.onDelete.emit(e);
   }
 
   selected(e: Event) {
@@ -41,6 +40,7 @@ export class EventItemComponent implements OnInit {
   }
 
   ngOnInit() {
+
   }
 
 }

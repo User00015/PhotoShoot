@@ -20,12 +20,7 @@ namespace PhotoGallery.Areas.Identity.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<Event>().OwnsOne(p => p.StartDate);
-            builder.Entity<Event>().OwnsOne(p => p.EndDate);
-            builder.Entity<Event>().OwnsOne(p => p.StartTime);
-            builder.Entity<Event>().OwnsOne(p => p.EndTime);
             builder.Entity<Event>().HasMany(p => p.Appointments);
-            //builder.Entity<Event>().HasMany(p => p.Appointments).WithOne(e => e.Event).IsRequired();
 
             builder.Entity<Image>().ToTable("Images");
             builder.Entity<Event>().ToTable("Events");
