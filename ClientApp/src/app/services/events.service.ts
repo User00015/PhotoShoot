@@ -21,6 +21,11 @@ export class EventsService {
 
   }
 
+  getAppointments(string: string): any {
+    console.log("appts get", string);
+    return Observable.of({});
+  }
+
   delete(eventId: string) {
     return this.http.delete(this.deleteEventUrl, { params: { "id": eventId } });
   }

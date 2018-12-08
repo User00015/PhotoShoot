@@ -51,14 +51,14 @@ export class CreateEventComponent implements OnInit {
 
   startDateTime() {
     if (this.formStartDate && this.formStartTime) {
-      this.model.startDateTime = format(new Date(this.formStartDate.year, this.formStartDate.month, this.formStartDate.day, this.formStartTime.hour, this.formStartTime.minute));
+      this.model.startDate = format(new Date(this.formStartDate.year, this.formStartDate.month - 1, this.formStartDate.day, this.formStartTime.hour, this.formStartTime.minute));
       this.generateAppointmentSlots();
     }
   }
 
   endDateTime() {
     if (this.formEndDate && this.formEndTime) {
-      this.model.endDateTime = format(new Date(this.formEndDate.year, this.formEndDate.month, this.formEndDate.day, this.formEndTime.hour, this.formEndTime.minute));
+      this.model.endDate = format(new Date(this.formEndDate.year, this.formEndDate.month - 1, this.formEndDate.day, this.formEndTime.hour, this.formEndTime.minute));
       this.generateAppointmentSlots();
     }
   }
@@ -75,23 +75,22 @@ export class CreateEventComponent implements OnInit {
     //Keep track of number of slots to generate, and the time offset
     let timeCount = 0;
 
-    let numberOfAppointments = diffInMinutes(this.model.endDateTime, this.model.startDateTime) / this.timePerSlot;
+    let numberOfAppointments = diffInMinutes(this.model.endDate, this.model.startDate) / this.timePerSlot;
 
     let appts = [];
-    ////Iterate through each appointment, create the appropriate values then add them to the model. This is doing to much work. TODO - FIXME
+    //Iterate through each appointment, create the appropriate values then add them to the model. This is doing to much work. TODO - FIXME
     _.times(numberOfAppointments, () => {
       let appointment: Appointment = new Appointment();
-      appointment.display = addMinutes(this.model.startDateTime, timeCount);
+      appointment.display = addMinutes(this.model.startDate, timeCount);
       appts.push(appointment);
       timeCount += this.timePerSlot;
     });
 
     this.model.appointments = appts;
-    console.log(this.model);
   }
 
   onSubmit() {
-    this.eventService.create(this.model).subscribe(res => console.log(res));
+    this.eventService.create(this.model).subscribe(() => {});
   }
 
   ngOnInit(): void {

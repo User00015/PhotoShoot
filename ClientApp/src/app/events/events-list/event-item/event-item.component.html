@@ -1,8 +1,33 @@
-<div>
-  <img [src]="event.image" *ngIf="event.image" />
-  <p>
-  </p>
-</div>
+<div class="container-fluid">
+  <div class="border rounded p-2 mb-2" [ngClass]="{'hover': hovered}" *ngIf="exists">
+    <div class="row">
+      <div class="col-12 col-md-3 col-lg-2 ">
+        <img [src]="event.image" *ngIf="event.image" />
+      </div>
+      <div class="col-8">
+        <h5> {{event.name}}</h5>
+        <p>{{event.description}}</p>
+        <p>{{event.startDate | date:'MMMM d, y, h:mm a' }} thru {{event.endDate | date:'h:mm a'}} </p>
+      </div>
+      <div class="col-lg-2 col-md-12 ">
+        <div class="d-flex justify-content-end">
+          <button type="button" class="btn mr-2 btn-info" (click)="edit(event)" *ngIf="hovered && (authService.loggedIn | async)">
+            <fa-icon [icon]="faPencilAlt"></fa-icon> <span class="pl-2">Edit</span>
+          </button>
+          <button type="button" class="btn mr-2 btn-danger" (click)="delete(event)" *ngIf="hovered && (authService.loggedIn | async)">
+            <fa-icon [icon]="faTrash"></fa-icon><span class="pl-2">Delete</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-2">
+        <button type="button" class="btn btn-primary" (click)="register(event)">Register</button>
+      </div>
 
+    </div>
+
+  </div>
+</div>
 
 

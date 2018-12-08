@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PhotoGallery.Entities;
@@ -26,6 +27,7 @@ namespace PhotoGallery.Controllers
             return Ok(await _eventService.Create(newEvent));
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> GetEvents()
         {
             return Ok(await _eventService.GetEvents());

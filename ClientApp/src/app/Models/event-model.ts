@@ -21,6 +21,6 @@ export class Event {
   description: string | null;
   image: string | null;
   appointments: Appointment[] | null;
-  startDateTime: string | null;
-  endDateTime: string | null;
+  startDate: string | null;
+  endDate: string | null;
 }

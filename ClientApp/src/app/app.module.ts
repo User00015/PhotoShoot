@@ -7,7 +7,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { DateFnsModule } from "ngx-date-fns";
-import { MobxAngularModule } from "mobx-angular";
 
 
 import { AppComponent } from './app.component';
@@ -34,8 +33,7 @@ import { JwtInterceptor } from "./Interceptor/jwt.interceptor";
 import { FileDropDirective } from './Directives/file-drop.directive';
 import { GooglePlacesDirective } from './directives/google-place.directive';
 import { EventItemComponent } from './events/events-list/event-item/event-item.component';
-import { CustomDatePipe } from './custom-date.pipe';
-import { CustomTimePipe } from './custom-time.pipe';
+import { RegisterEventComponent } from './events/register/register-event.component';
 
 
 @NgModule({
@@ -57,8 +55,7 @@ import { CustomTimePipe } from './custom-time.pipe';
     CreateEventComponent,
     GooglePlacesDirective,
     EventItemComponent,
-    CustomDatePipe,
-    CustomTimePipe
+    RegisterEventComponent
 
   ],
   imports: [
@@ -68,7 +65,6 @@ import { CustomTimePipe } from './custom-time.pipe';
     ReactiveFormsModule,
     FontAwesomeModule,
     InfiniteScrollModule,
-    MobxAngularModule,
     DateFnsModule.forRoot(),
     NgbModule.forRoot(),
     RouterModule.forRoot([
@@ -77,7 +73,9 @@ import { CustomTimePipe } from './custom-time.pipe';
       { path: 'gallery', component: GalleryComponent },
       {
         path: 'events', component: EventsComponent, children: [
-          { path: 'create', component: CreateEventComponent }
+          { path: '', component: EventsListComponent, pathMatch: 'full'},
+          { path: 'create', component: CreateEventComponent },
+          { path: 'register/:id', component: RegisterEventComponent }
         ]
       },
       { path: 'about', component: AboutComponent },
