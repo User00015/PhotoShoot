@@ -49,5 +49,10 @@ namespace PhotoGallery.Services
 
             return save;
         }
+
+        public async Task<List<Appointment>> GetAppointments(int id)
+        {
+            return await _context.Events.Where(p => p.Id == id).SelectMany(p => p.Appointments).ToListAsync(); 
+        }
     }
 }

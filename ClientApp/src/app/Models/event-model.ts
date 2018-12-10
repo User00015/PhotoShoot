@@ -12,6 +12,7 @@ export class Time {
 export class Appointment {
   id: number;
   display: string;
+  open: boolean;
 }
 
 export class Event {

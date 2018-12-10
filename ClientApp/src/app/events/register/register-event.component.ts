@@ -17,7 +17,6 @@ export class RegisterEventComponent implements OnInit {
   appointments$: Observable<Appointment> = new Observable<Appointment>();
 
   ngOnInit() {
-    console.log(this.route.snapshot.paramMap.get('id'));
     this.appointments$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
         this.eventService.getAppointments(params.get('id')))

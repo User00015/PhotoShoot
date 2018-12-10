@@ -11,5 +11,6 @@ namespace PhotoGallery.Services.Interfaces
         Task<int> Create(Event newEvent);
         Task<List<Event>> GetEvents();
         Task<int> DeleteEvent(int id);
+        Task<List<Appointment>> GetAppointments(int id);
     }
 }
