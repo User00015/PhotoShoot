@@ -22,6 +22,10 @@ export class EventsService {
 
   }
 
+  scheduleAppointment(appointment) {
+     throw new Error("Not implemented");
+  }
+
   getAppointments(id: string): any {
     return this.http.get<Appointment>(`${this.getAppointmentUrl}${id}`);
   }

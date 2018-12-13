@@ -10,8 +10,8 @@ using PhotoGallery.Areas.Identity.Data;
 namespace PhotoGallery.Migrations
 {
     [DbContext(typeof(PhotoGalleryIdentityDbContext))]
-    [Migration("20181208191127_ApptIsOpen")]
-    partial class ApptIsOpen
+    [Migration("20181211195118_Appointments_IsClosed")]
+    partial class Appointments_IsClosed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -145,7 +145,7 @@ namespace PhotoGallery.Migrations
 
                     b.Property<int>("EventId");
 
-                    b.Property<bool>("IsOpen");
+                    b.Property<bool>("IsClosed");
 
                     b.HasKey("Id");
 

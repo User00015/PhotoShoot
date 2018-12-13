@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace PhotoGallery.Entities
     {
         public int Id { get; set; }
         public string Display { get; set; }
-        public bool IsOpen { get; set; }
+        public bool IsClosed { get; set; }
         public int EventId { get; set; }
     }
 }

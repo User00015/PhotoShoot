@@ -54,5 +54,11 @@ namespace PhotoGallery.Services
         {
             return await _context.Events.Where(p => p.Id == id).SelectMany(p => p.Appointments).ToListAsync(); 
         }
+
+        public async Task<Appointment> GetAppointment(int eventId, int appointmentId)
+        {
+            return await _context.Events.Where(e => e.Id == eventId).SelectMany(p => p.Appointments)
+                .Where(pp => pp.Id == appointmentId).SingleOrDefaultAsync();
+        }
     }
 }

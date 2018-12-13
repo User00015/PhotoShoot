@@ -143,7 +143,7 @@ namespace PhotoGallery.Migrations
 
                     b.Property<int>("EventId");
 
-                    b.Property<bool>("IsOpen");
+                    b.Property<bool>("IsClosed");
 
                     b.HasKey("Id");
 

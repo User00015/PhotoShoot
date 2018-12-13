@@ -1,3 +1,21 @@
-<div *ngFor="let appointment of appointments$ | async">
-{{appointment.display}} hello {{appointment.id}}
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Appointment Time</th>
+        <th>Availability</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let appointment of appointments$ | async">
+        <td>{{appointment.display | date:'medium'}}</td>
+        <td [ngStyle]="{'color': appointment.isClosed ? '#dc3545': '#28a745'}">{{appointment.isClosed ? 'Closed': 'Open'}} </td>
+        <td>
+          <button class="btn btn-primary float-right" type="button" (click)="schedule(appointment)">Schedule</button>
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
 </div>

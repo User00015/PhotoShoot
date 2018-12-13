@@ -2,21 +2,21 @@
 
 namespace PhotoGallery.Migrations
 {
-    public partial class ApptIsOpen : Migration
+    public partial class Appointments_IsClosed : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<bool>(
-                name: "IsOpen",
+                name: "IsClosed",
                 table: "Appointment",
                 nullable: false,
-                defaultValue: true);
+                defaultValue: false);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "IsOpen",
+                name: "IsClosed",
                 table: "Appointment");
         }
     }

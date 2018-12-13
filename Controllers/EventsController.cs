@@ -33,10 +33,16 @@ namespace PhotoGallery.Controllers
             return Ok(await _eventService.GetEvents());
         }
 
-        [HttpGet("Appointment/{id}")]
-        public async Task<IActionResult> GetAppointments(int id)
+        [HttpGet("Appointment/{eventId}")]
+        public async Task<IActionResult> GetAppointments(int eventId)
         {
-            return Ok(await _eventService.GetAppointments(id));
+            return Ok(await _eventService.GetAppointments(eventId));
+        }
+
+        [HttpGet("Appointment/{eventId}/{appointmentId}")]
+        public async Task<IActionResult> GetAppointment(int eventId, int appointmentId)
+        {
+            return Ok(await _eventService.GetAppointment(eventId, appointmentId));
         }
 
         [HttpDelete("Delete")]
