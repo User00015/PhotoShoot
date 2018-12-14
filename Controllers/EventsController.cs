@@ -45,6 +45,13 @@ namespace PhotoGallery.Controllers
             return Ok(await _eventService.GetAppointment(eventId, appointmentId));
         }
 
+        [HttpGet("Appointment/{eventId}/{appointmentId}/checkout")]
+        public async Task<IActionResult> Checkout(int eventId, int appointmentId)
+        {
+            var appointment = await _eventService.GetAppointment(eventId, appointmentId);
+            return Ok(await _eventService.Checkout(appointment));
+        }
+
         [HttpDelete("Delete")]
         public async Task<IActionResult> DeleteEvent(int id)
         {

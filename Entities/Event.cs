@@ -27,5 +27,6 @@ namespace PhotoGallery.Entities
         public string Display { get; set; }
         public bool IsClosed { get; set; }
         public int EventId { get; set; }
+        public long? Price { get; set; }
     }
 }

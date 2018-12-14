@@ -82,8 +82,20 @@
         </div>
       </div>
 
+      <!--Price per Appointment-->
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="price">Price per Appointment Slot</label>
+            <div class="input-group">
+              <input name="price" id="price"  type="number" [(ngModel)]="formPrice" #price="ngModel" (ngModelChange)="generateAppointmentSlots();"  required />
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!--Time per slot-->
-      <div class="row" *ngIf="endDateValidation.valid && startDateValidation.valid && startTime.valid && endTime.valid">
+      <div class="row" *ngIf="endDateValidation.valid && startDateValidation.valid && startTime.valid && endTime.valid && price.valid">
         <div class="col">
           <div class="form-group">
             <label for="slotTimes">Minutes per Appointment Slot</label>
@@ -98,17 +110,20 @@
               <tr>
                 <th>#</th>
                 <th>Appointment Times</th>
+                <th>Price</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let appt of model.appointments; index as i;">
                 <th scope="row">{{i + 1}}</th>
                 <td>{{appt.display | dfnsFormat : 'MMMM D, h:mm aa'}}</td>
+                <td>{{formPrice | currency}}</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
+
       <!--Description-->
       <div class="row">
         <div class="col">

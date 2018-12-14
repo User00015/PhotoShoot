@@ -23,6 +23,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.5" />
     <PackageReference Include="NetCore.AutoRegisterDi" Version="1.0.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0005" />
+    <PackageReference Include="Square.Connect" Version="2.13.0" />
   </ItemGroup>
 
   <ItemGroup>

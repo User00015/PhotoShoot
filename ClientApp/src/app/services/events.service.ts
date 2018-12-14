@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { Observable } from "rxjs/Observable";
+import { HttpClient } from "@angular/common/http";
 import { Event, Appointment } from "../Models/event-model";
 
 @Injectable()
@@ -10,20 +9,19 @@ export class EventsService {
   private deleteEventUrl: string = "https://localhost:5001/api/Events/Delete";
   private getEventsUrl: string = "https://localhost:5001/api/Events";
   private getAppointmentUrl: string = "https://localhost:5001/api/Events/Appointment/";
+  private getLocationsUrl: string = "https://connect.squareup.com/v2/locations/";
+
 
   constructor(private http: HttpClient) { }
 
-  private httpOptions = {
-    params: {}
-  };
 
   create(newEvent: Event) {
     return this.http.post(this.createEventUrl, newEvent);
-
   }
 
-  scheduleAppointment(appointment) {
-     throw new Error("Not implemented");
+  scheduleAppointment(appointment: Appointment) {
+    return this.http.get<string>(`${this.getAppointmentUrl}${appointment.eventId}/${appointment.id}/checkout`);
+
   }
 
   getAppointments(id: string): any {

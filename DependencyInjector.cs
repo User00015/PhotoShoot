@@ -12,6 +12,8 @@ namespace PhotoGallery
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<IEventService, EventService>();
+            services.AddScoped<ISquareService, SquareService>();
         }
     }
 }

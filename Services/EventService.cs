@@ -6,16 +6,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Square.Connect.Model;
 
 namespace PhotoGallery.Services
 {
     public class EventService : IEventService
     {
         private readonly PhotoGalleryIdentityDbContext _context;
+        private readonly ISquareService _square;
 
-        public EventService(PhotoGalleryIdentityDbContext context)
+        public EventService(PhotoGalleryIdentityDbContext context, ISquareService square)
         {
             _context = context;
+            _square = square;
         }
 
         public async Task<int> Create(Event newEvent)
@@ -59,6 +62,11 @@ namespace PhotoGallery.Services
         {
             return await _context.Events.Where(e => e.Id == eventId).SelectMany(p => p.Appointments)
                 .Where(pp => pp.Id == appointmentId).SingleOrDefaultAsync();
+        }
+
+        public async Task<string> Checkout(Appointment appointment)
+        {
+            return await _square.Checkout(appointment);
         }
     }
 }

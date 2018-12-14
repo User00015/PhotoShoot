@@ -17,7 +17,9 @@ export class RegisterEventComponent implements OnInit {
   appointments$: Observable<Appointment> = new Observable<Appointment>();
 
   schedule(appointment) {
-    this.eventService.scheduleAppointment(appointment);
+    //this.eventService.scheduleAppointment(appointment).subscribe(output => console.log(output));
+    console.log(appointment);
+    this.eventService.scheduleAppointment(appointment).subscribe((output:any) => console.log(output.checkout_page_url));
   }
 
   ngOnInit() {

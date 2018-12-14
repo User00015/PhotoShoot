@@ -26,6 +26,7 @@ export class CreateEventComponent implements OnInit {
   public formEndDate: DateModel;
   public formStartTime: Time;
   public formEndTime: Time;
+  public formPrice: number;
 
   public timePerSlot: number;
 
@@ -82,6 +83,7 @@ export class CreateEventComponent implements OnInit {
     _.times(numberOfAppointments, () => {
       let appointment: Appointment = new Appointment();
       appointment.display = addMinutes(this.model.startDate, timeCount);
+      appointment.price = this.formPrice * 100;
       appts.push(appointment);
       timeCount += this.timePerSlot;
     });

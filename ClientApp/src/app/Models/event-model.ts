@@ -11,8 +11,10 @@ export class Time {
 
 export class Appointment {
   id: number;
+  eventId: number;
   display: string;
   open: boolean;
+  price: number;
 }
 
 export class Event {
