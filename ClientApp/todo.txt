@@ -1,34 +1,31 @@
-Gallery:
-  - Cake smash
-  - Grow with me
-  - Maternity
-  - Children
-  - Family
-  - Seniors
-  - Weddings
-  - Front Page/Banner
-
-
-  Events:
-
-  Only allow admin to create events.
   Events for admins have the following info on creation
-    Event photo
     'Theme'
-    Name
-    Location
-    Date/Time Start
-    Date/Time End
-    Duration/Size of slot. 15 minute increments?
-    Description
     Private -- Password necessary
     Password field if Private set true
 
   Events for users need to see
-    Name
     Location
-    Description
     Option to sign up => Payment fee processing
+    Handle checkout response callback
+    Need to flag appointments that are paid for.
+    Edit button needs to actually edit events.
 
-  Admin has the ability to cancel event slots. Lisa agreed to handle all refunds, no need to handle this besides deleting event.
+    Scheduling
+      Scheduling does not display checkout URL.
+      Scheduling does not display price before checking out.
 
+    Deployment
+      Fill this out (hah). Various access tokens and secret keys are publicly visible right now.
+      Add environment configs - urls are hard coded right now
+      Set up docker container
+      Handle certs for https
+      add database migrations to startup. 
+
+Bugs:
+  Creating event doesn't direct away / confirm success. Easy to duplicate events.
+  Login doesn't re-direct on success.
+  Very little error handling on most pages.
+  Improve Create Event/Back sub navigation.
+  Fix register button/image layout.
+
+  
