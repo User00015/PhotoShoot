@@ -23,18 +23,19 @@ import { LoginComponent } from './login/login.component';
 import { ImageComponent } from './gallery/image/image.component';
 import { EventsListComponent } from './events/events-list/events-list.component';
 import { CreateEventComponent } from './events/create/create-event.component';
+import { EventItemComponent } from './events/events-list/event-item/event-item.component';
+import { RegisterEventComponent } from './events/register/register-event.component';
+import { CheckoutConfirmationComponent } from './checkout-confirmation/checkout-confirmation.component';
 
 import { ImageService } from "./services/image.service";
 import { AuthGuardService } from "./services/auth-guard.service";
 import { AuthService } from "./services/auth.service";
 import { EventsService } from "./services/events.service";
 
-import { JwtInterceptor } from "./Interceptor/jwt.interceptor";
 import { FileDropDirective } from './Directives/file-drop.directive';
 import { GooglePlacesDirective } from './directives/google-place.directive';
-import { EventItemComponent } from './events/events-list/event-item/event-item.component';
-import { RegisterEventComponent } from './events/register/register-event.component';
 
+import { JwtInterceptor } from "./Interceptor/jwt.interceptor";
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { RegisterEventComponent } from './events/register/register-event.compone
     CreateEventComponent,
     GooglePlacesDirective,
     EventItemComponent,
-    RegisterEventComponent
+    RegisterEventComponent,
+    CheckoutConfirmationComponent
 
   ],
   imports: [
@@ -81,6 +83,7 @@ import { RegisterEventComponent } from './events/register/register-event.compone
       { path: 'about', component: AboutComponent },
       { path: 'admin', component: AdminComponent, canActivate: [AuthGuardService] },
       { path: 'login', component: LoginComponent },
+      { path: 'confirmcheckout', component: CheckoutConfirmationComponent },
       { path: '**', component: HomeComponent }
 
     ])

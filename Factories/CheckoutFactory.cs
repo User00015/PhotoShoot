@@ -9,7 +9,7 @@ namespace PhotoGallery.Factories
 {
     public static class CheckoutFactory
     {
-        public static string RedirectUrl { get; } = "https://localhost:4200";
+        public static string RedirectUrl { get; } = "https://localhost:4200/confirmcheckout"; //TODO - Fix me for deployment
 
         public static CreateCheckoutRequest Create(Appointment appointment)
         {

@@ -25,7 +25,6 @@ export class ImageComponent implements OnInit {
 
   onDelete(event) {
     event.preventDefault();
-    console.log(this.imgSrc.id);
     this.imgService.deleteImage(this.imgSrc.id).subscribe(() => {
       this.exists = false;
     });

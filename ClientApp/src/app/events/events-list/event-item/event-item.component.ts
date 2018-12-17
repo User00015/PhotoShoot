@@ -35,10 +35,6 @@ export class EventItemComponent implements OnInit {
     this.onEdit.emit(e);
   }
 
-  selected(e: Event) {
-    console.log(e);
-  }
-
   @HostListener('mouseenter', ['$event']) onMouseEnter($event) {
     $event.preventDefault();
     this.hovered = true;

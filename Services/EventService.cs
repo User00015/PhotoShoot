@@ -68,5 +68,10 @@ namespace PhotoGallery.Services
         {
             return await _square.Checkout(appointment);
         }
+
+        public async Task<RetrieveTransactionResponse> ConfirmTransaction(string transactionId)
+        {
+            return await _square.ConfirmCheckout(transactionId);
+        }
     }
 }

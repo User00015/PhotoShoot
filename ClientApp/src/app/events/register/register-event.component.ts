@@ -18,8 +18,9 @@ export class RegisterEventComponent implements OnInit {
 
   schedule(appointment) {
     //this.eventService.scheduleAppointment(appointment).subscribe(output => console.log(output));
-    console.log(appointment);
-    this.eventService.scheduleAppointment(appointment).subscribe((output:any) => console.log(output.checkout_page_url));
+    this.eventService.scheduleAppointment(appointment).subscribe((output: any) => {
+      window.open(output.checkout_page_url, '_self');
+    });
   }
 
   ngOnInit() {

@@ -34,9 +34,7 @@ export class GalleryComponent implements OnInit {
     });
 
   }
-  //handleHovered(event) {
-  //  console.log(event);
-  //}
+
   onSelection(event) {
     this.currentPage = 0;
     this.currentSelection$.next(event);

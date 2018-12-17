@@ -1,5 +1,4 @@
 import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
-import * as _ from 'lodash';
 
 @Directive({
   selector: '[fileDrop]'
