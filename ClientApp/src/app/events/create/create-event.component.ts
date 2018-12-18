@@ -3,6 +3,7 @@ import { Event, Appointment, Date as DateModel, Time } from "../../Models/event-
 import { EventsService } from "../../services/events.service";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import * as _ from 'lodash';
+import { Router } from '@angular/router';
 const diffInMinutes = require('date-fns/difference_in_minutes');
 const addMinutes = require('date-fns/add_minutes');
 const format = require('date-fns/format');
@@ -69,7 +70,7 @@ export class CreateEventComponent implements OnInit {
       this.model.address = address;
     });
   }
-  constructor(private zone: NgZone, private eventService: EventsService) { }
+  constructor(private zone: NgZone, private eventService: EventsService, private router: Router) { }
 
   generateAppointmentSlots() {
 
@@ -92,7 +93,9 @@ export class CreateEventComponent implements OnInit {
   }
 
   onSubmit() {
-    this.eventService.create(this.model).subscribe(() => {});
+    this.eventService.create(this.model).subscribe(() => {
+      this.router.navigate(['/', 'events']);
+    });
   }
 
   ngOnInit(): void {

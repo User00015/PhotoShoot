@@ -7,7 +7,7 @@ namespace PhotoGallery.Services.Interfaces
     public interface ISquareService
     {
         Task<string> Checkout(Appointment appointment);
-        Task<RetrieveTransactionResponse> ConfirmCheckout(string transactionId);
+        Task<RetrieveTransactionResponse> RetrieveTransaction(string transactionId);
         ListLocationsResponse GetLocations();
 
     }

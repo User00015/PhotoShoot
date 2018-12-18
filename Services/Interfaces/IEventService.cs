@@ -15,6 +15,6 @@ namespace PhotoGallery.Services.Interfaces
         Task<List<Appointment>> GetAppointments(int id);
         Task<Appointment> GetAppointment(int id, int eventId);
         Task<string> Checkout(Appointment appointment);
-        Task<bool> ConfirmCheckout(string transactionId);
+        Task<bool> ConfirmCheckout(string transactionId, string referenceId);
     }
 }

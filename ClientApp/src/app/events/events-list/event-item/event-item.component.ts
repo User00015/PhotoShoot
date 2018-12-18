@@ -15,9 +15,15 @@ export class EventItemComponent implements OnInit {
   faStar = faStar;
   exists: boolean = true;
   hovered: boolean = false;
-  @Input() event: Event;
-  @Output() onDelete: EventEmitter<any> = new EventEmitter();
-  @Output() onRegister: EventEmitter<any> = new EventEmitter();
+  @Input()
+  event: Event;
+  @Output()
+  onDelete: EventEmitter<any> = new EventEmitter();
+  @Output()
+  onRegister: EventEmitter<any> = new EventEmitter();
+
+  link = "https://www.google.com/maps/search/?api=1&query=";
+  googleMapLink;
 
   constructor(private authService: AuthService, private eventService: EventsService) { }
 
@@ -42,7 +48,7 @@ export class EventItemComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.googleMapLink = `${this.link}${this.event.address}`;
   }
 
 }

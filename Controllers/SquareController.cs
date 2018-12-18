@@ -20,9 +20,9 @@ namespace PhotoGallery.Controllers
         }
 
         [HttpGet("Confirm")]
-        public async Task<IActionResult> Checkout(string transactionId)
+        public async Task<IActionResult> Checkout(string transactionId, string referenceId)
         {
-            return Ok(await _eventService.ConfirmCheckout(transactionId));
+            return Ok(await _eventService.ConfirmCheckout(transactionId, referenceId));
         }
 
     }

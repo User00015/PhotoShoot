@@ -4,6 +4,7 @@
       <tr>
         <th>Appointment Time</th>
         <th>Availability</th>
+        <th>Price</th>
         <th></th>
       </tr>
     </thead>
@@ -11,6 +12,7 @@
       <tr *ngFor="let appointment of appointments$ | async">
         <td>{{appointment.display | date:'medium'}}</td>
         <td [ngStyle]="{'color': appointment.isClosed ? '#dc3545': '#28a745'}">{{appointment.isClosed ? 'Closed': 'Open'}} </td>
+        <td>{{appointment.price / 100 | currency}}</td>
         <td>
           <button class="btn btn-primary float-right" type="button" (click)="schedule(appointment)">Schedule</button>
         </td>

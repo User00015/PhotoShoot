@@ -12,9 +12,9 @@ img {
   transition-duration: 0.5s;
   -webkit-transition-property: color, background-color;
   transition-property: color, background-color;
-  transition-delay: 0.3s;
-  background:#2098D1;
-  color: white;
+  transition-delay: 0.05s;
+  background:rgba(32, 152, 209, 0.24);
+  /*color: white;*/
   -moz-osx-font-smoothing: grayscale;
 }
 

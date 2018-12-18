@@ -14,12 +14,13 @@ namespace PhotoGallery.Factories
         public static CreateCheckoutRequest Create(Appointment appointment)
         {
             var order = GenerateOrder(appointment);
-            return new CreateCheckoutRequest(Guid.NewGuid().ToString(), order, RedirectUrl: RedirectUrl);
+            return new CreateCheckoutRequest(Guid.NewGuid().ToString(), order, RedirectUrl: RedirectUrl, AskForShippingAddress: true, MerchantSupportEmail: "maczink15@outlook.com");
         }
 
         private static CreateOrderRequest GenerateOrder(Appointment appointment)
         {
-            return new CreateOrderRequest(LineItems: GenerateItems(appointment));
+            var guid = Guid.NewGuid().ToString();
+            return new CreateOrderRequest(LineItems: GenerateItems(appointment), IdempotencyKey: guid, ReferenceId: appointment.Id.ToString());
         }
 
         private static List<CreateOrderRequestLineItem> GenerateItems(Appointment appointment)
@@ -29,8 +30,7 @@ namespace PhotoGallery.Factories
                 new CreateOrderRequestLineItem(Name: "Appointment", Quantity: "1")
                 {
                     BasePriceMoney = new Money(appointment.Price, Money.CurrencyEnum.USD),
-                    Note = ConvertDisplay(appointment.Display)
-
+                    Note = ConvertDisplay(appointment.Display),
                 }
             };
         }

@@ -19,7 +19,7 @@ export class CheckoutConfirmationComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams
       .subscribe(params => {
-        this.isPaid$ = this.eventService.confirmAppointment(params.transactionId);
+        this.isPaid$ = this.eventService.confirmAppointment(params.transactionId, params.referenceId);
       });
   }
 

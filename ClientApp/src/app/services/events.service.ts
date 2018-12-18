@@ -24,8 +24,8 @@ export class EventsService {
     return this.http.get<string>(`${this.getAppointmentUrl}${appointment.eventId}/${appointment.id}/checkout`);
   }
 
-  confirmAppointment(transactionId: string) {
-    return this.http.get<boolean>(this.confirmationUrl, { params: { transactionId: transactionId } });
+  confirmAppointment(transactionId: string, referenceId: string) {
+    return this.http.get<boolean>(this.confirmationUrl, { params: { transactionId: transactionId, referenceId: referenceId } });
   }
 
   getAppointments(id: string): any {

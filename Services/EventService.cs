@@ -2,11 +2,10 @@
 using PhotoGallery.Areas.Identity.Data;
 using PhotoGallery.Entities;
 using PhotoGallery.Services.Interfaces;
-using System;
+using Square.Connect.Model;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Square.Connect.Model;
 
 namespace PhotoGallery.Services
 {
@@ -34,7 +33,10 @@ namespace PhotoGallery.Services
             return save;
         }
 
-        public async Task<List<Event>> GetEvents() => await _context.Events.Select(p => p).Include(p => p.Appointments).ToListAsync();
+        public async Task<List<Event>> GetEvents()
+        {
+            return await _context.Events.Select(p => p).Include(p => p.Appointments).ToListAsync();
+        }
 
         public async Task<int> DeleteEvent(int id)
         {
@@ -65,12 +67,32 @@ namespace PhotoGallery.Services
             return await _square.Checkout(appointment);
         }
 
-        public async Task<bool> ConfirmCheckout(string transactionId)
+        public async Task<bool> ConfirmCheckout(string transactionId, string referenceId)
         {
-            var confirmation = await _square.ConfirmCheckout(transactionId);
-           return confirmation.Transaction.Tenders.All(t => t.CardDetails.Status == TenderCardDetails.StatusEnum.CAPTURED);
+            var result = await Task.WhenAll(ConfirmTransaction(transactionId), CloseAppointment(referenceId));
+            return result.All(p => p);
+        }
 
-            
+        public async Task<bool> ConfirmTransaction(string transactionId)
+        {
+            var confirmation = await _square.RetrieveTransaction(transactionId);
+            return confirmation.Transaction.Tenders.All(t => t.CardDetails.Status == TenderCardDetails.StatusEnum.CAPTURED);
+        }
+
+        private async Task<bool> CloseAppointment(string referenceId)
+        {
+            using (_context.Database.BeginTransaction())
+            {
+                var appointment = _context.Events.SelectMany(p => p.Appointments).FirstOrDefault(a => a.Id.ToString() == referenceId);
+                if (appointment == null) return false;
+
+                appointment.IsClosed = true;
+                _context.Entry(appointment).State = EntityState.Modified;
+                var result = await _context.SaveChangesAsync();
+                _context.Database.CommitTransaction();
+                return result == 1;
+
+            }
         }
     }
 }

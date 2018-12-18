@@ -4,15 +4,7 @@
     Password field if Private set true
 
   Events for users need to see
-    Location
-    Option to sign up => Payment fee processing
-    Handle checkout response callback
-    Need to flag appointments that are paid for.
-    Edit button needs to actually edit events.
-
-    Scheduling
-      Scheduling does not display checkout URL.
-      Scheduling does not display price before checking out.
+  ITS ALIVE
 
     Deployment
       Fill this out (hah). Various access tokens and secret keys are publicly visible right now.
@@ -20,12 +12,3 @@
       Set up docker container
       Handle certs for https
       add database migrations to startup. 
-
-Bugs:
-  Creating event doesn't direct away / confirm success. Easy to duplicate events.
-  Login doesn't re-direct on success.
-  Very little error handling on most pages.
-  Improve Create Event/Back sub navigation.
-  Fix register button/image layout.
-
-  

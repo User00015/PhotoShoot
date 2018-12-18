@@ -38,7 +38,7 @@ namespace PhotoGallery.Services
             return response?.Checkout?.ToJson();
         }
 
-        public async Task<RetrieveTransactionResponse> ConfirmCheckout(string transactionId)
+        public async Task<RetrieveTransactionResponse> RetrieveTransaction(string transactionId)
         {
             var locationId = GetLocations().Locations.FirstOrDefault()?.Id;
             return await new TransactionsApi().RetrieveTransactionAsync(locationId, transactionId);
