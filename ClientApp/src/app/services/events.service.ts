@@ -10,6 +10,7 @@ export class EventsService {
   private getEventsUrl: string = "https://localhost:5001/api/Events";
   private getAppointmentUrl: string = "https://localhost:5001/api/Events/Appointment/";
   private getLocationsUrl: string = "https://connect.squareup.com/v2/locations/";
+  private confirmationUrl: string = "https://localhost:5001/api/Square/Confirm";
 
 
   constructor(private http: HttpClient) { }
@@ -21,7 +22,10 @@ export class EventsService {
 
   scheduleAppointment(appointment: Appointment) {
     return this.http.get<string>(`${this.getAppointmentUrl}${appointment.eventId}/${appointment.id}/checkout`);
+  }
 
+  confirmAppointment(transactionId: string) {
+    return this.http.get<boolean>(this.confirmationUrl, { params: { transactionId: transactionId } });
   }
 
   getAppointments(id: string): any {

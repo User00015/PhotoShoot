@@ -1,6 +1,7 @@
-
-<a [routerLink]='["./create"]'>Create </a>
-<a [routerLink]='["./"]'>Back </a>
+<nav class="nav" *ngIf="(isLoggedIn | async)">
+  <a class="nav-link active" [routerLink]='["./"]'>Back </a>
+  <a class="nav-link" [routerLink]='["./create"]'>Create </a>
+</nav>
 <div class="bottom-spacing">
   <router-outlet></router-outlet>
 </div>

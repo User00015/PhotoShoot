@@ -30,10 +30,6 @@ export class EventsListComponent implements OnInit {
 
   }
 
-  handleEdit(event: Event) {
-
-  }
-
   handleDelete(event: Event) {
     this.eventService.delete(event.id).subscribe(() => this.subject.next());
   }

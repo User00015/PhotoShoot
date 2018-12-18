@@ -22,8 +22,7 @@ namespace PhotoGallery.Controllers
         [HttpGet("Confirm")]
         public async Task<IActionResult> Checkout(string transactionId)
         {
-            var appointment = await _eventService.GetAppointment(eventId, appointmentId);
-            return Ok(await _eventService.Checkout(appointment));
+            return Ok(await _eventService.ConfirmCheckout(transactionId));
         }
 
     }

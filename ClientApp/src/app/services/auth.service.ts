@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { Observable, BehaviorSubject } from "rxjs";
+import { Observable, BehaviorSubject, Subject } from "rxjs";
 import { ILoginCredentials } from "../Models/login-credentials"
 
 @Injectable()
@@ -9,6 +9,8 @@ export class AuthService {
   private url: string = "https://localhost:5001/api/Account/Authenticate";
 
   public loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public errors: Subject<string> = new Subject<string>();
+
 
   login(params: ILoginCredentials) {
     let result = this.http.post(this.url, params);
@@ -18,6 +20,7 @@ export class AuthService {
     }, err => {
       this.loggedIn.next(false);
       localStorage.removeItem("auth-token");
+      this.errors.next(err);
     });
   }
 

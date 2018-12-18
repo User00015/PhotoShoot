@@ -34,10 +34,7 @@ namespace PhotoGallery.Services
             return save;
         }
 
-        public async Task<List<Event>> GetEvents()
-        {
-            return await _context.Events.Select(p => p).Include(p => p.Appointments).ToListAsync();
-        }
+        public async Task<List<Event>> GetEvents() => await _context.Events.Select(p => p).Include(p => p.Appointments).ToListAsync();
 
         public async Task<int> DeleteEvent(int id)
         {
@@ -55,13 +52,12 @@ namespace PhotoGallery.Services
 
         public async Task<List<Appointment>> GetAppointments(int id)
         {
-            return await _context.Events.Where(p => p.Id == id).SelectMany(p => p.Appointments).ToListAsync(); 
+            return await _context.Events.Where(p => p.Id == id).SelectMany(p => p.Appointments).ToListAsync();
         }
 
         public async Task<Appointment> GetAppointment(int eventId, int appointmentId)
         {
-            return await _context.Events.Where(e => e.Id == eventId).SelectMany(p => p.Appointments)
-                .Where(pp => pp.Id == appointmentId).SingleOrDefaultAsync();
+            return await _context.Events.Where(e => e.Id == eventId).SelectMany(p => p.Appointments).Where(pp => pp.Id == appointmentId).SingleOrDefaultAsync();
         }
 
         public async Task<string> Checkout(Appointment appointment)
@@ -69,9 +65,12 @@ namespace PhotoGallery.Services
             return await _square.Checkout(appointment);
         }
 
-        public async Task<RetrieveTransactionResponse> ConfirmTransaction(string transactionId)
+        public async Task<bool> ConfirmCheckout(string transactionId)
         {
-            return await _square.ConfirmCheckout(transactionId);
+            var confirmation = await _square.ConfirmCheckout(transactionId);
+           return confirmation.Transaction.Tenders.All(t => t.CardDetails.Status == TenderCardDetails.StatusEnum.CAPTURED);
+
+            
         }
     }
 }

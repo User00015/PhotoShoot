@@ -1,3 +1,7 @@
-<p>
-  checkout-confirmation works!
-</p>
+
+<div class="d-flex justify-content-center mt-5">
+  <fa-icon [icon]="faSpinner" class="fa-spin" size="5x" *ngIf="!(isPaid$ | async)"></fa-icon>
+</div>
+<h3 class="d-flex justify-content-center mt-5" *ngIf="(isPaid$ | async)">
+  Your scheduled appointment is <p class="text-success">&nbsp;complete!</p>
+</h3>

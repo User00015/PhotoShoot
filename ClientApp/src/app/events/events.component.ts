@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CreateEventComponent } from "./create/create-event.component";
+import { AuthService } from "../services/auth.service";
+import { Subject } from "rxjs/Subject";
 
 @Component({
   selector: 'app-events',
@@ -9,9 +9,12 @@ import { CreateEventComponent } from "./create/create-event.component";
 })
 export class EventsComponent implements OnInit {
 
-  constructor(private modalService: NgbModal) { }
+  constructor(private authService: AuthService) { }
+
+  isLoggedIn: Subject<boolean>;
 
   ngOnInit() {
+    this.isLoggedIn = this.authService.loggedIn;
   }
 
 }

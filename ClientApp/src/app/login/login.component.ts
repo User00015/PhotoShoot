@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from '../services/auth.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -11,13 +13,13 @@ export class LoginComponent implements OnInit {
   password: string;
   login: string;
 
-  error;
-
+  errors$: Observable<string> = this.authService.errors.pipe(map((e: any) => e.error.message));
+  error: string;
   constructor(private authService: AuthService, private router: Router ) { }
 
-  onSubmit() {
-    this.error = null;
+  onSubmit(loginForm) {
     this.authService.login({ username: this.login, password: this.password });
+    loginForm.reset();
   }
 
   ngOnInit() {
@@ -25,5 +27,4 @@ export class LoginComponent implements OnInit {
       if (loggedIn) this.router.navigate(['/admin']);
     });
   }
-
 }

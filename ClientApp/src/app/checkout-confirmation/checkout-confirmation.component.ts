@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { EventsService } from '../services/events.service';
+import { Observable } from 'rxjs';
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-checkout-confirmation',
@@ -8,15 +11,15 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class CheckoutConfirmationComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private eventService: EventsService) { }
 
-  public confirmation: any;
+  faSpinner = faSpinner;
+  public isPaid$ = new Observable<boolean>();
 
   ngOnInit() {
     this.route.queryParams
       .subscribe(params => {
-        console.log(params);
-        this.confirmation = params;
+        this.isPaid$ = this.eventService.confirmAppointment(params.transactionId);
       });
   }
 
