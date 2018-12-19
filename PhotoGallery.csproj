@@ -12,6 +12,7 @@
     <!-- Set this to true if you enable server-side prerendering -->
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
     <UserSecretsId>70975285-7c82-4574-a5d2-ad27c4a31e0b</UserSecretsId>
+    <DockerTargetOS>Windows</DockerTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,6 +22,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.4" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.0.1916590" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.5" />
     <PackageReference Include="NetCore.AutoRegisterDi" Version="1.0.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0005" />
@@ -45,11 +47,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\server.crt" />
+    <None Remove="ClientApp\server.key" />
+    <None Remove="server.pfx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="ClientApp\server.crt" />
+    <EmbeddedResource Include="ClientApp\server.key" />
+    <EmbeddedResource Include="server.pfx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="compilerconfig.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\src\app\banner-images\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 
