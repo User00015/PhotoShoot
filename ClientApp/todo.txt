@@ -8,6 +8,8 @@
 
     Deployment
       Fill this out (hah). Various access tokens and secret keys are publicly visible right now.
+        - appsettings secret
+        - 
       Add environment configs - urls are hard coded right now
       Set up docker container
       Handle certs for https
