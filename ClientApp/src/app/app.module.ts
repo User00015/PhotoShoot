@@ -32,7 +32,7 @@ import { AuthGuardService } from "./services/auth-guard.service";
 import { AuthService } from "./services/auth.service";
 import { EventsService } from "./services/events.service";
 
-import { FileDropDirective } from './Directives/file-drop.directive';
+import { FileDropDirective } from './directives/file-drop.directive';
 import { GooglePlacesDirective } from './directives/google-place.directive';
 
 import { JwtInterceptor } from "./Interceptor/jwt.interceptor";

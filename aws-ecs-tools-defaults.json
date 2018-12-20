@@ -1,0 +1,28 @@
+
+{
+    "region" : "us-east-2",
+    "profile" : "StupidRabbit",
+    "configuration" : "Release",
+    "tag"           : "photogallery:latest",
+    "cluster"       : "default",
+    "launch-type"   : "FARGATE",
+    "launch-subnets" : "subnet-ef599086,subnet-63e4ff1b,subnet-8f5b63c5",
+    "launch-security-groups" : "sg-4aef2023",
+    "assign-public-ip"       : true,
+    "task-definition-name"   : "PhotoGallery",
+    "task-cpu"               : "256",
+    "task-memory"            : "512",
+    "task-definition-task-role" : "arn:aws:iam::696730982742:role/ecsTaskExecutionRole",
+    "task-execution-role"       : "ecsTaskExecutionRole",
+    "container-name"            : "PhotoGallery",
+    "container-port-mapping"    : "80:80",
+    "container-environment-variables" : "\"ASPNETCORE_ENVIRONMENT\"=\"Production\"",
+    "skip-image-push"                 : false,
+    "cluster-service"                 : "PhotoGallery",
+    "desired-count"                   : 1,
+    "deployment-minimum-healthy-percent" : 50,
+    "deployment-maximum-percent"         : 200,
+    "elb-target-group"                   : "arn:aws:elasticloadbalancing:us-east-2:696730982742:targetgroup/PhotoGallery/8de9a86e0bd7c0d5",
+    "elb-container-port"                 : 80,
+    "vstoolkit-deployment-mode"          : "DeployService"
+}
