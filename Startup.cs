@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using PhotoGallery.Areas.Identity.Data;
 using PhotoGallery.Controllers;
 using PhotoGallery.Extensions;
 using PhotoGallery.Services;
@@ -20,7 +21,6 @@ namespace PhotoGallery
 {
     public class Startup
     {
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -34,14 +34,10 @@ namespace PhotoGallery
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
+            services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
 
             services.AddCors();
             //services.AddDbContext<DataContext>(x => x.UseSqlServer("TestDb"));
-            services.AddMvc();
             services.AddAutoMapper();
 
             // configure strongly typed settings objects
@@ -52,36 +48,36 @@ namespace PhotoGallery
             var appSettings = appSettingsSection.Get<AppSettings>();
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
             services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(x =>
-            {
-                x.Events = new JwtBearerEvents
                 {
-                    OnTokenValidated = context =>
+                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(x =>
+                {
+                    x.Events = new JwtBearerEvents
                     {
-                        var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
-                        var user = userService.GetByGuId(context.Principal.Identity.Name);
-                        if (user == null)
+                        OnTokenValidated = context =>
                         {
-                            // return unauthorized if user no longer exists
-                            context.Fail("Unauthorized");
+                            var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
+                            var user = userService.GetByGuId(context.Principal.Identity.Name);
+                            if (user == null)
+                            {
+                                // return unauthorized if user no longer exists
+                                context.Fail("Unauthorized");
+                            }
+                            return Task.CompletedTask;
                         }
-                        return Task.CompletedTask;
-                    }
-                };
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
+                    };
+                    x.RequireHttpsMetadata = false;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
 
             services.Inject(Configuration);
 
@@ -102,8 +98,7 @@ namespace PhotoGallery
             }
 
 
-            app.UseCors(builder =>
-                builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            //app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -130,10 +125,6 @@ namespace PhotoGallery
                     //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                 }
             });
-
-
         }
     }
 }
-
-

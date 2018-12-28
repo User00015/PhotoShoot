@@ -58,10 +58,6 @@
     "component": {},
     "build": {
       "progress": true
-    },
-    "serve": {
-      "sslKey": "server.key",
-      "sslCert": "server.crt" 
-    } 
+    }
   }
 }
