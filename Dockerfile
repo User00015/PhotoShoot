@@ -4,7 +4,7 @@ WORKDIR /app
 FROM microsoft/dotnet:2.1-sdk AS build
 WORKDIR /src
 COPY ["PhotoGallery.csproj", ""]
-RUN dotnet restore "/PhotoGallery.csproj"
+RUN dotnet restore "PhotoGallery.csproj"
 COPY . .
 WORKDIR "/src/"
 RUN dotnet build "PhotoGallery.csproj" -c Release -o /app
