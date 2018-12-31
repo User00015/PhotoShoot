@@ -1,7 +1,9 @@
-namespace WebApi.Helpers
+using System;
+
+namespace PhotoGallery.Helpers
 {
     public class AppSettings
     {
-        public string Secret { get; set; }
+        public Uri Url { get; set; }
     }
 }

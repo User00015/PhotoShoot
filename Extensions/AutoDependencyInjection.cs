@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PhotoGallery.Entities;
+using PhotoGallery.Helpers;
 
 namespace PhotoGallery.Extensions
 {
@@ -19,6 +20,7 @@ namespace PhotoGallery.Extensions
                 .Where(c => c.Name.EndsWith("Service"))
                 .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);
 
+            services.AddSingleton<IEnvironment, Environment>();
         }
     }
 }

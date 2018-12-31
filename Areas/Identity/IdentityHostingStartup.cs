@@ -15,10 +15,21 @@ namespace PhotoGallery.Areas.Identity
     {
         public void Configure(IWebHostBuilder builder)
         {
-            builder.ConfigureServices((context, services) => {
+            builder.ConfigureServices((context, services) =>
+            {
+                var connectionString = string.Empty;
+                if (context.HostingEnvironment.IsDevelopment())
+                {
+                    connectionString = context.Configuration.GetConnectionString("LocalhostConnection");
+                }
+
+                if (context.HostingEnvironment.IsProduction())
+                {
+                    connectionString = context.Configuration.GetConnectionString("PhotoGalleryDbContextConnection");
+                }
+
                 services.AddDbContext<PhotoGalleryIdentityDbContext>(options =>
-                    options.UseSqlServer(
-                        context.Configuration.GetConnectionString("PhotoGalleryDbContextConnection")));
+                    options.UseSqlServer(connectionString));
 
                 services.AddDefaultIdentity<User>()
                     .AddEntityFrameworkStores<PhotoGalleryIdentityDbContext>();

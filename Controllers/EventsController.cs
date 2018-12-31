@@ -24,39 +24,39 @@ namespace PhotoGallery.Controllers
         [HttpPost("Create")]
         public async Task<IActionResult> CreateEvent([FromBody] Event newEvent)
         {
-            return Ok(await _eventService.Create(newEvent));
+            return Ok(await _eventService.Create(newEvent).ConfigureAwait(false));
         }
 
         [AllowAnonymous]
         public async Task<IActionResult> GetEvents()
         {
-            return Ok(await _eventService.GetEvents());
+            return Ok(await _eventService.GetEvents().ConfigureAwait(false));
         }
 
         [HttpGet("Appointment/{eventId}")]
         public async Task<IActionResult> GetAppointments(int eventId)
         {
-            return Ok(await _eventService.GetAppointments(eventId));
+            return Ok(await _eventService.GetAppointments(eventId).ConfigureAwait(false));
         }
 
         [HttpGet("Appointment/{eventId}/{appointmentId}")]
         public async Task<IActionResult> GetAppointment(int eventId, int appointmentId)
         {
-            return Ok(await _eventService.GetAppointment(eventId, appointmentId));
+            return Ok(await _eventService.GetAppointment(eventId, appointmentId).ConfigureAwait(false));
         }
 
         [HttpGet("Appointment/{eventId}/{appointmentId}/checkout")]
         public async Task<IActionResult> Checkout(int eventId, int appointmentId)
         {
-            var appointment = await _eventService.GetAppointment(eventId, appointmentId);
-            return Ok(await _eventService.Checkout(appointment));
+            var appointment = await _eventService.GetAppointment(eventId, appointmentId).ConfigureAwait(false);
+            return Ok(await _eventService.Checkout(appointment).ConfigureAwait(false));
         }
 
         [HttpDelete("Delete")]
         public async Task<IActionResult> DeleteEvent(int id)
         {
-            await _eventService.DeleteEvent(id);
-            return Ok(await _eventService.GetEvents());
+            await _eventService.DeleteEvent(id).ConfigureAwait(false);
+            return Ok(await _eventService.GetEvents().ConfigureAwait(false));
         }
     }
 }

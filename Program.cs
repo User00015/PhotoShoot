@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using System.Net;
+using Microsoft.Extensions.Configuration;
 
 namespace PhotoGallery
 {
@@ -8,7 +9,8 @@ namespace PhotoGallery
     {
         static void Main(string[] args)
         {
-            var host = CreateWebHostBuilder(args).Build();
+            var host = CreateWebHostBuilder(args)
+                .Build();
 
             UpdateDbContext.Update(host);
 
@@ -17,14 +19,15 @@ namespace PhotoGallery
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+            .ConfigureAppConfiguration((hostingContext, builder) =>
+                {
+                    var env = hostingContext.HostingEnvironment;
+                    builder.AddSystemsManager("/PhotoGallery");
+                    builder.AddJsonFile($"appsettings.{env.EnvironmentName}.json");
+                })
             .UseKestrel(options =>
                 {
                     options.Limits.MaxRequestBodySize = null;
-                    options.Listen(IPAddress.IPv6Loopback, 5000);
-                    options.Listen(IPAddress.Loopback, 5001, listenOptions =>
-                    {
-                        listenOptions.UseHttps("server.pfx", "");
-                    });
                 })
                 .UseStartup<Startup>();
     }

@@ -2,28 +2,39 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Options;
 using PhotoGallery.Entities;
+using PhotoGallery.Helpers;
 using Square.Connect.Model;
 
 namespace PhotoGallery.Factories
 {
-    public static class CheckoutFactory
+    public class CheckoutService : ICheckoutService
     {
-        public static string RedirectUrl { get; } = "https://localhost:4200/confirmcheckout"; //TODO - Fix me for deployment
+        private readonly IOptions<AppSettings> _appSettings;
+        public string confirmCheckout { get; } = "confirmcheckout";
+        public IEnvironment _env { get; }
 
-        public static CreateCheckoutRequest Create(Appointment appointment)
+        public CheckoutService(IOptions<AppSettings> appSettings)
         {
-            var order = GenerateOrder(appointment);
-            return new CreateCheckoutRequest(Guid.NewGuid().ToString(), order, RedirectUrl: RedirectUrl, AskForShippingAddress: true, MerchantSupportEmail: "maczink15@outlook.com");
+            _appSettings = appSettings;
         }
 
-        private static CreateOrderRequest GenerateOrder(Appointment appointment)
+        public CreateCheckoutRequest Create(Appointment appointment)
+        {
+            var redirectUrl = _appSettings.Value.Url.AbsoluteUri + confirmCheckout;
+            var order = GenerateOrder(appointment);
+            return new CreateCheckoutRequest(Guid.NewGuid().ToString(), order, RedirectUrl: redirectUrl, AskForShippingAddress: true, MerchantSupportEmail: "maczink15@outlook.com");
+        }
+
+        private CreateOrderRequest GenerateOrder(Appointment appointment)
         {
             var guid = Guid.NewGuid().ToString();
             return new CreateOrderRequest(LineItems: GenerateItems(appointment), IdempotencyKey: guid, ReferenceId: appointment.Id.ToString());
         }
 
-        private static List<CreateOrderRequestLineItem> GenerateItems(Appointment appointment)
+        private List<CreateOrderRequestLineItem> GenerateItems(Appointment appointment)
         {
             return new List<CreateOrderRequestLineItem>()
             {
@@ -35,7 +46,7 @@ namespace PhotoGallery.Factories
             };
         }
 
-        private static string ConvertDisplay(string appointmentDisplay)
+        private string ConvertDisplay(string appointmentDisplay)
         {
             DateTime.TryParse(appointmentDisplay, out DateTime displayDateTime);
             return displayDateTime.ToString("dddd, MMMM d, yyyy  hh:mm tt");

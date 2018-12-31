@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Event, Appointment } from "../Models/event-model";
+import { environment } from "../../environments/environment";
 
 @Injectable()
 export class EventsService {
 
-  private createEventUrl: string = "https://localhost:5001/api/Events/Create";
-  private deleteEventUrl: string = "https://localhost:5001/api/Events/Delete";
-  private getEventsUrl: string = "https://localhost:5001/api/Events";
-  private getAppointmentUrl: string = "https://localhost:5001/api/Events/Appointment/";
-  private getLocationsUrl: string = "https://connect.squareup.com/v2/locations/";
-  private confirmationUrl: string = "https://localhost:5001/api/Square/Confirm";
+  private baseUrl = environment.baseUrl;
+  private createEventUrl: string = this.baseUrl + "api/Events/Create";
+  private deleteEventUrl: string = this.baseUrl + "api/Events/Delete";
+  private getEventsUrl: string = this.baseUrl + "api/Events";
+  private getAppointmentUrl: string = this.baseUrl + "api/Events/Appointment/";
+  private getLocationsUrl: string = this.baseUrl + "v2/locations/";
+  private confirmationUrl: string = this.baseUrl + "api/Square/Confirm";
 
 
   constructor(private http: HttpClient) { }

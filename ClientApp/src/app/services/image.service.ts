@@ -3,17 +3,17 @@ import { HttpClient } from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {DomSanitizer} from "@angular/platform-browser"
 import {Image} from "../Models/image-model";
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class ImageService {
 
-  private bannerUrl: string = "https://localhost:5001/api/Images/banner";
-  private galleryUrl: string = "https://localhost:5001/api/Images/getImages";
-
-  private imagesUrl: string = "https://localhost:5001/api/Images/uploadImages";
-  private imageTypesUrl: string = "https://localhost:5001/api/Data/imageTypes";
-
-  private galleryDeleteUrl: string = "https://localhost:5001/api/Images/deleteImage";
+  private baseUrl = environment.baseUrl;
+  private bannerUrl: string = this.baseUrl + "api/Images/banner";
+  private galleryUrl: string =  this.baseUrl +"api/Images/getImages";
+  private imagesUrl: string =  this.baseUrl +"api/Images/uploadImages";
+  private imageTypesUrl: string =  this.baseUrl +"api/Data/imageTypes";
+  private galleryDeleteUrl: string =  this.baseUrl +"api/Images/deleteImage";
 
   constructor(private http: HttpClient) { }
   

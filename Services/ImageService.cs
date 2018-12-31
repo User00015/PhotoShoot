@@ -56,7 +56,7 @@ namespace PhotoGallery.Services
                 .Skip(page * SIZE_OF_PAGE_VIEW).Take(SIZE_OF_PAGE_VIEW).ToList();
             var imageMapping = images.Select(image => Task.Run(() => MapImage(image))).ToList();
 
-            await Task.WhenAll(imageMapping);
+            await Task.WhenAll(imageMapping).ConfigureAwait(false);
             return imageMapping.Select(i => i.Result);
         }
 
@@ -86,7 +86,7 @@ namespace PhotoGallery.Services
         {
             using (_context.Database.BeginTransaction())
             {
-                var image = await _context.Images.FindAsync(new Guid(id));
+                var image = await _context.Images.FindAsync(new Guid(id)).ConfigureAwait(false);
                 if (image != null)
                 {
                     _context.Entry(image).State = EntityState.Deleted;

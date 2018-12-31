@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using PhotoGallery.Helpers;
 using WebApi.Dtos;
 using WebApi.Entities;
 using WebApi.Helpers;
@@ -22,16 +23,16 @@ namespace WebApi.Controllers
     {
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
-        private readonly AppSettings _appSettings;
+        private readonly JwtSecretKey _jwtSecretKey;
 
         public AccountController (
             IUserService userService,
             IMapper mapper,
-            IOptions<AppSettings> appSettings)
+            IOptions<JwtSecretKey> jwtSecretKey)
         {
             _userService = userService;
             _mapper = mapper;
-            _appSettings = appSettings.Value;
+            _jwtSecretKey = jwtSecretKey.Value;
         }
 
         [HttpGet("test")]
@@ -50,7 +51,7 @@ namespace WebApi.Controllers
                 return BadRequest(new { message = "Username or password is incorrect" });
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var key = Encoding.ASCII.GetBytes(_jwtSecretKey.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]

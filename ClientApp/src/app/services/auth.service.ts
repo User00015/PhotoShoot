@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable, BehaviorSubject, Subject } from "rxjs";
-import { ILoginCredentials } from "../Models/login-credentials"
+import { ILoginCredentials } from "../Models/login-credentials";
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class AuthService {
 
-  private url: string = "https://localhost:5001/api/Account/Authenticate";
+  private baseUrl = environment.baseUrl;
+  private url: string = this.baseUrl + "api/Account/Authenticate";
 
   public loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public errors: Subject<string> = new Subject<string>();

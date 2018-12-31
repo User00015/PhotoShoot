@@ -4,7 +4,6 @@ RUN apt-get -qq update && apt-get install -y build-essential
 RUN curl -sL https://deb.nodesource.com/setup_10.x |  bash -
 RUN apt-get install -y nodejs
 RUN npm i -g --unsafe-perm node-sass && npm rebuild --unsafe-perm node-sass -f
-EXPOSE 80
 
 FROM microsoft/dotnet:2.1-sdk AS build
 WORKDIR /src
@@ -21,6 +20,7 @@ FROM build AS publish
 RUN dotnet publish PhotoGallery.csproj -c Release -o /app
 
 FROM base AS final
+ENV ASPNETCORE_URLS http://*:5000 
 WORKDIR /app
 COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "PhotoGallery.dll"]
