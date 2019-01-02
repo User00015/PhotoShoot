@@ -7,7 +7,9 @@ using PhotoGallery.Extensions;
 using PhotoGallery.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using PhotoGallery.Services;
 
 namespace PhotoGallery.Controllers
@@ -44,15 +46,18 @@ namespace PhotoGallery.Controllers
         }
 
         [HttpGet("getImages")]
-        public async Task<IEnumerable<ImageViewModel>> GetImages(int size, string type)
+        //public IEnumerable<string> GetImages(int size, string type)
+        public async Task<List<Image>> GetImages(int size, string type)
         {
             ImageType imageType = Enum.Parse<ImageType>(type.RemoveWhiteSpace(), ignoreCase: true);
-            return await _imageService.GetImagesAsync(size, imageType).ConfigureAwait(false);
+            var result = await _imageService.GetImages(size, imageType).ToListAsync().ConfigureAwait(false);
+
+            return result;
         }
 
 
         [HttpGet("banner")]
-        public IEnumerable<string> GetBanner()
+        public IQueryable<string> GetBanner()
         {
             return _imageService.GetBannerImages();
         }

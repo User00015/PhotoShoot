@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Amazon;
+using Amazon.S3;
+using Amazon.S3.Transfer;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
@@ -8,10 +11,8 @@ using PhotoGallery.Services.Interfaces;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Image = PhotoGallery.Entities.Image;
 
@@ -19,16 +20,17 @@ namespace PhotoGallery.Services
 {
     public class ImageService : IImageService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private const string bucketName = "photos-lisamaczink";
+        private static readonly RegionEndpoint bucketRegion = RegionEndpoint.USEast2;
         private readonly PhotoGalleryIdentityDbContext _context;
         private readonly int SIZE_OF_PAGE_VIEW = 48;
-        private readonly IDistributedCache _cache;
+        private readonly AmazonS3Client _s3Client;
+        private static readonly Uri BaseUri = new Uri(@"https://s3.us-east-2.amazonaws.com/photos-lisamaczink/");
 
         public ImageService(IHostingEnvironment hostingEnvironment, PhotoGalleryIdentityDbContext context, IDistributedCache cache)
         {
-            _hostingEnvironment = hostingEnvironment;
             _context = context;
-            _cache = cache;
+            _s3Client = new AmazonS3Client(bucketRegion);
         }
 
         public void DeleteEntireGallery()
@@ -45,42 +47,16 @@ namespace PhotoGallery.Services
             }
         }
 
-        public IEnumerable<string> GetBannerImages()
+        public IQueryable<string> GetBannerImages()
         {
             IQueryable<Image> images = _context.Images.AsQueryable();
-            return images.OrderByDescending(p => p.TimeStamp).Where(p => p.Type == ImageType.Banner).Take(4).Select(p => $"data:image/jpg;base64, {Convert.ToBase64String(p.Data)}");
+            return images.OrderByDescending(p => p.TimeStamp).Where(p => p.Type == ImageType.Banner).Take(4).Select(p => p.Url);
         }
 
-        public async Task<IEnumerable<ImageViewModel>> GetImagesAsync(int page, ImageType type)
+        public IQueryable<Image> GetImages(int page, ImageType type)
         {
-            var images = _context.Images.OrderByDescending(p => p.TimeStamp).Where(p => p.Type == type)
-                .Skip(page * SIZE_OF_PAGE_VIEW).Take(SIZE_OF_PAGE_VIEW).ToList();
-            var imageMapping = images.Select(image => Task.Run(() => MapImage(image))).ToList();
-
-            await Task.WhenAll(imageMapping).ConfigureAwait(false);
-            return imageMapping.Select(i => i.Result);
-        }
-
-        private ImageViewModel MapImage(Image image)
-        {
-            var bufferedImage = _cache.GetString(image.Id.ToString());
-
-            if (bufferedImage != null)
-            {
-                return new ImageViewModel()
-                {
-                    ImageBase64 = bufferedImage,
-                    Id = image.Id.ToString()
-                };
-            }
-
-            var sharpImage = SixLabors.ImageSharp.Image.Load(image.Data);
-            sharpImage.Mutate(x => x.Resize(290, 160));
-            return new ImageViewModel()
-            {
-                Id = image.Id.ToString(),
-                ImageBase64 = sharpImage.ToBase64String(ImageFormats.Jpeg)
-            };
+            return _context.Images.OrderByDescending(p => p.TimeStamp).Where(p => p.Type == type)
+                .Skip(page * SIZE_OF_PAGE_VIEW).Take(SIZE_OF_PAGE_VIEW).Select(i => i);
         }
 
         public async Task DeleteImage(string id)
@@ -98,39 +74,48 @@ namespace PhotoGallery.Services
         }
 
 
-        public void UploadImages(IFormFileCollection images, ImageType type)
+        public async Task UploadImages(IFormFileCollection images, ImageType type)
         {
-            using (_context.Database.BeginTransaction())
+            foreach (var image in images)
             {
-                foreach (IFormFile image in images)
-                {
-
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        image.CopyTo(ms);
-                        _context.Images.Add(new Image
-                        {
-                            FileName = image.FileName,
-                            Id = Guid.NewGuid(),
-                            Data = ms.ToArray(),
-                            TimeStamp = DateTime.Now,
-                            Type = type
-
-                        });
-                    }
-                }
-                _context.SaveChanges();
-                _context.Database.CommitTransaction();
+                var guid = Guid.NewGuid();
+                UploadToDBContext(image, type, guid);
+                UploadToS3(image, guid);
             }
         }
 
-        public string ResizeImage(string imgData)
+        public async Task UploadToDBContext(IFormFile image, ImageType type, Guid guid)
         {
-            var imgBytes = Convert.FromBase64String(imgData.Substring(23)); //Strip the characters 'data:image/jpg;base64,'
-            var sharpImage = SixLabors.ImageSharp.Image.Load(imgBytes);
-            sharpImage.Mutate(x => x.Resize(290, 160));
-            return sharpImage.ToBase64String(ImageFormats.Jpeg);
+            var uri = new Uri(BaseUri, guid.ToString());
+            await _context.Images.AddAsync(new Image
+            {
+                FileName = image.FileName,
+                Id = guid,
+                Url = uri.AbsoluteUri,
+                TimeStamp = DateTime.Now,
+                Type = type
 
+            }).ConfigureAwait(false);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UploadToS3(IFormFile image, Guid guid)
+        {
+            var ms = new MemoryStream();
+            image.CopyTo(ms);
+            var uploadRequest = new TransferUtilityUploadRequest
+            {
+                InputStream = ms,
+                Key = guid.ToString(),
+                BucketName = bucketName,
+                CannedACL = S3CannedACL.PublicRead,
+            };
+
+            using (var transferUtility = new TransferUtility(_s3Client))
+            {
+                await transferUtility.UploadAsync(uploadRequest).ConfigureAwait(false);
+            }
         }
     }
 }

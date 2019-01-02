@@ -12,7 +12,7 @@ namespace PhotoGallery.Entities
         [StringLength(255)]
         public string FileName { get; set; }
         [Required]
-        public byte[] Data { get; set; }
+        public string Url { get; set; }
 
         public DateTime TimeStamp { get; set; }
         public ImageType Type { get; set; }
@@ -22,7 +22,7 @@ namespace PhotoGallery.Entities
     {
         Guid Id { get; set; }
         string FileName { get; set; }
-        byte[] Data { get; set; }
+        string Url  { get; set; }
         DateTime TimeStamp { get; set; }
 
         ImageType Type { get; set; }

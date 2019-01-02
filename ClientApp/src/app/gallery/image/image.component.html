@@ -1,4 +1,4 @@
 <div *ngIf="exists">
-  <img [src]="imgSrc.imageBase64" class="img-fluid rounded" />
+  <img [src]="imgSrc.url" class="img-fluid rounded" />
   <button type="button" class="btn  btn-danger overlay-img" (click)="onDelete($event)" *ngIf="hovered && (authService.loggedIn | async)"><fa-icon [icon]="faTrash"></fa-icon></button>
 </div>

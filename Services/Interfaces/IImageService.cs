@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -9,11 +11,10 @@ namespace PhotoGallery.Services.Interfaces
 {
     public interface IImageService
     {
-        void UploadImages(IFormFileCollection files, ImageType type);
+        Task UploadImages(IFormFileCollection files, ImageType type);
         void DeleteEntireGallery();
-        string ResizeImage(string imgString);
-        IEnumerable<string> GetBannerImages();
-        Task<IEnumerable<ImageViewModel>> GetImagesAsync(int size, ImageType imageType);
+        IQueryable<string> GetBannerImages();
+        IQueryable<Image> GetImages(int size, ImageType imageType);
         Task DeleteImage(string id);
     }
 }

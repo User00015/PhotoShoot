@@ -29,6 +29,7 @@ export class GalleryComponent implements OnInit {
   onScroll() {
     this.loading = true;
     this.imageService.getGalleryImages(this.currentPage++, this.currentSelection).subscribe((data: any) => {
+      console.log(data);
       this.images$.next([...this.images$.getValue(), ...data]);
       this.loading = false;
     });
@@ -49,6 +50,7 @@ export class GalleryComponent implements OnInit {
     this.currentSelection$.subscribe(selection => {
       this.loading = true;
       this.imageService.getGalleryImages(this.currentPage, selection).subscribe((data: any) => {
+      console.log(data);
         this.currentSelection = selection;
         this.images$.next(data);
         this.loading = false;

@@ -25,7 +25,6 @@ namespace PhotoGallery.Services
         public async Task<int> Create(Event newEvent)
         {
             int save;
-            newEvent.Image = _imageService.ResizeImage(newEvent.Image);
 
             using (_context.Database.BeginTransaction())
             {
