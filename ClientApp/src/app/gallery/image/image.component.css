@@ -4,3 +4,8 @@
   left: 1.5em;
 }
 
+img {
+  object-fit: scale-down;
+  max-height: 10em;
+}
+

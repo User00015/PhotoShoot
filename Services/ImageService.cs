@@ -1,10 +1,8 @@
 ﻿using Amazon;
 using Amazon.S3;
 using Amazon.S3.Transfer;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
 using PhotoGallery.Areas.Identity.Data;
 using PhotoGallery.Entities;
 using PhotoGallery.Services.Interfaces;
@@ -18,7 +16,7 @@ using Image = PhotoGallery.Entities.Image;
 
 namespace PhotoGallery.Services
 {
-    public class ImageService : IImageService
+    public class ImageService : IImageService, IDisposable
     {
         private const string bucketName = "photos-lisamaczink";
         private static readonly RegionEndpoint bucketRegion = RegionEndpoint.USEast2;
@@ -27,7 +25,7 @@ namespace PhotoGallery.Services
         private readonly AmazonS3Client _s3Client;
         private static readonly Uri BaseUri = new Uri(@"https://s3.us-east-2.amazonaws.com/photos-lisamaczink/");
 
-        public ImageService(IHostingEnvironment hostingEnvironment, PhotoGalleryIdentityDbContext context, IDistributedCache cache)
+        public ImageService(PhotoGalleryIdentityDbContext context)
         {
             _context = context;
             _s3Client = new AmazonS3Client(bucketRegion);
@@ -116,6 +114,19 @@ namespace PhotoGallery.Services
             {
                 await transferUtility.UploadAsync(uploadRequest);
             }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposing) return;
+            _s3Client.Dispose();
+            _context.Dispose();
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }
