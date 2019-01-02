@@ -36,14 +36,14 @@ namespace PhotoGallery.Services
             var locationId = GetLocations().Locations.FirstOrDefault()?.Id;
             var checkoutRequest = _checkoutService.Create(appointment);
 
-            var response = await _checkout.CreateCheckoutAsync(locationId, checkoutRequest).ConfigureAwait(false);
+            var response = await _checkout.CreateCheckoutAsync(locationId, checkoutRequest);
             return response?.Checkout?.ToJson();
         }
 
         public async Task<RetrieveTransactionResponse> RetrieveTransaction(string transactionId)
         {
             var locationId = GetLocations().Locations.FirstOrDefault()?.Id;
-            return await new TransactionsApi().RetrieveTransactionAsync(locationId, transactionId).ConfigureAwait(false);
+            return await new TransactionsApi().RetrieveTransactionAsync(locationId, transactionId);
         }
     }
 }

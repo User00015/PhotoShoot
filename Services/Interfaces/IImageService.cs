@@ -11,7 +11,7 @@ namespace PhotoGallery.Services.Interfaces
 {
     public interface IImageService
     {
-        Task UploadImages(IFormFileCollection files, ImageType type);
+        void UploadImages(IFormFileCollection files, ImageType type);
         void DeleteEntireGallery();
         IQueryable<string> GetBannerImages();
         IQueryable<Image> GetImages(int size, ImageType imageType);

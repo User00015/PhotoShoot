@@ -48,7 +48,7 @@ namespace PhotoGallery.Controllers
         [HttpGet("Appointment/{eventId}/{appointmentId}/checkout")]
         public async Task<IActionResult> Checkout(int eventId, int appointmentId)
         {
-            var appointment = await _eventService.GetAppointment(eventId, appointmentId).ConfigureAwait(false);
+            var appointment = await _eventService.GetAppointment(eventId, appointmentId);
             return Ok(await _eventService.Checkout(appointment));
         }
 

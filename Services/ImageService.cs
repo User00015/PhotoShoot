@@ -63,7 +63,7 @@ namespace PhotoGallery.Services
         {
             using (_context.Database.BeginTransaction())
             {
-                var image = await _context.Images.FindAsync(new Guid(id)).ConfigureAwait(false);
+                var image = await _context.Images.FindAsync(new Guid(id));
                 if (image != null)
                 {
                     _context.Entry(image).State = EntityState.Deleted;
@@ -74,7 +74,7 @@ namespace PhotoGallery.Services
         }
 
 
-        public async Task UploadImages(IFormFileCollection images, ImageType type)
+        public void UploadImages(IFormFileCollection images, ImageType type)
         {
             foreach (var image in images)
             {
@@ -95,7 +95,7 @@ namespace PhotoGallery.Services
                 TimeStamp = DateTime.Now,
                 Type = type
 
-            }).ConfigureAwait(false);
+            });
 
             await _context.SaveChangesAsync();
         }
@@ -114,7 +114,7 @@ namespace PhotoGallery.Services
 
             using (var transferUtility = new TransferUtility(_s3Client))
             {
-                await transferUtility.UploadAsync(uploadRequest).ConfigureAwait(false);
+                await transferUtility.UploadAsync(uploadRequest);
             }
         }
     }

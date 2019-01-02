@@ -71,13 +71,13 @@ namespace PhotoGallery.Services
 
         public async Task<bool> ConfirmCheckout(string transactionId, string referenceId)
         {
-            var result = await Task.WhenAll(ConfirmTransaction(transactionId), CloseAppointment(referenceId)).ConfigureAwait(false);
+            var result = await Task.WhenAll(ConfirmTransaction(transactionId), CloseAppointment(referenceId));
             return result.All(p => p);
         }
 
         public async Task<bool> ConfirmTransaction(string transactionId)
         {
-            var confirmation = await _square.RetrieveTransaction(transactionId).ConfigureAwait(false);
+            var confirmation = await _square.RetrieveTransaction(transactionId);
             return confirmation.Transaction.Tenders.All(t => t.CardDetails.Status == TenderCardDetails.StatusEnum.CAPTURED);
         }
 
@@ -90,7 +90,7 @@ namespace PhotoGallery.Services
 
                 appointment.IsClosed = true;
                 _context.Entry(appointment).State = EntityState.Modified;
-                var result = await _context.SaveChangesAsync().ConfigureAwait(false);
+                var result = await _context.SaveChangesAsync();
                 _context.Database.CommitTransaction();
                 return result == 1;
 

@@ -15,14 +15,10 @@ namespace PhotoGallery.Controllers
     [ApiController]
     public class DataController : Controller
     {
-        private readonly IEnvironment _env;
-        private readonly string _foo;
-        private IConfiguration _config;
         private IOptions<AppSettings> _app;
 
-        public DataController(IConfiguration config, IOptions<AppSettings> settings)
+        public DataController(IOptions<AppSettings> settings)
         {
-            _config = config;
             _app = settings;
         }
 

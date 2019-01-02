@@ -50,7 +50,7 @@ namespace PhotoGallery.Controllers
         public async Task<List<Image>> GetImages(int size, string type)
         {
             ImageType imageType = Enum.Parse<ImageType>(type.RemoveWhiteSpace(), ignoreCase: true);
-            var result = await _imageService.GetImages(size, imageType).ToListAsync().ConfigureAwait(false);
+            var result = await _imageService.GetImages(size, imageType).ToListAsync();
 
             return result;
         }
@@ -66,7 +66,7 @@ namespace PhotoGallery.Controllers
         [HttpDelete("deleteImage")]
         public async Task<IActionResult> DeleteImage(string id)
         {
-            await _imageService.DeleteImage(id).ConfigureAwait(false);
+            await _imageService.DeleteImage(id);
             return Ok();
 
         }
