@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Image = PhotoGallery.Entities.Image;
 
@@ -123,12 +124,13 @@ namespace PhotoGallery.Services
             }
         }
 
-        private void SetCachedImage(Image img)
+        public string ResizeImage(string imgData)
         {
-            var sharpImage = SixLabors.ImageSharp.Image.Load(img.Data);
+            var imgBytes = Convert.FromBase64String(imgData.Substring(23)); //Strip the characters 'data:image/jpg;base64,'
+            var sharpImage = SixLabors.ImageSharp.Image.Load(imgBytes);
             sharpImage.Mutate(x => x.Resize(290, 160));
-            var imgString = sharpImage.ToBase64String(ImageFormats.Jpeg);
-            _cache.SetString(img.Id.ToString(), imgString);
+            return sharpImage.ToBase64String(ImageFormats.Jpeg);
+
         }
     }
 }

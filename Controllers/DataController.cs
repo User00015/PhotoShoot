@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using PhotoGallery.Entities;
@@ -16,16 +17,19 @@ namespace PhotoGallery.Controllers
     {
         private readonly IEnvironment _env;
         private readonly string _foo;
+        private IConfiguration _config;
+        private IOptions<AppSettings> _app;
 
-        public DataController(IConfiguration config, IEnvironment env)
+        public DataController(IConfiguration config, IOptions<AppSettings> settings)
         {
-            _env = env;
+            _config = config;
+            _app = settings;
         }
 
         [HttpGet("Foo")]
         public IActionResult GetFoo()
         {
-            return Ok(_env.Url);
+            return new JsonResult(_app);
         }
 
         [HttpGet("ImageTypes")]

@@ -13,20 +13,23 @@ namespace PhotoGallery.Services
     {
         private readonly PhotoGalleryIdentityDbContext _context;
         private readonly ISquareService _square;
+        private readonly IImageService _imageService;
 
-        public EventService(PhotoGalleryIdentityDbContext context, ISquareService square)
+        public EventService(PhotoGalleryIdentityDbContext context, ISquareService square, IImageService imageService)
         {
             _context = context;
             _square = square;
+            _imageService = imageService;
         }
 
         public async Task<int> Create(Event newEvent)
         {
             int save;
+            newEvent.Image = _imageService.ResizeImage(newEvent.Image);
 
             using (_context.Database.BeginTransaction())
             {
-                await _context.Events.AddAsync(newEvent).ConfigureAwait(false);
+                await _context.Events.AddAsync(newEvent);
                 save = _context.SaveChanges();
                 _context.Database.CommitTransaction();
             }
@@ -35,7 +38,7 @@ namespace PhotoGallery.Services
 
         public async Task<List<Event>> GetEvents()
         {
-            return await _context.Events.Select(p => p).Include(p => p.Appointments).ToListAsync().ConfigureAwait(false);
+            return await _context.Events.Select(p => p).Include(p => p.Appointments).ToListAsync();
         }
 
         public async Task<int> DeleteEvent(int id)
@@ -43,7 +46,7 @@ namespace PhotoGallery.Services
             int save;
             using (_context.Database.BeginTransaction())
             {
-                var eventToDelete = await _context.Events.FindAsync(id).ConfigureAwait(false);
+                var eventToDelete = await _context.Events.FindAsync(id);
                 _context.Entry(eventToDelete).State = EntityState.Deleted;
                 save = _context.SaveChanges();
                 _context.Database.CommitTransaction();
@@ -54,17 +57,17 @@ namespace PhotoGallery.Services
 
         public async Task<List<Appointment>> GetAppointments(int id)
         {
-            return await _context.Events.Where(p => p.Id == id).SelectMany(p => p.Appointments).ToListAsync().ConfigureAwait(false);
+            return await _context.Events.Where(p => p.Id == id).SelectMany(p => p.Appointments).ToListAsync();
         }
 
         public async Task<Appointment> GetAppointment(int eventId, int appointmentId)
         {
-            return await _context.Events.Where(e => e.Id == eventId).SelectMany(p => p.Appointments).Where(pp => pp.Id == appointmentId).SingleOrDefaultAsync().ConfigureAwait(false);
+            return await _context.Events.Where(e => e.Id == eventId).SelectMany(p => p.Appointments).Where(pp => pp.Id == appointmentId).SingleOrDefaultAsync();
         }
 
         public async Task<string> Checkout(Appointment appointment)
         {
-            return await _square.Checkout(appointment).ConfigureAwait(false);
+            return await _square.Checkout(appointment);
         }
 
         public async Task<bool> ConfirmCheckout(string transactionId, string referenceId)

@@ -21,9 +21,7 @@ namespace PhotoGallery
             WebHost.CreateDefaultBuilder(args)
             .ConfigureAppConfiguration((hostingContext, builder) =>
                 {
-                    var env = hostingContext.HostingEnvironment;
                     builder.AddSystemsManager("/PhotoGallery");
-                    builder.AddJsonFile($"appsettings.{env.EnvironmentName}.json");
                 })
             .UseKestrel(options =>
                 {
