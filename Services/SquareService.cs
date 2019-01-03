@@ -1,28 +1,31 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Options;
+using PhotoGallery.Entities;
+using PhotoGallery.Factories;
+using PhotoGallery.Helpers;
 using PhotoGallery.Services.Interfaces;
 using Square.Connect.Api;
 using Square.Connect.Client;
 using Square.Connect.Model;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using PhotoGallery.Entities;
-using PhotoGallery.Factories;
-using RestSharp.Extensions;
 
 namespace PhotoGallery.Services
 {
     public class SquareService : ISquareService
     {
         private readonly ICheckoutService _checkoutService;
-        private readonly string _accessToken = "sandbox-sq0atb-7a6pX3VZ40QWQyZwSI9xfA"; //TODO THIS IS A SECRET -- CHANGE BEFORE DEPLOYMENT
-        private readonly CheckoutApi _checkout; 
+        private readonly IHostingEnvironment _env;
+        private readonly CheckoutApi _checkout;
 
-        public SquareService(ICheckoutService checkoutService)
+
+        public SquareService(ICheckoutService checkoutService, IOptions<SquareSecretKey> squareSecretKey, IHostingEnvironment env)
         {
             _checkoutService = checkoutService;
+            _env = env;
             _checkout = new CheckoutApi();
-            Configuration.Default.AccessToken = _accessToken;
+
+            Configuration.Default.AccessToken = env.IsProduction() ? squareSecretKey?.Value?.Secret : "sandbox-sq0atb-CiMknPZajSaOmSBVRx6ifQ";
         }
 
         public ListLocationsResponse GetLocations()

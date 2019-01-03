@@ -50,14 +50,19 @@ namespace PhotoGallery
             services.AddAutoMapper();
 
             // configure strongly typed settings objects
-            var awsSettings = Configuration.GetSection("JwtSecretKey");
-            services.Configure<JwtSecretKey>(options => { options.Secret = awsSettings.Value; });
+            var jwtSettings = Configuration.GetSection("JwtSecretKey");
+            services.Configure<JwtSecretKey>(options => { options.Secret = jwtSettings.Value; });
+
+            var squareSettings = Configuration.GetSection("SquareKey");
+            services.Configure<SquareSecretKey>(options => { options.Secret = squareSettings.Value; });
+
+            
 
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
 
             // configure jwt authentication
-            var key = Encoding.ASCII.GetBytes(awsSettings.Value);
+            var key = Encoding.ASCII.GetBytes(jwtSettings.Value);
             services.AddAuthentication(x =>
                 {
                     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

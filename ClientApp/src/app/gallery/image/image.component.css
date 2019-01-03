@@ -5,7 +5,8 @@
 }
 
 img {
-  object-fit: scale-down;
+  object-fit: fill;
+  min-height: 10em;
   max-height: 10em;
 }
 

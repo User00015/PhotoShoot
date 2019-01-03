@@ -31,6 +31,8 @@ namespace PhotoGallery.Areas.Identity
                 services.AddDbContext<PhotoGalleryIdentityDbContext>(options =>
                     options.UseSqlServer(connectionString));
 
+                services.AddScoped<PhotoGalleryIdentityDbContext>();
+
                 services.AddDefaultIdentity<User>()
                     .AddEntityFrameworkStores<PhotoGalleryIdentityDbContext>();
             });

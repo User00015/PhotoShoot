@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Amazon.S3.Model;
 using Image = PhotoGallery.Entities.Image;
 
 namespace PhotoGallery.Services
@@ -59,50 +60,73 @@ namespace PhotoGallery.Services
 
         public async Task DeleteImage(string id)
         {
-            using (_context.Database.BeginTransaction())
+            var image = await _context.Images.FindAsync(new Guid(id));
+            if (image != null)
             {
-                var image = await _context.Images.FindAsync(new Guid(id));
-                if (image != null)
-                {
-                    _context.Entry(image).State = EntityState.Deleted;
-                }
-                _context.SaveChanges();
-                _context.Database.CommitTransaction();
+                _context.Entry(image).State = EntityState.Deleted;
             }
+            _context.SaveChanges();
+
+            var deleteRequest = new DeleteObjectRequest
+            {
+                BucketName = bucketName,
+                Key = id
+            };
+
+            await _s3Client.DeleteObjectAsync(deleteRequest);
         }
 
 
-        public async Task UploadImages(IFormFileCollection images, ImageType type)
+        public int UploadImages(IFormFileCollection images, ImageType type)
         {
-            var guids = new List<Guid>();
-            foreach (var formFile in images)
+            var guids = images.Select(formFile => Guid.NewGuid()).ToList();
+
+            var imagesZip = images.Zip(guids, (file, guid) => new UploadImage()
             {
-                guids.Add(Guid.NewGuid());
-            }
-
-            UploadToS3(images, guids);
-
-            //foreach (var image in images)
-            //{
-            //    var guid = Guid.NewGuid();
-            //    UploadToDBContext(image, type, guid);
-            //    UploadToS3(image, guid);
-            //}
-        }
-
-        private void UploadToS3(IFormFileCollection images, IEnumerable<Guid> guids)
-        {
-            var imagesZip = images.Zip(guids, (file, guid) => new S3Image()
-            {
-                id = guid.ToString(),
-                imageUpload = file
+                Id = guid,
+                ImageUpload = file
             }).ToList();
 
-            imagesZip.ForEach(async t => await HandleS3Upload(t.imageUpload, t.id));
-
+            HandleUploadToS3(imagesZip);
+            return HandleUploadToDB(imagesZip, type);
         }
 
-        private async Task HandleS3Upload(IFormFile file, string guid)
+
+        private int HandleUploadToDB(IEnumerable<UploadImage> imagesZip, ImageType type)
+        {
+
+            foreach (var zip in imagesZip)
+            {
+                _context.Images.AddAsync(new Image
+                {
+                    FileName = zip.ImageUpload.FileName,
+                    Id = zip.Id,
+                    Url = new Uri(BaseUri, zip.Id.ToString()).AbsoluteUri,
+                    TimeStamp = DateTime.Now,
+                    Type = type
+                });
+            }
+
+            try
+            {
+                return _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                _context.Database.RollbackTransaction();
+                _context.Dispose();
+                throw;
+            }
+        }
+
+
+        private void HandleUploadToS3(IEnumerable<UploadImage> imagesZip)
+        {
+            imagesZip.ToList().ForEach(async t => await HandleS3Upload(t.ImageUpload, t.Id));
+        }
+
+        private async Task HandleS3Upload(IFormFile file, Guid guid)
         {
             using (var transferUtility = new TransferUtility(_s3Client))
             {
@@ -112,7 +136,7 @@ namespace PhotoGallery.Services
                     var uploadRequest = new TransferUtilityUploadRequest
                     {
                         InputStream = ms,
-                        Key = guid,
+                        Key = guid.ToString(),
                         BucketName = bucketName,
                         CannedACL = S3CannedACL.PublicRead,
                     };
@@ -122,13 +146,12 @@ namespace PhotoGallery.Services
             }
         }
 
-
-        public async Task UploadToDBContext(IFormFile image, ImageType type, Guid guid)
+        private async Task HandleDBUpload(IFormFile file, Guid guid, ImageType type)
         {
             var uri = new Uri(BaseUri, guid.ToString());
             await _context.Images.AddAsync(new Image
             {
-                FileName = image.FileName,
+                FileName = file.FileName,
                 Id = guid,
                 Url = uri.AbsoluteUri,
                 TimeStamp = DateTime.Now,
@@ -138,31 +161,18 @@ namespace PhotoGallery.Services
 
             await _context.SaveChangesAsync();
         }
-
-        public async Task UploadToS3(IFormFile image, Guid guid)
-        {
-            var ms = new MemoryStream();
-            image.CopyTo(ms);
-            var uploadRequest = new TransferUtilityUploadRequest
-            {
-                InputStream = ms,
-                Key = guid.ToString(),
-                BucketName = bucketName,
-                CannedACL = S3CannedACL.PublicRead,
-            };
-
-            using (var transferUtility = new TransferUtility(_s3Client))
-            {
-                await transferUtility.UploadAsync(uploadRequest);
-            }
-        }
-
     }
 
-    public class S3Image
+
+    internal class UploadImage : IUploadImage
     {
-        public IFormFile imageUpload { get; set; }
-        public string id { get; set; }
-        //public Action<IFormFile, string> UploadDelegate { get; set; }
+        public IFormFile ImageUpload { get; set; }
+        public Guid Id { get; set; }
+    }
+
+    internal interface IUploadImage
+    {
+        IFormFile ImageUpload { get; set; }
+        Guid Id { get; set; }
     }
 }
